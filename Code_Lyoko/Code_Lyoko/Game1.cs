@@ -9,11 +9,15 @@ namespace Code_Lyoko
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        public const int WINDOW_WIDTH = 1024;
+        public const int WINDOW_HEIGHT = 1024;
 
         public Game1()
         {
+            
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
+            graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
             Content.RootDirectory = "Content";
         }
 
