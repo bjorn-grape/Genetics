@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CodeLyoko")]
+[assembly: AssemblyTitle("Code_Lyoko")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CodeLyoko")]
+[assembly: AssemblyProduct("Code_Lyoko")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("32C08FA7-7F63-4639-81E4-20CD11AA6D63")]
+[assembly: Guid("F9747AC3-726A-4229-A56F-42207B311163")]
 
 // Version information for an assembly consists of the following four values:
 //

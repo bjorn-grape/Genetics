@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 
-namespace CodeLyoko
+namespace Code_Lyoko
 {
     public class Game1 : Game
     {
@@ -50,6 +50,5 @@ namespace CodeLyoko
  
             base.Draw(gameTime);
         }
-        
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CodeLyoko
+﻿namespace Code_Lyoko
 {
     internal class Program
     {
