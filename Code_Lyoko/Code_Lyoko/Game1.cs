@@ -9,8 +9,9 @@ namespace Code_Lyoko
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        public const int WINDOW_WIDTH = 1024;
-        public const int WINDOW_HEIGHT = 1024;
+        const int WINDOW_WIDTH = 1024;
+        const int WINDOW_HEIGHT = 1024;
+        bool FULLSCREEN = false;
 
         public Game1()
         {
@@ -19,6 +20,23 @@ namespace Code_Lyoko
             graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
             graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
             Content.RootDirectory = "Content";
+        }
+
+        /// <summary>
+        /// Put me in Update if you modify FULLSCREEN
+        /// </summary>
+        void update_fullscreen()
+        {
+            if (FULLSCREEN)
+            {
+                if(!graphics.IsFullScreen)
+                    graphics.ToggleFullScreen();
+            }
+            else
+            {
+                if(graphics.IsFullScreen)
+                    graphics.ToggleFullScreen();
+            }
         }
 
         protected override void Initialize ()

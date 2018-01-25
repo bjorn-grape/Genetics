@@ -6,13 +6,19 @@ namespace Code_Lyoko
 {
     public class Map
     {
-        private char[,] tab;
+        private char[,] tab_;
+
+        public char[,] Tab => tab_;
+        public int pos_x;
+        public int pos_y;
+        
 
         public Map(string path)
         {
-            tab = ParseFromFile(path);
+            tab_ = ParseFromFile(path);
         }
 
+        
         static int get_tile(char c)
         {
             switch (c)
@@ -28,6 +34,7 @@ namespace Code_Lyoko
             }
         }
 
+        
         public static char[,] ParseFromFile(string path)
         {
             char[,] tab = new char[32, 32];
@@ -54,7 +61,7 @@ namespace Code_Lyoko
             {
                 for (int j = 0; j < 32; j++)
                 {
-                    Console.Write(tab[i, j]);
+                    Console.Write(tab_[i, j]);
                 }
                 Console.WriteLine();
             }
