@@ -6,7 +6,7 @@ namespace Code_Lyoko
 {
     public class Map
     {
-        private int[,] tab;
+        private char[,] tab;
 
         public Map(string path)
         {
@@ -18,26 +18,30 @@ namespace Code_Lyoko
             switch (c)
             {
                 case ' ':
-                    return 0;
-                case 'W':
                     return 1;
+                case 'W':
+                    return 2;
+                case 'D':
+                    return 3;
                 default:
-                    return -1;
+                    return 0;
             }
         }
 
-        public static int[,] ParseFromFile(string path)
+        public static char[,] ParseFromFile(string path)
         {
-            int[,] tab = new int[32, 32];
-
+            char[,] tab = new char[32, 32];
+            var file = new StreamReader(path);
+            
             for (int i = 0; i < 32; i++)
             {
-                var str = File.ReadLines(path).ToString();
-                if (str.Length != 32)
-                    throw new Exception("Invalid File");
+                string str = file.ReadLine();
+                if(str.Length != 32)
+                    throw new Exception("Invalid File !");
                 for (int j = 0; j < 32; j++)
                 {
-                    tab[i, j] = get_tile(str[i]);
+                    
+                    tab[i, j] = str[j];
                 }
             }
 
