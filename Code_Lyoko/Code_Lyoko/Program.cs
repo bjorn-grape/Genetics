@@ -12,6 +12,7 @@ namespace Code_Lyoko
             //Game1 game = new Game1();
             //game.Run();
             RessourceLoad.InitMap();
+            RessourceLoad.PrintMaps();
         }
     }
 }
