@@ -82,6 +82,7 @@ namespace Code_Lyoko
             /// init
             //_appearances_dico["1"].DisplayAppearance(5,5);
             
+            
 
             ///end
             spriteBatch.End();   
