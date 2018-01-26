@@ -9,10 +9,9 @@ namespace Code_Lyoko
     {
         public static void Main(string[] args)
         {
-            //Game1 game = new Game1();
-            //game.Run();
-            RessourceLoad.InitMap();
-            RessourceLoad.PrintMaps();
+            Game1 game = new Game1();
+            game.Run();
+            
         }
     }
 }

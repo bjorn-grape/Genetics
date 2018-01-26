@@ -17,12 +17,5 @@ namespace Code_Lyoko
         }
     }
 
-    public class CollisionTiles : Tile
-    {
-        public CollisionTiles(int i, Rectangle newRect)
-        {
-            this.Rect = newRect;
-            
-        }
-    }
+    
 }

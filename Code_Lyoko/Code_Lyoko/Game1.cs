@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net.Mime;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -13,6 +18,8 @@ namespace Code_Lyoko
         const int WINDOW_HEIGHT = 1024;
         bool FULLSCREEN = false;
 
+        private Dictionary<string, Appearance> _appearances_dico = new  Dictionary<string, Appearance>();
+
         public Game1()
         {
             
@@ -20,6 +27,7 @@ namespace Code_Lyoko
             graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
             graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
             Content.RootDirectory = "Content";
+            
         }
 
         /// <summary>
@@ -42,6 +50,9 @@ namespace Code_Lyoko
         protected override void Initialize ()
         {
             // TODO: Add your initialization logic here
+            RessourceLoad.InitMap();
+            RessourceLoad.SetApperance(spriteBatch,graphics,_appearances_dico);
+            //RessourceLoad.PrintMaps();
             base.Initialize ();
         }
         
@@ -67,10 +78,15 @@ namespace Code_Lyoko
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
+            /// init
+            //_appearances_dico["1"].DisplayAppearance(5,5);
             
-            // TODO: Add your drawing code here
- 
+
+            ///end
+            spriteBatch.End();   
             base.Draw(gameTime);
         }
+   
     }
 }

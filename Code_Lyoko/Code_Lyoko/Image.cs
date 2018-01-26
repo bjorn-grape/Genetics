@@ -1,34 +1,45 @@
-﻿using System.Net.Mime;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Code_Lyoko
 {
-    public class PlayerAppearance
+    public class Appearance
     {
         private Texture2D texture_;
-        private int tile_size_;
-        private int tile_number_x_;
-        private int tile_number_y_;
-        public string name_;
-        public int tile_number;
-        
-        
-        
+        private SpriteBatch _sprt;
+        private List<Rectangle> rect_list_;
+        private int _currentState;
+
         /// <summary>
-        /// player tile constructor
+        /// Create An apperance from texture
         /// </summary>
-        /// <param name="path"> Path to load</param>
+        /// <param name="sprt">Sprite to write on</param>
+        /// <param name="texture">Texture to read</param>
         /// <param name="x">number of columns on image</param>
         /// <param name="y">number of rows on image</param>
-        /// <param name="size">size of a tile</param>
-        public PlayerAppearance(char path, int x = 16, int y = 1, int size = 128)
+        /// <param name="size">dimension of width and height on image</param>
+        public Appearance(SpriteBatch sprt, Texture2D texture, int x = 16, int y = 1, int size = 128)
         {
-            tile_number_x_ = x;
-            tile_number_y_ = y;
-            tile_size_ = size;
-            //texture_ = Content.Load
-            
+            texture_ = texture;
+            _sprt = sprt;
+            _currentState = 0;
+            rect_list_ = new List<Rectangle>();
+            for (int i = 0; i < y; i++)
+            {
+                for (int j = 0; j < x; j++)
+                {
+                    Rectangle tmp = new Rectangle(j * size, i * size, size, size);
+                    rect_list_.Add(tmp);
+                }
+            }
         }
 
+        public void DisplayAppearance(float x, float y)
+        {
+            _sprt.Draw(texture_,new Vector2(x,y),rect_list_[_currentState],Color.White);
+            _currentState++;
+        }
     }
 }
