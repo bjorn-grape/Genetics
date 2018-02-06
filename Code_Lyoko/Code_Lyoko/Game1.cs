@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Mime;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -51,7 +52,7 @@ namespace Code_Lyoko
         {
             // TODO: Add your initialization logic here
             RessourceLoad.InitMap();
-            RessourceLoad.SetApperance(spriteBatch,graphics,_appearances_dico);
+            RessourceLoad.SetApperance(graphics,ref _appearances_dico);
             //RessourceLoad.PrintMaps();
             base.Initialize ();
         }
@@ -80,8 +81,9 @@ namespace Code_Lyoko
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             /// init
-            //_appearances_dico["1"].DisplayAppearance(5,5);
-            
+            //Console.WriteLine(_appearances_dico.Count);
+            _appearances_dico["Aelita death.png"].DisplayAppearance(spriteBatch ,5,5);
+            Thread.Sleep(100);
             
 
             ///end
