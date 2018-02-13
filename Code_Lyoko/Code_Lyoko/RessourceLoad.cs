@@ -11,11 +11,11 @@ namespace Code_Lyoko
     {
         private static string map_path_;
         private static string img_path;
-        private static Dictionary<string, Map> maps_;
+        public static List<Map> maps_;
 
         public static void InitMap()
         {
-            maps_ = new Dictionary<string, Map>();
+            maps_ = new List<Map>();
             string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
             path += "/../../map";
             if (!Directory.Exists(path))
@@ -24,10 +24,11 @@ namespace Code_Lyoko
             foreach (var file in files)
             {
                 Map map = new Map(file);
-                maps_.Add(Path.GetFileNameWithoutExtension(file), map);
+                maps_.Add(map);
                 Console.WriteLine("Loaded map : " + Path.GetFileNameWithoutExtension(file));
             }
         }
+
         /// <summary>
         /// Used for Debugging
         /// </summary>
@@ -35,7 +36,7 @@ namespace Code_Lyoko
         {
             foreach (var map in maps_)
             {
-                map.Value.Print();
+                map.Print();
             }
         }
 
@@ -61,7 +62,8 @@ namespace Code_Lyoko
 
             GiveApperanceFromPath("player/Aelita/Aelita idle.png", 16, 2);
             GiveApperanceFromPath("player/Aelita/Aelita move.png", 14);
-            GiveApperanceFromPath("player/Aelita/Aelita death.png",16,2);
+            GiveApperanceFromPath("player/Aelita/Aelita death.png", 16, 2);
+            GiveApperanceFromPath("background/tiles.png", 10, 1, 32);
         }
 
         /// <summary>

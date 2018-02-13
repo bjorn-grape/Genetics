@@ -19,18 +19,16 @@ namespace Code_Lyoko
         const int WindowHeight = 1024;
         bool FULLSCREEN = false;
 
-        private Dictionary<string, Appearance> _appearances_dico = new  Dictionary<string, Appearance>();
+        private Dictionary<string, Appearance> _appearances_dico = new Dictionary<string, Appearance>();
 
         public Game1()
         {
-
             graphics = new GraphicsDeviceManager(this)
             {
                 PreferredBackBufferWidth = WindowWidth,
                 PreferredBackBufferHeight = WindowHeight
             };
             Content.RootDirectory = "Content";
-            
         }
 
         /// <summary>
@@ -40,66 +38,67 @@ namespace Code_Lyoko
         {
             if (FULLSCREEN)
             {
-                if(!graphics.IsFullScreen)
+                if (!graphics.IsFullScreen)
                     graphics.ToggleFullScreen();
             }
             else
             {
-                if(graphics.IsFullScreen)
+                if (graphics.IsFullScreen)
                     graphics.ToggleFullScreen();
             }
         }
 
         private Player P1;
-        protected override void Initialize ()
+
+        protected override void Initialize()
         {
-            P1 = new Player(100,new Vector2(5,5));
+            P1 = new Player(100, new Vector2(5, 5));
             RessourceLoad.InitMap();
-            RessourceLoad.SetApperance(graphics,ref _appearances_dico);
-            base.Initialize ();
+            RessourceLoad.SetApperance(graphics, ref _appearances_dico);
+            base.Initialize();
         }
-        
-        protected override void LoadContent ()
+
+        protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            _spriteBatch = new SpriteBatch (GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
-        
+
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
- 
-            if(Keyboard.GetState().IsKeyDown(Keys.Up))
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 P1.Move(0, -1f);
-                
-            if(Keyboard.GetState().IsKeyDown(Keys.Down))
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Down))
                 P1.Move(0, 1f);
-                
-            if(Keyboard.GetState().IsKeyDown(Keys.Right))
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Right))
                 P1.Move(1f, 0);
-            if(Keyboard.GetState().IsKeyDown(Keys.Left))
+            if (Keyboard.GetState().IsKeyDown(Keys.Left))
                 P1.Move(-1f, 0);
-            
+
             base.Update(gameTime);
         }
-        
-        
+
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
             // init
-            
-            _appearances_dico["Aelita move.png"].DisplayAppearance(_spriteBatch ,P1.Position.X,P1.Position.Y);
+            _appearances_dico["tiles.png"].DisplayMap(_spriteBatch, RessourceLoad.maps_[0]);
+            _appearances_dico["Aelita move.png"].DisplayAppearance(_spriteBatch, P1.Position.X, P1.Position.Y);
             Thread.Sleep(20);
-            
+
 
             //end
-            _spriteBatch.End();   
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
-   
     }
 }
