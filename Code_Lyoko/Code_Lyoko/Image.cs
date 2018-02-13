@@ -46,6 +46,7 @@ namespace Code_Lyoko
             _currentState %= rect_list_.Count;
         }
 
+        
         /// <summary>
         /// Draw image on board
         /// </summary>
