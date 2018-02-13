@@ -60,9 +60,9 @@ namespace Code_Lyoko
             Dico_ = dico;
             graphics_ = graphics;
 
-            GiveApperanceFromPath("player/Aelita/Aelita idle.png", 16, 2);
-            GiveApperanceFromPath("player/Aelita/Aelita move.png", 14);
-            GiveApperanceFromPath("player/Aelita/Aelita death.png", 16, 2);
+            GiveApperanceFromPath("player/Aelita/Aelita idle.png", 16, 2, 64);
+            GiveApperanceFromPath("player/Aelita/Aelita move.png", 14, 1, 64);
+            GiveApperanceFromPath("player/Aelita/Aelita death.png", 16, 2, 64);
             GiveApperanceFromPath("background/tiles.png", 10, 1, 32);
         }
 

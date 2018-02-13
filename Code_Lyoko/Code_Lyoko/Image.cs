@@ -18,7 +18,7 @@ namespace Code_Lyoko
         /// <param name="x">number of columns on image</param>
         /// <param name="y">number of rows on image</param>
         /// <param name="size">dimension of width and height on image</param>
-        public Appearance(ref Texture2D texture, int x = 16, int y = 1, int size = 128)
+        public Appearance(ref Texture2D texture, int x = 16, int y = 1, int size = 64)
         {
             texture_ = texture;
 
