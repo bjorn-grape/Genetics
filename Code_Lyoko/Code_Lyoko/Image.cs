@@ -72,7 +72,7 @@ namespace Code_Lyoko
                 case 'D':
                     return 1;
                 case 'S':
-                    return 2;
+                    return 3;
                 default:
                     throw new Exception("Tile does not exist !");
             }

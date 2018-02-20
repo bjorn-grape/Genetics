@@ -18,7 +18,8 @@ namespace Code_Lyoko
         const int WindowWidth = 1024;
         const int WindowHeight = 1024;
         bool FULLSCREEN = false;
-
+        private int current_map = 0;
+        
         private Dictionary<string, Appearance> _appearances_dico = new Dictionary<string, Appearance>();
 
         public Game1()
@@ -52,8 +53,11 @@ namespace Code_Lyoko
 
         protected override void Initialize()
         {
-            P1 = new Player(100, new Vector2(5, 5));
+            
             RessourceLoad.InitMap();
+            var vecti = RessourceLoad.maps_[current_map].posInit;
+            
+            P1 = new Player(100, vecti);
             RessourceLoad.SetApperance(graphics, ref _appearances_dico);
             base.Initialize();
         }
@@ -72,15 +76,15 @@ namespace Code_Lyoko
                 Exit();
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
-                P1.Move(0, -1f);
+                P1.Move(0, -1, RessourceLoad.maps_[current_map]);
 
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
-                P1.Move(0, 1f);
+                P1.Move(0, 1, RessourceLoad.maps_[current_map]);
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
-                P1.Move(1f, 0);
+                P1.Move(1, 0,RessourceLoad.maps_[current_map]);
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
-                P1.Move(-1f, 0);
+                P1.Move(-1, 0, RessourceLoad.maps_[current_map]);
 
             base.Update(gameTime);
         }
@@ -91,7 +95,7 @@ namespace Code_Lyoko
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
             // init
-            _appearances_dico["tiles.png"].DisplayMap(_spriteBatch, RessourceLoad.maps_[0]);
+            _appearances_dico["tiles.png"].DisplayMap(_spriteBatch, RessourceLoad.maps_[current_map]);
             _appearances_dico["Aelita move.png"].DisplayAppearance(_spriteBatch, P1.Position.X, P1.Position.Y);
             Thread.Sleep(20);
 
