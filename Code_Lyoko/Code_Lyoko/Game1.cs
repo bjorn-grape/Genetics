@@ -15,8 +15,10 @@ namespace Code_Lyoko
     {
         GraphicsDeviceManager graphics;
         SpriteBatch _spriteBatch;
-        const int WindowWidth = 1024;
-        const int WindowHeight = 1024;
+        const int WindowWidth = 2048;
+        const int WindowHeight = 512;
+        public int WindowCellHeight = 16;
+        public int WindowCellWidth = 32;
         bool FULLSCREEN = false;
         private int current_map = 0;
         
@@ -96,7 +98,7 @@ namespace Code_Lyoko
             _spriteBatch.Begin();
             // init
             _appearances_dico["tiles.png"].DisplayMap(_spriteBatch, RessourceLoad.maps_[current_map]);
-            _appearances_dico["Aelita move.png"].DisplayAppearance(_spriteBatch, P1.Position.X, P1.Position.Y);
+            _appearances_dico["Aelita move.png"].DisplayAppearance(_spriteBatch, P1.Position.X * RessourceLoad.maps_[current_map].width, P1.Position.Y * WindowCellHeight);
             Thread.Sleep(20);
 
 

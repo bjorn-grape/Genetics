@@ -25,7 +25,7 @@ namespace Code_Lyoko
             {
                 Map map = new Map(file);
                 maps_.Add(map);
-                Console.WriteLine("Loaded map : " + Path.GetFileNameWithoutExtension(file));
+                Console.WriteLine("Loaded map: " + Path.GetFileNameWithoutExtension(file));
             }
         }
 

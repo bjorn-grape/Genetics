@@ -18,7 +18,7 @@ namespace Code_Lyoko
         /// <param name="x">number of columns on image</param>
         /// <param name="y">number of rows on image</param>
         /// <param name="size">dimension of width and height on image</param>
-        public Appearance(ref Texture2D texture, int x = 16, int y = 1, int size = 64)
+        public Appearance(ref Texture2D texture, int x, int y, int width)
         {
             texture_ = texture;
 
@@ -28,7 +28,7 @@ namespace Code_Lyoko
             {
                 for (int j = 0; j < x; j++)
                 {
-                    Rectangle tmp = new Rectangle(j * size, i * size, size, size);
+                    Rectangle tmp = new Rectangle(j * width, i * width, width, width);
                     rect_list_.Add(tmp);
                 }
             }
@@ -80,12 +80,12 @@ namespace Code_Lyoko
 
         public void DisplayMap(SpriteBatch sprt, Map map)
         {
-            for (int i = 0; i < 32; i++)
+            for (int i = 0; i < map.height; i++)
             {
-                for (int j = 0; j < 32; j++)
+                for (int j = 0; j < map.width; j++)
                 {
                     int val = GetTileValue(map.Tab[i, j]);
-                    sprt.Draw(texture_, new Vector2(j * 32, i * 32), rect_list_[val], Color.White);
+                    sprt.Draw(texture_, new Vector2(j * map.width, i * map.height), rect_list_[val], Color.White);
                 }
             }
         }

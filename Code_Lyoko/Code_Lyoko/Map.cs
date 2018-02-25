@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using Microsoft.Xna.Framework;
 
@@ -13,8 +16,8 @@ namespace Code_Lyoko
         public int pos_x;
         public int pos_y;
         public Vector2 posInit = new Vector2(2, 2);
-        public UInt32 heigth = 32;
-        public UInt32 width = 32;
+        public UInt32 height;
+        public UInt32 width;
         public UInt32 size_tile = 32;
 
         public Map(string path)
@@ -23,7 +26,7 @@ namespace Code_Lyoko
         }
 
 
-        bool crush(char c, bool half)
+        bool crush(char c)
         {
             switch (c)
             {
@@ -33,27 +36,34 @@ namespace Code_Lyoko
                     return true;
                 case 'D':
                     return false;
+                case 'S':
+                    return false;
                 default:
                     return true;
             }
         }
 
-        public bool IsColliding(int x, int y)
+        public bool IsColliding(float x, float y)
         {
-            int xcolli = Convert.ToInt32(x / size_tile);
-            int ycolli = Convert.ToInt32(y / size_tile);
-            char elm = tab_[xcolli, ycolli];
-            bool ishalf = x % size_tile < size_tile / 2;
-            return crush(elm, ishalf);
+            char br = tab_[Convert.ToInt32(y + 0.9f), Convert.ToInt32(x)];
+            char tr = tab_[Convert.ToInt32(y + 0.9f), Convert.ToInt32(x + 0.9f)];
+            char bl = tab_[Convert.ToInt32(y), Convert.ToInt32(x)];
+            char tl = tab_[Convert.ToInt32(y), Convert.ToInt32(x + 0.9f)];
+
+            return crush(br) || crush(bl) || crush(tl) || crush(tr);
         }
 
 
         public char[,] ParseFromFile(string path)
         {
-            char[,] tab = new char[heigth, width];
+            IEnumerable<string>lines = File.ReadAllLines(path);
+            height = (uint)lines.Count();
+            width = (uint)lines.First().Count();
+               
+            char[,] tab = new char[height, width];
             var file = new StreamReader(path);
 
-            for (int i = 0; i < heigth; i++)
+            for (int i = 0; i < height; i++)
             {
                 string str = file.ReadLine();
                 if (str != null && str.Length != width)
@@ -69,7 +79,6 @@ namespace Code_Lyoko
                     tab[i, j] = str[j];
                 }
             }
-
             return tab;
         }
 

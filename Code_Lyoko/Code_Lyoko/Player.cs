@@ -7,7 +7,7 @@ namespace Code_Lyoko
     {
         public float Life = 0;
         public Vector2 Position;
-        private float _speed = 2;
+        private float _speed = 0.1f;
         private float _jumpPower = 1;
         public UInt32 Money = 0;
 
@@ -19,17 +19,18 @@ namespace Code_Lyoko
         public Player(float life, Vector2 position)
         {
             Life = life;
-            Position = position * 32;
+            Position = position;
         }
 
         public void Move(int x, int y, Map map)
         {
-            int finalx = Convert.ToInt32(Position.X + x * _speed);
-            int finaly = Convert.ToInt32(Position.Y + y * _speed);
-            if (!map.IsColliding(finalx, y))
+            float finalx = Position.X + x * _speed;
+            float finaly = Position.Y + y * _speed;
+            if (!map.IsColliding(finalx, finaly))
+            {
                 Position.X = finalx;
-            if (!map.IsColliding(x, finaly))
-                Position.Y = finaly; 
+                Position.Y = finaly;
+            }
         }
 
         public void AddMoney(uint amount)
