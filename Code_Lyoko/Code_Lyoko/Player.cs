@@ -33,6 +33,11 @@ namespace Code_Lyoko
             }
         }
 
+        public bool IsOnGround(Map map)
+        {
+            return map.IsGroundForPlayer(Position.X, Position.Y);
+        }
+
         public void AddMoney(uint amount)
         {
             Money += amount;

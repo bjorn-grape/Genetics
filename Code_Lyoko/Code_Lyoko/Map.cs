@@ -49,8 +49,18 @@ namespace Code_Lyoko
             char tr = tab_[Convert.ToInt32(y + 1.2f), Convert.ToInt32(x + 0.8f)];
             char bl = tab_[Convert.ToInt32(y), Convert.ToInt32(x)];
             char tl = tab_[Convert.ToInt32(y), Convert.ToInt32(x + 0.8f)];
+            // r & l are in case player is bigger than tile he/she crushes
+            char l = tab_[Convert.ToInt32(y + 0.6f), Convert.ToInt32(x)];    
+            char r = tab_[Convert.ToInt32(y + 0.6f), Convert.ToInt32(x + 0.8f)];
+            
+            return crush(br) || crush(bl) || crush(tl) || crush(tr)|| crush(r)|| crush(l) ;
+        }
 
-            return crush(br) || crush(bl) || crush(tl) || crush(tr);
+        public bool IsGroundForPlayer(float x, float y)
+        {
+            char bl = tab_[Convert.ToInt32(y), Convert.ToInt32(x + 0.001f)];    
+            char br = tab_[Convert.ToInt32(y), Convert.ToInt32(x + 0.799f)];
+            return crush(br) || crush(bl);
         }
 
 

@@ -83,11 +83,12 @@ namespace Code_Lyoko
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
-                P1.Move(0, -1, RessourceLoad.maps_[current_map]);
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            
+            
                 P1.Move(0, 1, RessourceLoad.maps_[current_map]);
+             if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                P1.Move(0, -2, RessourceLoad.maps_[current_map]);
+            
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
                 P1.Move(1, 0,RessourceLoad.maps_[current_map]);
