@@ -41,12 +41,13 @@ namespace Code_Lyoko
 
         public void DisplayAppearance(SpriteBatch sprt, float x, float y)
         {
-            sprt.Draw(texture_, new Vector2(x, y), rect_list_[_currentState], Color.White);
+            sprt.Draw(texture_, new Vector2(Game1.getDimension().X / 2, Game1.getDimension().Y / 2),
+                rect_list_[_currentState], Color.White);
             _currentState++;
             _currentState %= rect_list_.Count;
         }
 
-        
+
         /// <summary>
         /// Draw image on board
         /// </summary>
@@ -78,14 +79,17 @@ namespace Code_Lyoko
             }
         }
 
-        public void DisplayMap(SpriteBatch sprt, Map map)
+        public void DisplayMap(SpriteBatch sprt, Map map, Vector2 player_pos)
         {
             for (int i = 0; i < map.height; i++)
             {
                 for (int j = 0; j < map.width; j++)
                 {
                     int val = GetTileValue(map.Tab[i, j]);
-                    sprt.Draw(texture_, new Vector2(j * map.width, i * map.height), rect_list_[val], Color.White);
+                    float xx = j * map.size_tile + Game1.getDimension().X / 2 - player_pos.X * map.size_tile;
+                    float yy = i * map.size_tile - player_pos.Y * map.size_tile + Game1.getDimension().Y / 2;
+                    sprt.Draw(texture_, new Vector2(xx, yy), rect_list_[val],
+                        Color.White);
                 }
             }
         }

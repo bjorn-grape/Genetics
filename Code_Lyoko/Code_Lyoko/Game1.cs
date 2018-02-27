@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Net.Mime;
 using System.Threading;
@@ -15,15 +16,20 @@ namespace Code_Lyoko
     {
         GraphicsDeviceManager graphics;
         SpriteBatch _spriteBatch;
-        const int WindowWidth = 2048;
+        const int WindowWidth = 1024;
         const int WindowHeight = 512;
-        public int WindowCellHeight = 16;
+        public int WindowCellHeight = 32;
         public int WindowCellWidth = 32;
         bool FULLSCREEN = false;
         private int current_map = 0;
         
         private Dictionary<string, Appearance> _appearances_dico = new Dictionary<string, Appearance>();
 
+        public static Vector2 getDimension()
+        {
+            return new Vector2(WindowWidth,WindowHeight);
+        }
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this)
@@ -97,7 +103,7 @@ namespace Code_Lyoko
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
             // init
-            _appearances_dico["tiles.png"].DisplayMap(_spriteBatch, RessourceLoad.maps_[current_map]);
+            _appearances_dico["tiles.png"].DisplayMap(_spriteBatch, RessourceLoad.maps_[current_map], P1.Position);
             _appearances_dico["Aelita move.png"].DisplayAppearance(_spriteBatch, P1.Position.X * RessourceLoad.maps_[current_map].width, P1.Position.Y * WindowCellHeight);
             Thread.Sleep(20);
 

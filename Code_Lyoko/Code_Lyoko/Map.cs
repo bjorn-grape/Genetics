@@ -45,10 +45,10 @@ namespace Code_Lyoko
 
         public bool IsColliding(float x, float y)
         {
-            char br = tab_[Convert.ToInt32(y + 0.9f), Convert.ToInt32(x)];
-            char tr = tab_[Convert.ToInt32(y + 0.9f), Convert.ToInt32(x + 0.9f)];
+            char br = tab_[Convert.ToInt32(y + 1.2f), Convert.ToInt32(x)];
+            char tr = tab_[Convert.ToInt32(y + 1.2f), Convert.ToInt32(x + 0.8f)];
             char bl = tab_[Convert.ToInt32(y), Convert.ToInt32(x)];
-            char tl = tab_[Convert.ToInt32(y), Convert.ToInt32(x + 0.9f)];
+            char tl = tab_[Convert.ToInt32(y), Convert.ToInt32(x + 0.8f)];
 
             return crush(br) || crush(bl) || crush(tl) || crush(tr);
         }
