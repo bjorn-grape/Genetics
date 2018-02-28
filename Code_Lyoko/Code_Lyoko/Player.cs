@@ -6,23 +6,26 @@ namespace Code_Lyoko
 {
     public class Player
     {
-        private float Life = 0;
-        public Vector2 Position;
+        private float _life = 0;
+
+        public Vector2 Position
+        {
+            get { return _position; }
+            private set { _position = value; }
+        }
+
         private float _speed = 0.1f;
         private float _jumpPower = 1;
-        private float jumpDuration = 1f;
-        private UInt32 Money = 0;
-        Vector2 Force = new Vector2(0, 0.5f);
+        private float _jumpDuration = 1f;
+        private UInt32 _money = 0;
+        Vector2 _force = new Vector2(0, 0.5f);
+        private Vector2 _position;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="life"></param>
-        /// <param name="position">The position is multiplied by 32</param>
+
         public Player(float life, Vector2 position)
         {
-            Life = life;
-            Position = position;
+            _life = life;
+            _position = position;
         }
 
         void createMove(float x, float y, Map map)
@@ -30,29 +33,29 @@ namespace Code_Lyoko
             int sizesplit = 10;
             for (float i = 0; i < sizesplit; i++)
             {
-                float finalx = Position.X + x / sizesplit;
-                float finaly = Position.Y + y / sizesplit;
-                if (!map.IsColliding(Position.X, finaly))
-                    Position.Y = finaly;
+                float finalx = _position.X + x / sizesplit;
+                float finaly = _position.Y + y / sizesplit;
+                if (!map.IsColliding(_position.X, finaly))
+                    _position.Y = finaly;
 
-                if (!map.IsColliding(finalx, Position.Y))
-                    Position.X = finalx;
+                if (!map.IsColliding(finalx, _position.Y))
+                    _position.X = finalx;
             }
         }
 
         public void SetStart(Map map)
         {
-            Position = map.posInit;
+            _position = map.posInit;
         }
         
         public void Move(int x, int y, Map map)
         {
             createMove(x * _speed, y * _speed , map);
 
-            if (x > 0 && Force.X < 0.31f)
-                Force.X += 0.05f;
-            if (x < 0 && Force.X > -0.31f)
-                Force.X -= 0.05f;
+            if (x > 0 && _force.X < 0.31f)
+                _force.X += 0.05f;
+            if (x < 0 && _force.X > -0.31f)
+                _force.X -= 0.05f;
         }
 
         private float AdjustForce(float val, float middle,float step)
@@ -66,51 +69,47 @@ namespace Code_Lyoko
 
         private void UpdateForce()
         {
-            Force.X = AdjustForce(Force.X, 0, 0.05f);
-            Force.Y = AdjustForce(Force.Y, .5f, 0.04f); // gravity
+            _force.X = AdjustForce(_force.X, 0, 0.05f);
+            _force.Y = AdjustForce(_force.Y, .5f, 0.04f); // gravity
         }
 
         public void ApplyForce(Map map)
         {
             UpdateForce();
-            createMove(Force.X, Force.Y, map);
-            Console.WriteLine("Vector X " + Force.X + "Y :" + Force.Y);
+            createMove(_force.X, _force.Y, map);
             if (IsOnGround(map))
-                jumpDuration = 1f;
+                _jumpDuration = 1f;
             else
-                jumpDuration -= 0.5f;
+                _jumpDuration -= 0.5f;
         }
 
         public void Jump()
         {
-            if (jumpDuration > 0)
-            {
-                Console.WriteLine("Jump");
-                Force.Y = -0.5f;
-            }
+            if (_jumpDuration > 0)
+                _force.Y = -0.5f * _jumpPower;
             
         }
 
-        public bool IsOnGround(Map map)
+        private bool IsOnGround(Map map)
         {
             
-            return map.IsGroundForPlayer(Position.X, Position.Y);
+            return map.IsGroundForPlayer(_position.X, _position.Y);
         }
 
         public void AddMoney(uint amount)
         {
-            Money += amount;
+            _money += amount;
         }
 
         public void Pay(uint amount)
         {
-            Money -= amount;
+            _money -= amount;
         }
 
         public void Setposition(float x, float y)
         {
-            Position.X = x;
-            Position.Y = y;
+            _position.X = x;
+            _position.Y = y;
         }
 
         public void IncreaseSpeed()
