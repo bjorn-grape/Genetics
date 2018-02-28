@@ -21,7 +21,7 @@ namespace Code_Lyoko
         public int WindowCellHeight = 32;
         public int WindowCellWidth = 32;
         bool FULLSCREEN = false;
-        private int current_map = 0;
+        
 
         private Dictionary<string, Appearance> _appearances_dico = new Dictionary<string, Appearance>();
 
@@ -30,6 +30,8 @@ namespace Code_Lyoko
             return new Vector2(WindowWidth, WindowHeight);
         }
 
+        
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this)
@@ -61,8 +63,9 @@ namespace Code_Lyoko
 
         protected override void Initialize()
         {
-            RessourceLoad.InitMap();
-            var vecti = RessourceLoad.maps_[current_map].posInit;
+            //RessourceLoad.InitMap();
+            RessourceLoad.GenerateMap(3,10,50,50);
+            var vecti = RessourceLoad.GetCurrentMap().PosInit;
 
             P1 = new Player(100, vecti);
             RessourceLoad.SetApperance(graphics, ref _appearances_dico);
@@ -79,7 +82,10 @@ namespace Code_Lyoko
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            Map mappy = RessourceLoad.maps_[current_map];
+            Map mappy = RessourceLoad.GetCurrentMap();
+            
+            
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -97,6 +103,7 @@ namespace Code_Lyoko
                 P1.SetStart(mappy);
 
             P1.ApplyForce(mappy);
+            P1.InteractEnv(mappy);
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
                 P1.Move(1, 0, mappy);
@@ -112,10 +119,10 @@ namespace Code_Lyoko
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
             // init
-            _appearances_dico["tiles.png"].DisplayMap(_spriteBatch, RessourceLoad.maps_[current_map], P1.Position);
+            _appearances_dico["tiles.png"].DisplayMap(_spriteBatch, RessourceLoad.GetCurrentMap(), P1.Position);
 
             _appearances_dico["Aelita move.png"].DisplayAppearance(_spriteBatch,
-                P1.Position.X * RessourceLoad.maps_[current_map].width, P1.Position.Y * WindowCellHeight);
+                P1.Position.X * RessourceLoad.GetCurrentMap().Width, P1.Position.Y * WindowCellHeight);
 
             Thread.Sleep(20);
 

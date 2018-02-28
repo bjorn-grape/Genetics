@@ -9,13 +9,13 @@ namespace Code_Lyoko
 {
     public class RessourceLoad
     {
-        private static string map_path_;
-        private static string img_path;
-        public static List<Map> maps_;
+        private static string _mapPath;
+        private static string _imgPath;
+        public static List<Map> maps_ = new List<Map>();
+        static int CurrentMap = 0;
 
         public static void InitMap()
         {
-            maps_ = new List<Map>();
             string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
             path += "/../../map";
             if (!Directory.Exists(path))
@@ -26,6 +26,85 @@ namespace Code_Lyoko
                 Map map = new Map(file);
                 maps_.Add(map);
                 Console.WriteLine("Loaded map: " + Path.GetFileNameWithoutExtension(file));
+            }
+        }
+
+        public static  Map GetCurrentMap()
+        {
+            return maps_[CurrentMap];
+        }
+
+        public static bool SetNextMap()
+        {
+            if (CurrentMap + 1 < maps_.Count)
+            {
+                CurrentMap++;
+                return true;
+            }
+            return false;
+        }
+
+
+        public static void GenerateMap(int nb, uint height, uint length, int mutation)
+        {
+            if (height < 4 || length < 10)
+                throw new ArgumentException("height < 4 || length < 10");
+            if (mutation > 100)
+                mutation = 100;
+            if (mutation < 0)
+                mutation = 0;
+
+            uint groundMax = (height - 2);
+            
+            Random rnd = new Random();
+
+            for (int i = 0; i < nb; i++)
+            {
+                uint groundCurrent = groundMax / 2;
+                char[,] tmp = new char[height, length];
+                for (int j = 0; j < height; j++)
+                {
+                    tmp[j, 0] = 'W';
+                }
+
+                for (int k = 1; k < length - 1; k++)
+                {
+                    tmp[0, k] = 'W';
+                    if (rnd.Next(0, 100) < mutation)
+                    {
+                        int act = rnd.Next(0, 2);
+                        switch (act)
+                        {
+                            case 0:
+                                if (groundCurrent < groundMax)
+                                    groundCurrent++;
+                                break;
+                            case 1:
+                                if (groundCurrent > 3)
+                                    groundCurrent--;
+                                break;
+                        }
+                    }
+
+                    for (uint j = height - 2; j > 0; j--)
+                    {
+                        if (j > groundCurrent)
+                            tmp[j, k] = 'W';
+                        else
+                            tmp[j, k] = ' ';
+                    }
+
+                    tmp[height - 1, k - 1] = 'W';
+                }
+
+                for (int j = 0; j < height; j++)
+                {
+                    tmp[j, length - 2] = 'D';
+                    tmp[j, length - 1] = 'W';
+                }
+
+                Map map = new Map(tmp, height, length);
+                maps_.Add(map);
             }
         }
 
@@ -40,10 +119,10 @@ namespace Code_Lyoko
             }
         }
 
-        private static SpriteBatch sprt_;
-        private static GraphicsDeviceManager graphics_;
-        private static Dictionary<string, Appearance> Dico_;
-        private static string base_path_;
+        private static SpriteBatch _sprt;
+        private static GraphicsDeviceManager _graphics;
+        private static Dictionary<string, Appearance> _dico;
+        private static string _basePath;
 
         /// <summary>
         /// </summary>
@@ -55,10 +134,10 @@ namespace Code_Lyoko
         {
             if (graphics == null) throw new ArgumentNullException(nameof(graphics));
             if (dico == null) throw new ArgumentNullException(nameof(dico));
-            base_path_ = System.AppDomain.CurrentDomain.BaseDirectory;
-            base_path_ += "../../img/";
-            Dico_ = dico;
-            graphics_ = graphics;
+            _basePath = System.AppDomain.CurrentDomain.BaseDirectory;
+            _basePath += "../../img/";
+            _dico = dico;
+            _graphics = graphics;
 
             GiveApperanceFromPath("player/Aelita/Aelita idle.png", 16, 2, 64);
             GiveApperanceFromPath("player/Aelita/Aelita move.png", 14, 1, 64);
@@ -78,7 +157,7 @@ namespace Code_Lyoko
         /// <exception cref="Exception"></exception>
         static void GiveApperanceFromPath(string link, int cols = 16, int rows = 1, int width = 128)
         {
-            string path = base_path_ + link;
+            string path = _basePath + link;
             //Console.WriteLine(path);
             //Console.WriteLine("File : " + File.Exists(path));
             if (!File.Exists(path))
@@ -89,7 +168,7 @@ namespace Code_Lyoko
             }
 
             FileStream fileStream = new FileStream(path, FileMode.Open);
-            Texture2D plop = Texture2D.FromStream(graphics_.GraphicsDevice, fileStream);
+            Texture2D plop = Texture2D.FromStream(_graphics.GraphicsDevice, fileStream);
             if (plop == null)
                 throw new Exception("Can't load 2D texture ");
             fileStream.Dispose();
@@ -97,7 +176,7 @@ namespace Code_Lyoko
             if (tmp.get_texture() == null)
                 throw new Exception("Texture 2D is null ");
             Console.WriteLine("Added \"" + Path.GetFileName(path) + "\"");
-            Dico_.Add(Path.GetFileName(path), tmp);
+            _dico.Add(Path.GetFileName(path), tmp);
         }
     }
 }

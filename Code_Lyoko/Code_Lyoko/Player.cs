@@ -21,6 +21,17 @@ namespace Code_Lyoko
         Vector2 _force = new Vector2(0, 0.5f);
         private Vector2 _position;
 
+        public void InteractEnv(Map map)
+        {
+            if (map.IsEndMap(Position.X, Position.Y))
+            {
+                if (!RessourceLoad.SetNextMap())
+                {
+                    Console.WriteLine("End!");
+                }
+                Position = RessourceLoad.GetCurrentMap().PosInit;
+            }
+        }
 
         public Player(float life, Vector2 position)
         {
@@ -45,12 +56,12 @@ namespace Code_Lyoko
 
         public void SetStart(Map map)
         {
-            _position = map.posInit;
+            _position = map.PosInit;
         }
-        
+
         public void Move(int x, int y, Map map)
         {
-            createMove(x * _speed, y * _speed , map);
+            createMove(x * _speed, y * _speed, map);
 
             if (x > 0 && _force.X < 0.31f)
                 _force.X += 0.05f;
@@ -58,7 +69,7 @@ namespace Code_Lyoko
                 _force.X -= 0.05f;
         }
 
-        private float AdjustForce(float val, float middle,float step)
+        private float AdjustForce(float val, float middle, float step)
         {
             if (val < middle + step && val > middle - step)
                 return middle;
@@ -87,12 +98,10 @@ namespace Code_Lyoko
         {
             if (_jumpDuration > 0)
                 _force.Y = -0.5f * _jumpPower;
-            
         }
 
         private bool IsOnGround(Map map)
         {
-            
             return map.IsGroundForPlayer(_position.X, _position.Y);
         }
 

@@ -10,19 +10,25 @@ namespace Code_Lyoko
 {
     public class Map
     {
-        private char[,] tab_;
+        public char[,] Tab;
 
-        public char[,] Tab => tab_;
-        public int pos_x;
-        public int pos_y;
-        public Vector2 posInit = new Vector2(2, 2);
-        public UInt32 height;
-        public UInt32 width;
-        public UInt32 size_tile = 32;
+        public int PosX;
+        public int PosY;
+        public Vector2 PosInit = new Vector2(2, 2);
+        public uint Height;
+        public uint Width;
+        public const uint SizeTile = 32;
 
         public Map(string path)
         {
-            tab_ = ParseFromFile(path);
+            Tab = ParseFromFile(path);
+        }
+        
+        public Map(char [,] arr, uint h, uint w)
+        {
+            Tab = arr;
+            Height = h;
+            Width = w;
         }
 
 
@@ -45,13 +51,13 @@ namespace Code_Lyoko
 
         public bool IsColliding(float x, float y)
         {
-            char br = tab_[Convert.ToInt32(y + 1.2f), Convert.ToInt32(x)];
-            char tr = tab_[Convert.ToInt32(y + 1.2f), Convert.ToInt32(x + 0.8f)];
-            char bl = tab_[Convert.ToInt32(y), Convert.ToInt32(x)];
-            char tl = tab_[Convert.ToInt32(y), Convert.ToInt32(x + 0.8f)];
+            char br = Tab[Convert.ToInt32(y + 1.2f), Convert.ToInt32(x)];
+            char tr = Tab[Convert.ToInt32(y + 1.2f), Convert.ToInt32(x + 0.8f)];
+            char bl = Tab[Convert.ToInt32(y), Convert.ToInt32(x)];
+            char tl = Tab[Convert.ToInt32(y), Convert.ToInt32(x + 0.8f)];
             // r & l are in case player is bigger than tile he/she crushes
-            char l = tab_[Convert.ToInt32(y + 0.6f), Convert.ToInt32(x)];
-            char r = tab_[Convert.ToInt32(y + 0.6f), Convert.ToInt32(x + 0.8f)];
+            char l = Tab[Convert.ToInt32(y + 0.6f), Convert.ToInt32(x)];
+            char r = Tab[Convert.ToInt32(y + 0.6f), Convert.ToInt32(x + 0.8f)];
 
             return crush(br) || crush(bl) || crush(tl) || crush(tr) || crush(r) || crush(l);
         }
@@ -59,32 +65,39 @@ namespace Code_Lyoko
         public bool IsGroundForPlayer(float x, float y)
         {
             
-            char bl = tab_[Convert.ToInt32(y + 1.4f), Convert.ToInt32(x + 0.001f)];
-            char br = tab_[Convert.ToInt32(y + 1.4), Convert.ToInt32(x + 0.799f)];
+            char bl = Tab[Convert.ToInt32(y + 1.4f), Convert.ToInt32(x + 0.001f)];
+            char br = Tab[Convert.ToInt32(y + 1.4), Convert.ToInt32(x + 0.799f)];
             return crush(br) || crush(bl);
+        }
+
+        public bool IsEndMap(float x, float y)
+        {
+            char c = Tab[Convert.ToInt32(y + 0.6f), Convert.ToInt32(x + 0.3f)];
+            
+            return c == 'D';
         }
 
 
         public char[,] ParseFromFile(string path)
         {
             IEnumerable<string> lines = File.ReadAllLines(path);
-            height = (uint) lines.Count();
-            width = (uint) lines.First().Count();
+            Height = (uint) lines.Count();
+            Width = (uint) lines.First().Count();
 
-            char[,] tab = new char[height, width];
+            char[,] tab = new char[Height, Width];
             var file = new StreamReader(path);
 
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < Height; i++)
             {
                 string str = file.ReadLine();
-                if (str != null && str.Length != width)
+                if (str != null && str.Length != Width)
                     throw new Exception("Invalid File !");
-                for (int j = 0; j < width; j++)
+                for (int j = 0; j < Width; j++)
                 {
                     if (str[j] == 'S')
                     {
                         Console.WriteLine("found S : " + i + "  " + j);
-                        posInit = new Vector2(j, i);
+                        PosInit = new Vector2(j, i);
                     }
 
                     tab[i, j] = str[j];
@@ -100,7 +113,7 @@ namespace Code_Lyoko
             {
                 for (int j = 0; j < 32; j++)
                 {
-                    Console.Write(tab_[i, j]);
+                    Console.Write(Tab[i, j]);
                 }
 
                 Console.WriteLine();

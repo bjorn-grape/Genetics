@@ -75,19 +75,19 @@ namespace Code_Lyoko
                 case 'S':
                     return 3;
                 default:
-                    throw new Exception("Tile does not exist !");
+                    return 9;
             }
         }
 
         public void DisplayMap(SpriteBatch sprt, Map map, Vector2 player_pos)
         {
-            for (int i = 0; i < map.height; i++)
+            for (int i = 0; i < map.Height; i++)
             {
-                for (int j = 0; j < map.width; j++)
+                for (int j = 0; j < map.Width; j++)
                 {
                     int val = GetTileValue(map.Tab[i, j]);
-                    float xx = j * map.size_tile + Game1.getDimension().X / 2 - player_pos.X * map.size_tile;
-                    float yy = i * map.size_tile - player_pos.Y * map.size_tile + Game1.getDimension().Y / 2;
+                    float xx = j * Map.SizeTile + Game1.getDimension().X / 2 - player_pos.X * Map.SizeTile;
+                    float yy = i * Map.SizeTile - player_pos.Y * Map.SizeTile + Game1.getDimension().Y / 2;
                     sprt.Draw(texture_, new Vector2(xx, yy), rect_list_[val],
                         Color.White);
                 }
