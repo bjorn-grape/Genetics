@@ -22,14 +22,14 @@ namespace Code_Lyoko
         public int WindowCellWidth = 32;
         bool FULLSCREEN = false;
         private int current_map = 0;
-        
+
         private Dictionary<string, Appearance> _appearances_dico = new Dictionary<string, Appearance>();
 
         public static Vector2 getDimension()
         {
-            return new Vector2(WindowWidth,WindowHeight);
+            return new Vector2(WindowWidth, WindowHeight);
         }
-        
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this)
@@ -61,10 +61,9 @@ namespace Code_Lyoko
 
         protected override void Initialize()
         {
-            
             RessourceLoad.InitMap();
             var vecti = RessourceLoad.maps_[current_map].posInit;
-            
+
             P1 = new Player(100, vecti);
             RessourceLoad.SetApperance(graphics, ref _appearances_dico);
             base.Initialize();
@@ -76,24 +75,33 @@ namespace Code_Lyoko
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
+        private bool UpKeyEnabled = true;
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            Map mappy = RessourceLoad.maps_[current_map];
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            
-            
-                P1.Move(0, 1, RessourceLoad.maps_[current_map]);
-             if (Keyboard.GetState().IsKeyDown(Keys.Up))
-                P1.Move(0, -2, RessourceLoad.maps_[current_map]);
-            
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && UpKeyEnabled)
+            {
+                P1.Jump();
+                UpKeyEnabled = false;
+            }
+
+            if (Keyboard.GetState().IsKeyUp(Keys.Up) && !UpKeyEnabled)
+                UpKeyEnabled = true;
+                
+            if(Keyboard.GetState().IsKeyDown(Keys.R))
+                P1.SetStart(mappy);
+
+            P1.ApplyForce(mappy);
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
-                P1.Move(1, 0,RessourceLoad.maps_[current_map]);
+                P1.Move(1, 0, mappy);
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
-                P1.Move(-1, 0, RessourceLoad.maps_[current_map]);
+                P1.Move(-1, 0, mappy);
 
             base.Update(gameTime);
         }
@@ -105,7 +113,10 @@ namespace Code_Lyoko
             _spriteBatch.Begin();
             // init
             _appearances_dico["tiles.png"].DisplayMap(_spriteBatch, RessourceLoad.maps_[current_map], P1.Position);
-            _appearances_dico["Aelita move.png"].DisplayAppearance(_spriteBatch, P1.Position.X * RessourceLoad.maps_[current_map].width, P1.Position.Y * WindowCellHeight);
+
+            _appearances_dico["Aelita move.png"].DisplayAppearance(_spriteBatch,
+                P1.Position.X * RessourceLoad.maps_[current_map].width, P1.Position.Y * WindowCellHeight);
+
             Thread.Sleep(20);
 
 
