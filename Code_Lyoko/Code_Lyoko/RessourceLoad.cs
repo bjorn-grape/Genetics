@@ -55,12 +55,12 @@ namespace Code_Lyoko
                 mutation = 0;
 
             uint groundMax = (height - 2);
-            
+            uint groundCurrent = groundMax / 2;
             Random rnd = new Random();
 
             for (int i = 0; i < nb; i++)
             {
-                uint groundCurrent = groundMax / 2;
+                
                 char[,] tmp = new char[height, length];
                 for (int j = 0; j < height; j++)
                 {

@@ -64,7 +64,7 @@ namespace Code_Lyoko
         protected override void Initialize()
         {
             //RessourceLoad.InitMap();
-            RessourceLoad.GenerateMap(3,10,50,50);
+            RessourceLoad.GenerateMap(3,10,50,20);
             var vecti = RessourceLoad.GetCurrentMap().PosInit;
 
             P1 = new Player(100, vecti);

@@ -42,9 +42,13 @@ namespace Code_Lyoko
         void createMove(float x, float y, Map map)
         {
             int sizesplit = 10;
+            float brake = 1;
+            if (!IsOnGround(map))
+                brake = 0.75f;
             for (float i = 0; i < sizesplit; i++)
             {
-                float finalx = _position.X + x / sizesplit;
+                
+                float finalx = _position.X + x / sizesplit * brake;
                 float finaly = _position.Y + y / sizesplit;
                 if (!map.IsColliding(_position.X, finaly))
                     _position.Y = finaly;
@@ -81,7 +85,7 @@ namespace Code_Lyoko
         private void UpdateForce()
         {
             _force.X = AdjustForce(_force.X, 0, 0.05f);
-            _force.Y = AdjustForce(_force.Y, .5f, 0.04f); // gravity
+            _force.Y = AdjustForce(_force.Y, .5f, 0.02f); // gravity
         }
 
         public void ApplyForce(Map map)
@@ -91,13 +95,13 @@ namespace Code_Lyoko
             if (IsOnGround(map))
                 _jumpDuration = 1f;
             else
-                _jumpDuration -= 0.5f;
+                _jumpDuration -= 0.3f;
         }
 
         public void Jump()
         {
             if (_jumpDuration > 0)
-                _force.Y = -0.5f * _jumpPower;
+                _force.Y = -0.4f * _jumpPower;
         }
 
         private bool IsOnGround(Map map)
