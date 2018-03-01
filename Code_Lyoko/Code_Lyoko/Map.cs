@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.Remoting.Messaging;
 using Microsoft.Xna.Framework;
+
 
 namespace Code_Lyoko
 {
@@ -23,8 +25,8 @@ namespace Code_Lyoko
         {
             Tab = ParseFromFile(path);
         }
-        
-        public Map(char [,] arr, uint h, uint w)
+
+        public Map(char[,] arr, uint h, uint w)
         {
             Tab = arr;
             Height = h;
@@ -49,6 +51,23 @@ namespace Code_Lyoko
             }
         }
 
+        float TileTypeForNeural(char c)
+        {
+            switch (c)
+            {
+                case ' ':
+                    return 0f;
+                case 'W':
+                    return 0.5f;
+                case 'D':
+                    return 0;
+                case 'S':
+                    return 0;
+                default:
+                    return 1f;
+            }
+        }
+
         public bool IsColliding(float x, float y)
         {
             char br = Tab[Convert.ToInt32(y + 1.2f), Convert.ToInt32(x)];
@@ -64,7 +83,6 @@ namespace Code_Lyoko
 
         public bool IsGroundForPlayer(float x, float y)
         {
-            
             char bl = Tab[Convert.ToInt32(y + 1.4f), Convert.ToInt32(x + 0.001f)];
             char br = Tab[Convert.ToInt32(y + 1.4), Convert.ToInt32(x + 0.799f)];
             return crush(br) || crush(bl);
@@ -73,7 +91,7 @@ namespace Code_Lyoko
         public bool IsEndMap(float x, float y)
         {
             char c = Tab[Convert.ToInt32(y + 0.6f), Convert.ToInt32(x + 0.3f)];
-            
+
             return c == 'D';
         }
 
@@ -107,17 +125,35 @@ namespace Code_Lyoko
             return tab;
         }
 
-        public void Print()
+
+        public List<float> GetMapAround(float xx, float yy)
         {
-            for (int i = 0; i < 32; i++)
+            var tab = new List<float>();
+            int x = Convert.ToInt32(xx);
+            int y = Convert.ToInt32(yy);
+            for (int i = -6; i < 7; i++)
             {
-                for (int j = 0; j < 32; j++)
+                for (int j = -5; j < 6; j++)
                 {
-                    Console.Write(Tab[i, j]);
+                    int tx = x + i;
+                    int ty = y + j;
+                    if (tx < 0 || tx >= Height || ty < 0 || ty >= Width)
+                        tab.Add(0.5f);
+                    else
+                    {
+                        tab.Add(TileTypeForNeural(Tab[ty, tx]));
+                    }
+
+                    Console.Write(tab[tab.Count - 1] + "|");
                 }
 
-                Console.WriteLine();
+                Console.Write('\n');
             }
+
+            Console.Write('\n');
+            Console.Write('\n');
+            Console.Write('\n');
+            return tab;
         }
     }
 }

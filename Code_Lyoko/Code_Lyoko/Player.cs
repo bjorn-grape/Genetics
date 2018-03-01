@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Code_Lyoko
 {
@@ -20,6 +21,8 @@ namespace Code_Lyoko
         private UInt32 _money = 0;
         Vector2 _force = new Vector2(0, 0.5f);
         private Vector2 _position;
+         int _score = 0;
+         int _finalScore = 0;
 
         public void InteractEnv(Map map)
         {
@@ -29,9 +32,20 @@ namespace Code_Lyoko
                 {
                     Console.WriteLine("End!");
                 }
+                _finalScore += _score * 2;
                 Position = RessourceLoad.GetCurrentMap().PosInit;
             }
+
+            _score = Convert.ToInt32(Position.X);
         }
+
+        public int GetScore()
+        {
+            return _score + _finalScore;
+        }
+
+        
+        
 
         public Player(float life, Vector2 position)
         {

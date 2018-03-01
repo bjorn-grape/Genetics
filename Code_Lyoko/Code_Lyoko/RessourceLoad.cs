@@ -29,7 +29,7 @@ namespace Code_Lyoko
             }
         }
 
-        public static  Map GetCurrentMap()
+        public static Map GetCurrentMap()
         {
             return maps_[CurrentMap];
         }
@@ -41,6 +41,7 @@ namespace Code_Lyoko
                 CurrentMap++;
                 return true;
             }
+
             return false;
         }
 
@@ -60,7 +61,6 @@ namespace Code_Lyoko
 
             for (int i = 0; i < nb; i++)
             {
-                
                 char[,] tmp = new char[height, length];
                 for (int j = 0; j < height; j++)
                 {
@@ -103,6 +103,17 @@ namespace Code_Lyoko
                     tmp[j, length - 1] = 'W';
                 }
 
+                Console.WriteLine("Added map " + (i + 1) + "/" + nb);
+                for (int j = 0; j < height; j++)
+                {
+                    for (int k = 0; k < length; k++)
+                    {
+                        Console.Write(tmp[j, k]);
+                    }
+
+                    Console.Write('\n');
+                }
+
                 Map map = new Map(tmp, height, length);
                 maps_.Add(map);
             }
@@ -111,15 +122,8 @@ namespace Code_Lyoko
         /// <summary>
         /// Used for Debugging
         /// </summary>
-        public static void PrintMaps()
-        {
-            foreach (var map in maps_)
-            {
-                map.Print();
-            }
-        }
-
         private static SpriteBatch _sprt;
+
         private static GraphicsDeviceManager _graphics;
         private static Dictionary<string, Appearance> _dico;
         private static string _basePath;

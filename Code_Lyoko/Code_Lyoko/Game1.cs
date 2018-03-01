@@ -99,6 +99,9 @@ namespace Code_Lyoko
             if (Keyboard.GetState().IsKeyUp(Keys.Up) && !UpKeyEnabled)
                 UpKeyEnabled = true;
                 
+            if(Keyboard.GetState().IsKeyDown(Keys.F))
+            graphics.ToggleFullScreen();
+            
             if(Keyboard.GetState().IsKeyDown(Keys.R))
                 P1.SetStart(mappy);
 
@@ -123,7 +126,9 @@ namespace Code_Lyoko
 
             _appearances_dico["Aelita move.png"].DisplayAppearance(_spriteBatch,
                 P1.Position.X * RessourceLoad.GetCurrentMap().Width, P1.Position.Y * WindowCellHeight);
-
+            //Console.WriteLine(P1.GetScore());
+            //Console.WriteLine(P1.Position);
+            RessourceLoad.GetCurrentMap().GetMapAround(P1.Position.X, P1.Position.Y);
             Thread.Sleep(20);
 
 
