@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Code_Lyoko
 {
+    /// <summary>
+    /// Load all maps from the folder map
+    /// </summary>
     public class RessourceLoad
     {
         private static string _mapPath;
@@ -45,7 +48,14 @@ namespace Code_Lyoko
             return false;
         }
 
-
+/// <summary>
+/// Permits to create random terrain in a simple way
+/// </summary>
+/// <param name="nb">Number of map to be created</param>
+/// <param name="height">Map height</param>
+/// <param name="length">Map Width</param>
+/// <param name="mutation">probability that terrain can change (0-100)</param>
+/// <exception cref="ArgumentException"></exception>
         public static void GenerateMap(int nb, uint height, uint length, int mutation)
         {
             if (height < 4 || length < 10)
@@ -119,9 +129,7 @@ namespace Code_Lyoko
             }
         }
 
-        /// <summary>
-        /// Used for Debugging
-        /// </summary>
+        
         private static SpriteBatch _sprt;
 
         private static GraphicsDeviceManager _graphics;
