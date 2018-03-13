@@ -84,35 +84,26 @@ namespace Code_Lyoko
         {
             Map mappy = RessourceLoad.GetCurrentMap();
             
+            //map
             
+            Matrix mat = P1.UseBrain(RessourceLoad.GetCurrentMap().GetMapAround(P1.Position.X, P1.Position.Y));
+            mat.Print();
+            P1.ApplyForce(mappy);
+            P1.InteractEnv(mappy);
             
+            /*P1.ReceiveOrder(Keyboard.GetState().IsKeyDown(Keys.Left), Keyboard.GetState().IsKeyDown(Keys.Right),
+                Keyboard.GetState().IsKeyDown(Keys.Up) , Keyboard.GetState().IsKeyDown(Keys.R));*/
+            
+            P1.PlayAFrame();
+            
+            //game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) && UpKeyEnabled)
-            {
-                P1.Jump();
-                UpKeyEnabled = false;
-            }
-
-            if (Keyboard.GetState().IsKeyUp(Keys.Up) && !UpKeyEnabled)
-                UpKeyEnabled = true;
-                
             if(Keyboard.GetState().IsKeyDown(Keys.F))
             graphics.ToggleFullScreen();
             
-            if(Keyboard.GetState().IsKeyDown(Keys.R))
-                P1.SetStart(mappy);
-
-            P1.ApplyForce(mappy);
-            P1.InteractEnv(mappy);
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
-                P1.Move(1, 0, mappy);
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
-                P1.Move(-1, 0, mappy);
-
             base.Update(gameTime);
         }
 
@@ -128,8 +119,8 @@ namespace Code_Lyoko
                 P1.Position.X * RessourceLoad.GetCurrentMap().Width, P1.Position.Y * WindowCellHeight);
             //Console.WriteLine(P1.GetScore());
             //Console.WriteLine(P1.Position);
-            RessourceLoad.GetCurrentMap().GetMapAround(P1.Position.X, P1.Position.Y);
-            Thread.Sleep(20);
+            
+            Thread.Sleep(30);
 
 
             //end

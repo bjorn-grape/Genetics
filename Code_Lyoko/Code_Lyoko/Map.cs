@@ -126,34 +126,32 @@ namespace Code_Lyoko
         }
 
 
-        public List<float> GetMapAround(float xx, float yy)
+        public Matrix GetMapAround(float xx, float yy)
         {
             var tab = new List<float>();
             int x = Convert.ToInt32(xx);
             int y = Convert.ToInt32(yy);
-            for (int i = -6; i < 7; i++)
+            for (int i = -2; i < 5; i++)
             {
-                for (int j = -5; j < 6; j++)
+                for (int j = -2; j < 5; j++)
                 {
-                    int tx = x + i;
-                    int ty = y + j;
+                    int tx = y + i;
+                    int ty = x + j;
                     if (tx < 0 || tx >= Height || ty < 0 || ty >= Width)
                         tab.Add(0.5f);
                     else
                     {
-                        tab.Add(TileTypeForNeural(Tab[ty, tx]));
+                        tab.Add(TileTypeForNeural(Tab[tx, ty]));
                     }
 
-                    Console.Write(tab[tab.Count - 1] + "|");
+                    //Console.Write(tab[tab.Count - 1] + "|");
                 }
 
-                Console.Write('\n');
+                //Console.Write('\n');
             }
 
-            Console.Write('\n');
-            Console.Write('\n');
-            Console.Write('\n');
-            return tab;
+            
+            return new Matrix(tab);
         }
     }
 }

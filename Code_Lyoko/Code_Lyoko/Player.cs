@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -21,6 +22,7 @@ namespace Code_Lyoko
         private float _speed = 0.1f;
         private float _jumpPower = 1f;
         private float _jumpDuration = 1f;
+        private bool _canJump = true;
 
         /// <summary>
         /// Physical force applied to player
@@ -37,6 +39,70 @@ namespace Code_Lyoko
         /// </summary>
         int _finalScore = 0;
 
+        private Matrix _brain1;
+        private Matrix _brain2;
+        private Matrix _brain3;
+        
+        /// <summary>
+        /// Player constructor
+        /// </summary>
+        /// <param name="life"></param>
+        /// <param name="position"></param>
+        public Player(float life, Vector2 position)
+        {
+            _life = life;
+            _position = position;
+            _brain1 = new Matrix(49,16,true);
+            _brain2 = new Matrix(16,16,true);
+            _brain3 = new Matrix(16,4,true);
+        }
+        
+        public Player(Player P1)
+        {
+            _life = P1._life;
+            _position = P1._position;
+            _brain1.MakeCopyFrom(P1._brain1);
+            _brain2.MakeCopyFrom(P1._brain2);
+            _brain3.MakeCopyFrom(P1._brain3);
+        }
+
+        public Matrix UseBrain(Matrix mat)
+        {
+            return mat * _brain1 * _brain2 * _brain3;
+        }
+
+        public void ReceiveOrder(bool left, bool right, bool up, bool reset)
+        {
+            Map mappy = RessourceLoad.GetCurrentMap();
+            ApplyForce(mappy);
+            InteractEnv(mappy);
+
+            if (right)
+                Move(1, 0, mappy);
+            if (left)
+                Move(-1, 0, mappy);
+            
+            if(false)
+                SetStart(mappy);
+            
+            if (up && _canJump)
+            {
+                Jump();
+                _canJump = false;
+            }
+
+            if (!up && !_canJump)
+                _canJump = true;
+        }
+
+        public void PlayAFrame()
+        {
+            Matrix act = UseBrain(RessourceLoad.GetCurrentMap().GetMapAround(Position.X, Position.Y));
+            ReceiveOrder(act.Tab[0,0] > 0.5f, act.Tab[0,1] > 0.5f, act.Tab[0,2] > 0.5f, act.Tab[0,3] > 0.5f);
+        }
+        
+        
+        
 
         /// <summary>
         /// Permits to change current map to the next one, also update final score
@@ -64,16 +130,7 @@ namespace Code_Lyoko
         }
 
 
-        /// <summary>
-        /// Player constructor
-        /// </summary>
-        /// <param name="life"></param>
-        /// <param name="position"></param>
-        public Player(float life, Vector2 position)
-        {
-            _life = life;
-            _position = position;
-        }
+        
 
         /// <summary>
         /// smooth the movement of player when they are near colliders
