@@ -75,6 +75,24 @@ namespace Code_Lyoko
             }
         }
 
+        public void Applymutation()
+        {
+        Random rdn = new Random();
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    float k = (float) rdn.Next(20) / 100 - 0.1f;
+                    Tab[i, j] += k;
+                    if (Tab[i, j] > 1)
+                        Tab[i, j] = 1f;
+                    if (Tab[i, j] < 0)
+                        Tab[i, j] = 0f;
+
+                }
+            }
+        }
+
         public static Matrix operator +(Matrix a, Matrix b)
         {
             if (a.Height != b.Height || a.Width != b.Width)

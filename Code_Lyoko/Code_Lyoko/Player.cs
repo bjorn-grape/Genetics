@@ -64,6 +64,9 @@ namespace Code_Lyoko
             _brain1.MakeCopyFrom(P1._brain1);
             _brain2.MakeCopyFrom(P1._brain2);
             _brain3.MakeCopyFrom(P1._brain3);
+            _brain1.Applymutation();
+            _brain2.Applymutation();
+            _brain3.Applymutation();
         }
 
         public Matrix UseBrain(Matrix mat)
