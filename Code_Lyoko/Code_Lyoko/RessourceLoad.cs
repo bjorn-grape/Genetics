@@ -156,7 +156,7 @@ namespace Code_Lyoko
             GiveApperanceFromPath("player/Aelita/Aelita move red.png", 14, 1, 64);
             GiveApperanceFromPath("player/Aelita/Aelita death.png", 16, 2, 64);
             GiveApperanceFromPath("background/tiles.png", 10, 1, 32);
-            GiveApperanceFromPath("background/tiles large.png", 10, 1, 64);
+            //GiveApperanceFromPath("background/tiles large.png", 10, 1, 64);
         }
 
         /// <summary>

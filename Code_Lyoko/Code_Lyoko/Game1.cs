@@ -64,7 +64,7 @@ namespace Code_Lyoko
         protected override void Initialize()
         {
             //RessourceLoad.InitMap();
-            RessourceLoad.GenerateMap(3,10,50,20);
+            RessourceLoad.GenerateMap(3,20,50,60);
             var vecti = RessourceLoad.GetCurrentMap().PosInit;
 
             P1 = new Player(100, vecti);
@@ -91,8 +91,8 @@ namespace Code_Lyoko
             P1.ApplyForce(mappy);
             P1.InteractEnv(mappy);
             
-            /*P1.ReceiveOrder(Keyboard.GetState().IsKeyDown(Keys.Left), Keyboard.GetState().IsKeyDown(Keys.Right),
-                Keyboard.GetState().IsKeyDown(Keys.Up) , Keyboard.GetState().IsKeyDown(Keys.R));*/
+            //P1.ReceiveOrder(Keyboard.GetState().IsKeyDown(Keys.Left), Keyboard.GetState().IsKeyDown(Keys.Right),
+            //    Keyboard.GetState().IsKeyDown(Keys.Up) , Keyboard.GetState().IsKeyDown(Keys.R));
             
             P1.PlayAFrame();
             

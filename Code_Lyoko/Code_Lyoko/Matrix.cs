@@ -27,7 +27,7 @@ namespace Code_Lyoko
                     }
                 }
 
-                Bias = ((float) (rdn.Next(100)) / 200) - 0.25f;
+                Bias = ((float) (rdn.Next(100)) / 200) - 1f;
             }
         }
 
@@ -77,7 +77,7 @@ namespace Code_Lyoko
 
         public void Applymutation()
         {
-        Random rdn = new Random();
+            Random rdn = new Random();
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
@@ -88,7 +88,6 @@ namespace Code_Lyoko
                         Tab[i, j] = 1f;
                     if (Tab[i, j] < 0)
                         Tab[i, j] = 0f;
-
                 }
             }
         }
@@ -107,6 +106,11 @@ namespace Code_Lyoko
             }
 
             return C;
+        }
+
+        private static float sigmoid(float x)
+        {
+            return 1 / (1 + (float) Math.Exp(-x));
         }
 
         /// <summary>
@@ -132,7 +136,7 @@ namespace Code_Lyoko
                     }
 
                     //C.Tab[i, j] = summ; // this would work for common multiplication
-                    C.Tab[i, j] = summ / b.Width + b.Bias; // this is not multiplication
+                    C.Tab[i, j] = sigmoid(summ / b.Width + b.Bias); // this is not multiplication
                 }
             }
 

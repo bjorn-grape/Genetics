@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace Code_Lyoko
@@ -10,6 +11,7 @@ namespace Code_Lyoko
         private int _poolSize;
         private int _numberOfGeneration;
         private int _nthToShow;
+        private List<Player> _list_player;
 
         private readonly Action _act;
 

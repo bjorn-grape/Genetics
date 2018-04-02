@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
@@ -53,9 +54,38 @@ namespace Code_Lyoko
             _life = life;
             _position = position;
             _brain1 = new Matrix(49,16,true);
+            _brain1.Print();
             _brain2 = new Matrix(16,16,true);
+            _brain2.Print();
             _brain3 = new Matrix(16,4,true);
+            _brain3.Print();
         }
+        
+        public Player(float life, Vector2 position, Matrix b1, Matrix b2, Matrix b3)
+        {
+            _life = life;
+            _position = position;
+            _brain1 = b1;
+            _brain2 = b2;
+            _brain3 = b3;
+        }
+        
+        public Player( List<Matrix> listMatrix)
+        {
+            _life = 100;
+            _position = new Vector2(0,0);
+            _brain1 = listMatrix[0];
+            _brain2 = listMatrix[1];
+            _brain3 = listMatrix[2];
+        }
+
+        public  List<Matrix> getbrains()
+        {
+            return  new List<Matrix>{_brain1,_brain2,_brain3};
+        }
+        
+        
+        
         
         public Player(Player P1)
         {
@@ -68,6 +98,9 @@ namespace Code_Lyoko
             _brain2.Applymutation();
             _brain3.Applymutation();
         }
+
+        
+        
 
         public Matrix UseBrain(Matrix mat)
         {
@@ -88,14 +121,12 @@ namespace Code_Lyoko
             if(false)
                 SetStart(mappy);
             
-            if (up && _canJump)
+            if (up )
             {
                 Jump();
-                _canJump = false;
             }
 
-            if (!up && !_canJump)
-                _canJump = true;
+            
         }
 
         public void PlayAFrame()
