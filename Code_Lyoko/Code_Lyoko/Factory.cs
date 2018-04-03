@@ -80,6 +80,7 @@ namespace Code_Lyoko
                         player.PlayAFrame();
                     }
                 }
+                Regenerate();
             }
         }
 
