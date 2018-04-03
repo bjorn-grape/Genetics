@@ -162,6 +162,12 @@ namespace Code_Lyoko
             _score = Convert.ToInt32(Position.X);
         }
 
+        public void ResetScore()
+        {
+            _score = 0;
+            _finalScore = 0;
+        }
+        
         public int GetScore()
         {
             return _score + _finalScore;

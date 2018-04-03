@@ -74,6 +74,7 @@ namespace Code_Lyoko
             {
                 foreach (var player in _listPlayer)
                 {
+                    player.ResetScore();
                     RessourceLoad.GoBackFirstMap();
                     for (int j = 0; j < 1000; j++)
                     {
