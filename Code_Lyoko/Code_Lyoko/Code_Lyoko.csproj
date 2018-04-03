@@ -51,7 +51,7 @@
     <Compile Include="RessourceLoad.cs" />
     <Compile Include="SaveAndLoad.cs" />
     <Compile Include="Tile.cs" />
-    <Compile Include="Training.cs" />
+    <Compile Include="Factory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MonoGame.Framework.dll.config" />

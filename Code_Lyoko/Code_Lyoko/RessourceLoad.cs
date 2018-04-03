@@ -14,8 +14,8 @@ namespace Code_Lyoko
     {
         private static string _mapPath;
         private static string _imgPath;
-        public static List<Map> maps_ = new List<Map>();
-        static int CurrentMap = 0;
+        private static List<Map> maps_ = new List<Map>();
+        private static int _currentMap = 0;
 
         public static void InitMap()
         {
@@ -34,28 +34,32 @@ namespace Code_Lyoko
 
         public static Map GetCurrentMap()
         {
-            return maps_[CurrentMap];
+            if (maps_.Count is 0)
+                throw new Exception("No map Loaded !");
+            return maps_[_currentMap];
+        }
+
+        public static void GoBackFirstMap()
+        {
+            _currentMap = 0;
         }
 
         public static bool SetNextMap()
         {
-            if (CurrentMap + 1 < maps_.Count)
-            {
-                CurrentMap++;
-                return true;
-            }
-
-            return false;
+            if (_currentMap + 1 >= maps_.Count)
+                return false;
+            _currentMap++;
+            return true;
         }
 
-/// <summary>
-/// Permits to create random terrain in a simple way
-/// </summary>
-/// <param name="nb">Number of map to be created</param>
-/// <param name="height">Map height</param>
-/// <param name="length">Map Width</param>
-/// <param name="mutation">probability that terrain can change (0-100)</param>
-/// <exception cref="ArgumentException"></exception>
+        /// <summary>
+        /// Permits to create random terrain in a simple way
+        /// </summary>
+        /// <param name="nb">Number of map to be created</param>
+        /// <param name="height">Map height</param>
+        /// <param name="length">Map Width</param>
+        /// <param name="mutation">probability that terrain can change (0-100)</param>
+        /// <exception cref="ArgumentException"></exception>
         public static void GenerateMap(int nb, uint height, uint length, int mutation)
         {
             if (height < 4 || length < 10)
@@ -129,7 +133,7 @@ namespace Code_Lyoko
             }
         }
 
-        
+
         private static SpriteBatch _sprt;
 
         private static GraphicsDeviceManager _graphics;

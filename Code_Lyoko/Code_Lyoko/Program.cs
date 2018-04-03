@@ -11,19 +11,24 @@ namespace Code_Lyoko
     {
         public static void Main(string[] args)
         {
+            RessourceLoad.InitMap();
+            //RessourceLoad.GenerateMap(3,20,50,60);
+
             Game1 game = new Game1();
-            
-            game.Run();
-           /* List<Player> listi = new List<Player>();
+            List<Player> listi = new List<Player>();
             for (int i = 0; i < 5; i++)
             {
-                Player pl1 = new Player(100,new Vector2(0,0));
+                Player pl1 = new Player();
                 listi.Add(pl1);
-            }*/
-            
-            //SaveAndLoad.Save("testttt.save", listi);
-            //SaveAndLoad.Load("testttt.save");
+            }
 
+            game.SetPlayer(listi[0], true);
+
+            game.Run();
+
+
+            SaveAndLoad.Save("testttt.save", listi);
+            SaveAndLoad.Load("testttt.save");
         }
     }
 }

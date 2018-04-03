@@ -84,12 +84,12 @@ namespace Code_Lyoko
                 {
                     float k = (float) rdn.Next(20) / 100 - 0.1f;
                     Tab[i, j] += k;
-                    if (Tab[i, j] > 1)
-                        Tab[i, j] = 1f;
-                    if (Tab[i, j] < 0)
-                        Tab[i, j] = 0f;
+                    Tab[i, j] = sigmoid(Tab[i, j]);
                 }
             }
+            
+            Bias += (float) rdn.Next(40) / 100 - 0.2f;
+            Bias = sigmoid(Bias);
         }
 
         public static Matrix operator +(Matrix a, Matrix b)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -49,10 +50,10 @@ namespace Code_Lyoko
         /// </summary>
         /// <param name="life"></param>
         /// <param name="position"></param>
-        public Player(float life, Vector2 position)
+        public Player(float life = 100)
         {
             _life = life;
-            _position = position;
+            _position = new Vector2(0);
             _brain1 = new Matrix(49,16,true);
             _brain1.Print();
             _brain2 = new Matrix(16,16,true);
@@ -79,7 +80,7 @@ namespace Code_Lyoko
             _brain3 = listMatrix[2];
         }
 
-        public  List<Matrix> getbrains()
+        public  List<Matrix> Getbrains()
         {
             return  new List<Matrix>{_brain1,_brain2,_brain3};
         }
@@ -87,13 +88,13 @@ namespace Code_Lyoko
         
         
         
-        public Player(Player P1)
+        public void Replace(Player p1)
         {
-            _life = P1._life;
-            _position = P1._position;
-            _brain1.MakeCopyFrom(P1._brain1);
-            _brain2.MakeCopyFrom(P1._brain2);
-            _brain3.MakeCopyFrom(P1._brain3);
+            _life = p1._life;
+            _position = p1._position;
+            _brain1.MakeCopyFrom(p1._brain1);
+            _brain2.MakeCopyFrom(p1._brain2);
+            _brain3.MakeCopyFrom(p1._brain3);
             _brain1.Applymutation();
             _brain2.Applymutation();
             _brain3.Applymutation();
@@ -118,13 +119,16 @@ namespace Code_Lyoko
             if (left)
                 Move(-1, 0, mappy);
             
-            if(false)
+            if(reset)
                 SetStart(mappy);
             
             if (up )
             {
                 Jump();
             }
+            
+            
+                
 
             
         }
@@ -278,5 +282,28 @@ namespace Code_Lyoko
         {
             _speed /= 1.25f;
         }
+
+        public static bool operator >(Player a, Player b)
+        {
+            return a._finalScore > b._finalScore;
+        }
+        
+        public static bool operator <(Player a, Player b)
+        {
+            return a._finalScore < b._finalScore;
+        }
+        
+        public static bool operator >=(Player a, Player b)
+        {
+            return a._finalScore >= b._finalScore;
+        }
+        
+        public static bool operator <=(Player a, Player b)
+        {
+            return a._finalScore >= b._finalScore;
+        }
+        
+        
+        
     }
 }
