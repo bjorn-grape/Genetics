@@ -94,5 +94,17 @@ namespace Code_Lyoko
                 _listPlayer[i].Replace(_listPlayer[i + half]); // replace weak
             }
         }
+
+        public static void SaveState(string path)
+        {
+            SaveAndLoad.Save(path,_listPlayer);
+        }
+        
+        public static void SaveState()
+        {
+            if (_pathSave is null)
+                throw  new Exception("No path Specified when saving !");
+            SaveAndLoad.Save(_pathSave,_listPlayer);
+        }
     }
 }

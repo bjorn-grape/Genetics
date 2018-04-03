@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Net.Mime;
 using System.Reflection;
@@ -13,22 +14,29 @@ namespace Code_Lyoko
         {
             RessourceLoad.InitMap();
             //RessourceLoad.GenerateMap(3,20,50,60);
+            PlayAsHuman();
+            //Train();
+        }
 
+        static void Train()
+        {
             Game1 game = new Game1();
-            List<Player> listi = new List<Player>();
-            for (int i = 0; i < 5; i++)
-            {
-                Player pl1 = new Player();
-                listi.Add(pl1);
-            }
+            Factory.SetPathSave("testoftrain.save");
+            Factory.Init();
+            Factory.Train(1);
+            Factory.PrintScore();
+            Factory.SaveState();
+            Factory.Train(5);
+            Factory.PrintScore();
+            Factory.SaveState();
+        }
 
-            game.SetPlayer(listi[0], true);
-
+        static void  PlayAsHuman()
+        {
+            Game1 game = new Game1();
+            Player player = new Player();
+            game.SetPlayer(player, true);
             game.Run();
-
-
-            SaveAndLoad.Save("testttt.save", listi);
-            SaveAndLoad.Load("testttt.save");
         }
     }
 }

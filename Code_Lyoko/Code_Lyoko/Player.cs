@@ -159,7 +159,7 @@ namespace Code_Lyoko
                 Position = RessourceLoad.GetCurrentMap().PosInit;
             }
 
-            _score = Convert.ToInt32(Position.X);
+            _score = Convert.ToInt32(Position.X * 100);
         }
 
         public void ResetScore()

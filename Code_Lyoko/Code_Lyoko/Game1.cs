@@ -122,7 +122,7 @@ namespace Code_Lyoko
 
             _appearances_dico["Aelita move.png"].DisplayAppearance(_spriteBatch,
                 P1.Position.X * RessourceLoad.GetCurrentMap().Width, P1.Position.Y * WindowCellHeight);
-            //Console.WriteLine(P1.GetScore());
+            Console.WriteLine(P1.GetScore());
             //Console.WriteLine(P1.Position);
 
             Thread.Sleep(30);
