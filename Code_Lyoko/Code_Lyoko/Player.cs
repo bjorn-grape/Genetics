@@ -55,11 +55,8 @@ namespace Code_Lyoko
             _life = life;
             _position = new Vector2(0);
             _brain1 = new Matrix(49,16,true);
-            _brain1.Print();
             _brain2 = new Matrix(16,16,true);
-            _brain2.Print();
             _brain3 = new Matrix(16,4,true);
-            _brain3.Print();
         }
         
         public Player(float life, Vector2 position, Matrix b1, Matrix b2, Matrix b3)
@@ -88,16 +85,25 @@ namespace Code_Lyoko
         
         
         
-        public void Replace(Player p1)
+        public void Replace(Player p1, bool replace_with_mutation = true)
         {
             _life = p1._life;
             _position = p1._position;
-            _brain1.MakeCopyFrom(p1._brain1);
-            _brain2.MakeCopyFrom(p1._brain2);
-            _brain3.MakeCopyFrom(p1._brain3);
-            _brain1.Applymutation();
-            _brain2.Applymutation();
-            _brain3.Applymutation();
+            if (!replace_with_mutation)
+            {
+                _brain1 = new Matrix(49,16,true);
+                _brain2 = new Matrix(16,16,true);
+                _brain3 = new Matrix(16,4,true);
+            }
+            else
+            {
+                _brain1.MakeCopyFrom(p1._brain1);
+                _brain2.MakeCopyFrom(p1._brain2);
+                _brain3.MakeCopyFrom(p1._brain3);
+                _brain1.Applymutation();
+                _brain2.Applymutation();
+                _brain3.Applymutation();
+            }
         }
 
         
@@ -291,22 +297,22 @@ namespace Code_Lyoko
 
         public static bool operator >(Player a, Player b)
         {
-            return a._finalScore > b._finalScore;
+            return a.GetScore() > b.GetScore();
         }
         
         public static bool operator <(Player a, Player b)
         {
-            return a._finalScore < b._finalScore;
+            return a.GetScore() < b.GetScore();
         }
         
         public static bool operator >=(Player a, Player b)
         {
-            return a._finalScore >= b._finalScore;
+            return a.GetScore() >= b.GetScore();
         }
         
         public static bool operator <=(Player a, Player b)
         {
-            return a._finalScore >= b._finalScore;
+            return a.GetScore() >= b.GetScore();
         }
         
         

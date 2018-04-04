@@ -14,7 +14,7 @@ namespace Code_Lyoko
             {
                 foreach (var mat in player.Getbrains())
                 {
-                    mat.Print();
+                    
                     foreach (var elm in mat.Tab)
                     {
                         sw.Write(elm + "|");
@@ -32,7 +32,6 @@ namespace Code_Lyoko
         {
             StreamReader sr = new StreamReader(path);
             int size = Convert.ToInt32(sr.ReadLine());
-            Console.WriteLine(size);
             List<Player> listPlayer = new List<Player>();
             for (int i = 0; i < size; i++)
             {
@@ -63,7 +62,8 @@ namespace Code_Lyoko
                 listPlayer.Add(new Player(liMat));
                 
             }
-
+            
+            sr.Close();
             return listPlayer;
         }
     }

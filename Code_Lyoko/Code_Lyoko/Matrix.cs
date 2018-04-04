@@ -10,6 +10,7 @@ namespace Code_Lyoko
         public int Width;
         public float[,] Tab;
         public float Bias = 0;
+        private static readonly Random Rdn = new Random(); 
 
         public Matrix(int height, int width, bool init = false)
         {
@@ -18,16 +19,15 @@ namespace Code_Lyoko
             Tab = new float[height, width];
             if (init)
             {
-                Random rdn = new Random();
                 for (int i = 0; i < Height; i++)
                 {
                     for (int j = 0; j < Width; j++)
                     {
-                        Tab[i, j] = (float) (rdn.Next(100)) / 100;
+                        Tab[i, j] = (float) (Rdn.Next(100)) / 100;
                     }
                 }
 
-                Bias = ((float) (rdn.Next(100)) / 200) - 1f;
+                Bias = ((float) (Rdn.Next(100)) / 200) - 1f;
             }
         }
 
@@ -77,18 +77,17 @@ namespace Code_Lyoko
 
         public void Applymutation()
         {
-            Random rdn = new Random();
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    float k = (float) rdn.Next(20) / 100 - 0.1f;
+                    float k = (float) Rdn.Next(20) / 100 - 0.1f;
                     Tab[i, j] += k;
                     Tab[i, j] = sigmoid(Tab[i, j]);
                 }
             }
             
-            Bias += (float) rdn.Next(40) / 100 - 0.2f;
+            Bias += (float) Rdn.Next(40) / 100 - 0.2f;
             Bias = sigmoid(Bias);
         }
 

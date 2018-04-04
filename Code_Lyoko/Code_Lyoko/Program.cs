@@ -14,28 +14,32 @@ namespace Code_Lyoko
         {
             RessourceLoad.InitMap();
             //RessourceLoad.GenerateMap(3,20,50,60);
-            PlayAsHuman();
-            //Train();
+            //PlayAsHuman();
+            Train();
         }
 
         static void Train()
         {
             Game1 game = new Game1();
-            Factory.SetPathSave("testoftrain.save");
+           // Factory.SetPathLoadAndSave("testoftrain.save");
+            
+            
             Factory.Init();
-            Factory.Train(1);
+            
+            Factory.Train(5, false);
             Factory.PrintScore();
-            Factory.SaveState();
-            Factory.Train(5);
-            Factory.PrintScore();
-            Factory.SaveState();
+            
+            game.SetPlayer(Factory.GetBestPlayer());
+            game.Run();
+            
+            //Factory.SaveState();
         }
 
         static void  PlayAsHuman()
         {
             Game1 game = new Game1();
             Player player = new Player();
-            game.SetPlayer(player, true);
+            game.SetPlayer(player,true);
             game.Run();
         }
     }

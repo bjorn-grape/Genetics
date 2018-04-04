@@ -67,6 +67,7 @@ namespace Code_Lyoko
             _manualMode = manualMode;
         }
 
+        
         protected override void Initialize()
         {
             var vecti = RessourceLoad.GetCurrentMap().PosInit;
@@ -84,6 +85,9 @@ namespace Code_Lyoko
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
+        private const int MaxNumberOfFrame = 1000;
+        private int _currentFrame = 0;
+        
         protected override void Update(GameTime gameTime)
         {
             Map mappy = RessourceLoad.GetCurrentMap();
@@ -91,9 +95,10 @@ namespace Code_Lyoko
             //map
 
             Matrix mat = P1.UseBrain(RessourceLoad.GetCurrentMap().GetMapAround(P1.Position.X, P1.Position.Y));
-            mat.Print();
-            P1.ApplyForce(mappy);
-            P1.InteractEnv(mappy);
+            //mat.Print();
+            
+            //P1.ApplyForce(mappy);
+            //P1.InteractEnv(mappy);
 
             if (_manualMode)
                 P1.ReceiveOrder(Keyboard.GetState().IsKeyDown(Keys.Left), Keyboard.GetState().IsKeyDown(Keys.Right),
@@ -109,6 +114,9 @@ namespace Code_Lyoko
             if (Keyboard.GetState().IsKeyDown(Keys.F))
                 graphics.ToggleFullScreen();
 
+            _currentFrame++;
+            if(_currentFrame  > MaxNumberOfFrame)
+                Exit();
             base.Update(gameTime);
         }
 
@@ -122,7 +130,7 @@ namespace Code_Lyoko
 
             _appearances_dico["Aelita move.png"].DisplayAppearance(_spriteBatch,
                 P1.Position.X * RessourceLoad.GetCurrentMap().Width, P1.Position.Y * WindowCellHeight);
-            Console.WriteLine(P1.GetScore());
+            //Console.Write("\r\r\r\r" +  P1.GetScore());
             //Console.WriteLine(P1.Position);
 
             Thread.Sleep(30);

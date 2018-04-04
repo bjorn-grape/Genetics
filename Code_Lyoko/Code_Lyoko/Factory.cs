@@ -13,6 +13,11 @@ namespace Code_Lyoko
         private static string _pathLoad = null;
         private static string _pathSave = null;
 
+        public static  List<Player> GetListPlayer()
+        {
+            return _listPlayer;
+        }
+        
         #region LoadAndSave
 
         public static void SetPathLoad(string path)
@@ -42,7 +47,7 @@ namespace Code_Lyoko
 
         public static void Init(int size = 200)
         {
-            if (_pathLoad is null)
+            if (_pathLoad != null )
                 _listPlayer = SaveAndLoad.Load(_pathLoad);
             else
             {
@@ -56,42 +61,49 @@ namespace Code_Lyoko
 
         public static Player GetBestPlayer()
         {
-            _listPlayer.Sort();
+            SimpleSort();
             return _listPlayer[_listPlayer.Count - 1];
         }
 
         public static void PrintScore()
         {
+            SimpleSort();
             for (int i = 0; i < _listPlayer.Count; i++)
             {
-                Console.WriteLine("Player " + i + " has a score of " + _listPlayer[i]);
+                Console.WriteLine("Player " + i + " has a score of " + _listPlayer[i].GetScore());
+                var plop = _listPlayer[i].UseBrain(RessourceLoad.GetCurrentMap().GetMapAround(_listPlayer[i].Position.X,_listPlayer[i].Position.Y));
+                plop.Print();
             }
         }
 
-        public static void Train(int generationNumber)
+        public static void Train(int generationNumber, bool replaceWithMutation = true)
         {
             for (int i = 0; i < generationNumber; i++)
             {
-                foreach (var player in _listPlayer)
+                Console.WriteLine("\nTraining " + (i+1) + "/" + generationNumber );
+                for (int k = 0; k < _listPlayer.Count; k++)
                 {
-                    player.ResetScore();
+                    
+                    Console.Write("\r\r\r\r\r\r" + (k*100/_listPlayer.Count) + '%');
+                    _listPlayer[k].ResetScore();
                     RessourceLoad.GoBackFirstMap();
                     for (int j = 0; j < 1000; j++)
                     {
-                        player.PlayAFrame();
+                        _listPlayer[k].PlayAFrame();
                     }
+                    Console.Write("\r\r\r\r\r\rDONE." );
                 }
-                Regenerate();
+                Regenerate(replaceWithMutation);
             }
         }
 
-        private static void Regenerate()
+        private static void Regenerate(bool replace_with_mutation = true)
         {
-            _listPlayer.Sort();
+            SimpleSort();
             int half = _listPlayer.Count / 2;
             for (int i = 0; i < half; i++)
             {
-                _listPlayer[i].Replace(_listPlayer[i + half]); // replace weak
+                _listPlayer[i].Replace(_listPlayer[i + half], replace_with_mutation); // replace weak
             }
         }
 
@@ -105,6 +117,26 @@ namespace Code_Lyoko
             if (_pathSave is null)
                 throw  new Exception("No path Specified when saving !");
             SaveAndLoad.Save(_pathSave,_listPlayer);
+        }
+
+        private static void SimpleSort()
+        {
+            for (int i = 0; i < _listPlayer.Count; i++)
+            {
+                Player min = _listPlayer[i];
+                int minIndex = i;
+                for (int j = i; j < _listPlayer.Count; j++)
+                {
+                    if (_listPlayer[j] < min)
+                    {
+                        min = _listPlayer[j];
+                        minIndex = j;
+                    }
+                }
+
+                _listPlayer[minIndex] = _listPlayer[i];
+                _listPlayer[i] = min;
+            }
         }
     }
 }
