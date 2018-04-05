@@ -21,18 +21,19 @@ namespace Code_Lyoko
         static void Train()
         {
             Game1 game = new Game1();
-           // Factory.SetPathLoadAndSave("testoftrain.save");
+            Factory.SetPathLoadAndSave("testoftrain2.save");
             
             
-            Factory.Init();
+            //Factory.Init_new();
+            Factory.InitFromPath();
             
-            Factory.Train(5, false);
+            //Factory.Train(2, false);
             Factory.PrintScore();
             
-            game.SetPlayer(Factory.GetBestPlayer());
-            game.Run();
+            //game.SetPlayer(Factory.GetBestPlayer());
+            //game.Run();
             
-            //Factory.SaveState();
+            Factory.SaveState();
         }
 
         static void  PlayAsHuman()
