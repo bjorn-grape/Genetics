@@ -1,21 +1,18 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
 
 namespace Code_Lyoko
 {
     public class Player
     {
-        private float _life = 0;
+        #region Attributes
 
         public Vector2 Position
         {
-            get { return _position; }
-            private set { _position = value; }
+            get => _position;
+            private set => _position = value;
         }
 
         private Vector2 _position;
@@ -44,70 +41,70 @@ namespace Code_Lyoko
         private Matrix _brain1;
         private Matrix _brain2;
         private Matrix _brain3;
-        
-        /// <summary>
-        /// Player constructor
-        /// </summary>
-        /// <param name="life"></param>
-        /// <param name="position"></param>
+
+        #endregion
+
+        #region Constructor
+
         public Player(float life = 100)
         {
-            _life = life;
             _position = new Vector2(0);
-            _brain1 = new Matrix(49,16,true);
-            _brain2 = new Matrix(16,16,true);
-            _brain3 = new Matrix(16,4,true);
+            _brain1 = new Matrix(49, 16, true);
+            _brain2 = new Matrix(16, 16, true);
+            _brain3 = new Matrix(16, 4, true);
         }
-        
-        public Player(float life, Vector2 position, Matrix b1, Matrix b2, Matrix b3)
+
+        public Player(List<Matrix> listMatrix)
         {
-            _life = life;
-            _position = position;
-            _brain1 = b1;
-            _brain2 = b2;
-            _brain3 = b3;
-        }
-        
-        public Player( List<Matrix> listMatrix)
-        {
-            _life = 100;
-            _position = new Vector2(0,0);
+            _position = new Vector2(0, 0);
             _brain1 = listMatrix[0];
             _brain2 = listMatrix[1];
             _brain3 = listMatrix[2];
         }
 
-        public  List<Matrix> Getbrains()
+        #endregion
+
+        #region Getter/Setter
+
+        public List<Matrix> Getbrains()
         {
-            return  new List<Matrix>{_brain1,_brain2,_brain3};
-        }
-        
-        
-        
-        
-        public void Replace(Player p1, bool replace_with_mutation = true)
-        {
-            _life = p1._life;
-            _position = p1._position;
-            if (!replace_with_mutation)
-            {
-                _brain1 = new Matrix(49,16,true);
-                _brain2 = new Matrix(16,16,true);
-                _brain3 = new Matrix(16,4,true);
-            }
-            else
-            {
-                _brain1.MakeCopyFrom(p1._brain1);
-                _brain2.MakeCopyFrom(p1._brain2);
-                _brain3.MakeCopyFrom(p1._brain3);
-                _brain1.Applymutation();
-                _brain2.Applymutation();
-                _brain3.Applymutation();
-            }
+            return new List<Matrix> {_brain1, _brain2, _brain3};
         }
 
-        
-        
+        public void ResetScore()
+        {
+            _score = 0;
+            _finalScore = 0;
+        }
+
+        public int GetScore()
+        {
+            return _score + _finalScore;
+        }
+
+        public void SetScore(int score)
+        {
+            _score = score;
+        }
+
+        public void Setposition(float x, float y)
+        {
+            _position.X = x;
+            _position.Y = y;
+        }
+
+        /// <summary>
+        /// Put player to the beginning of the map
+        /// </summary>
+        /// <param name="map"></param>
+        public void SetStart(Map map)
+        {
+            _position = map.PosInit;
+        }
+
+        #endregion
+
+        #region BrainToAct
 
         public Matrix UseBrain(Matrix mat)
         {
@@ -124,29 +121,51 @@ namespace Code_Lyoko
                 Move(1, 0, mappy);
             if (left)
                 Move(-1, 0, mappy);
-            
-            if(reset)
+
+            if (reset)
                 SetStart(mappy);
-            
-            if (up )
+
+            if (up)
             {
                 Jump();
             }
-            
-            
-                
-
-            
         }
 
         public void PlayAFrame()
         {
             Matrix act = UseBrain(RessourceLoad.GetCurrentMap().GetMapAround(Position.X, Position.Y));
-            ReceiveOrder(act.Tab[0,0] > 0.5f, act.Tab[0,1] > 0.5f, act.Tab[0,2] > 0.5f, act.Tab[0,3] > 0.5f);
+            ReceiveOrder(act.Tab[0, 0] > 0.5f, act.Tab[0, 1] > 0.5f, act.Tab[0, 2] > 0.5f, act.Tab[0, 3] > 0.5f);
         }
-        
-        
-        
+
+        #endregion
+
+        #region ChangePlayer
+
+        public void Replace(Player p1, bool replace_with_mutation = true)
+        {
+            _position = p1._position;
+            _score = 0;
+            _finalScore = 0;
+            if (!replace_with_mutation)
+            {
+                _brain1 = new Matrix(49, 16, true);
+                _brain2 = new Matrix(16, 16, true);
+                _brain3 = new Matrix(16, 4, true);
+            }
+            else
+            {
+                _brain1.MakeCopyFrom(p1._brain1);
+                _brain2.MakeCopyFrom(p1._brain2);
+                _brain3.MakeCopyFrom(p1._brain3);
+                _brain1.Applymutation();
+                _brain2.Applymutation();
+                _brain3.Applymutation();
+            }
+        }
+
+        #endregion
+
+        #region Evironment
 
         /// <summary>
         /// Permits to change current map to the next one, also update final score
@@ -161,26 +180,13 @@ namespace Code_Lyoko
                     Console.WriteLine("End!");
                 }
 
-                _finalScore += _score * 2;
+                _finalScore += _score;
                 Position = RessourceLoad.GetCurrentMap().PosInit;
             }
 
             _score = Convert.ToInt32(Position.X * 100);
         }
 
-        public void ResetScore()
-        {
-            _score = 0;
-            _finalScore = 0;
-        }
-        
-        public int GetScore()
-        {
-            return _score + _finalScore;
-        }
-
-
-        
 
         /// <summary>
         /// smooth the movement of player when they are near colliders
@@ -204,15 +210,6 @@ namespace Code_Lyoko
                 if (!map.IsColliding(finalx, _position.Y))
                     _position.X = finalx;
             }
-        }
-
-        /// <summary>
-        /// Put player to the beginning of the map
-        /// </summary>
-        /// <param name="map"></param>
-        public void SetStart(Map map)
-        {
-            _position = map.PosInit;
         }
 
         /// <summary>
@@ -278,44 +275,20 @@ namespace Code_Lyoko
             return map.IsGroundForPlayer(_position.X, _position.Y);
         }
 
+        #endregion
 
-        public void Setposition(float x, float y)
-        {
-            _position.X = x;
-            _position.Y = y;
-        }
-
-        public void IncreaseSpeed()
-        {
-            _speed *= 1.25f;
-        }
-
-        public void DecreaseSpeed()
-        {
-            _speed /= 1.25f;
-        }
+        #region Comparisons
 
         public static bool operator >(Player a, Player b)
         {
             return a.GetScore() > b.GetScore();
         }
-        
+
         public static bool operator <(Player a, Player b)
         {
             return a.GetScore() < b.GetScore();
         }
-        
-        public static bool operator >=(Player a, Player b)
-        {
-            return a.GetScore() >= b.GetScore();
-        }
-        
-        public static bool operator <=(Player a, Player b)
-        {
-            return a.GetScore() >= b.GetScore();
-        }
-        
-        
-        
+
+        #endregion
     }
 }

@@ -7,16 +7,30 @@ using OpenGL;
 
 namespace Code_Lyoko
 {
-    public class Factory
+    public static class Factory
     {
-        private static List<Player> _listPlayer = null;
-        private static string _pathLoad = null;
-        private static string _pathSave = null;
+        #region Attributes
+
+        private static List<Player> _listPlayer;
+        private static string _pathLoad;
+        private static string _pathSave;
+
+        #endregion
+
+        #region Getters
 
         public static List<Player> GetListPlayer()
         {
             return _listPlayer;
         }
+
+        public static Player GetBestPlayer()
+        {
+            SimpleSort();
+            return _listPlayer[_listPlayer.Count - 1];
+        }
+
+        #endregion
 
         #region LoadAndSave
 
@@ -43,7 +57,21 @@ namespace Code_Lyoko
             _pathSave = path2;
         }
 
+        public static void SaveState(string path)
+        {
+            SaveAndLoad.Save(path, _listPlayer);
+        }
+
+        public static void SaveState()
+        {
+            if (_pathSave is null)
+                throw new Exception("No path Specified when saving !");
+            SaveAndLoad.Save(_pathSave, _listPlayer);
+        }
+
         #endregion
+
+        #region Init
 
         public static void Init_new(int size = 200)
         {
@@ -59,25 +87,30 @@ namespace Code_Lyoko
             _listPlayer = SaveAndLoad.Load(_pathLoad);
         }
 
-        public static Player GetBestPlayer()
-        {
-            SimpleSort();
-            return _listPlayer[_listPlayer.Count - 1];
-        }
+        #endregion
 
-        public static void PrintScore()
+        #region Display
+
+        public static void PrintScore(bool extended = false)
         {
             SimpleSort();
-            
+            RessourceLoad.GoBackFirstMap();
             for (int i = 0; i < _listPlayer.Count; i++)
             {
                 Console.WriteLine("Player " + i + " has a score of " + _listPlayer[i].GetScore());
-                _listPlayer[i].SetStart(RessourceLoad.GetCurrentMap());
-                var plop = _listPlayer[i].UseBrain(RessourceLoad.GetCurrentMap()
-                    .GetMapAround(_listPlayer[i].Position.X, _listPlayer[i].Position.Y));
-                plop.Print();
+                if (extended)
+                {
+                    _listPlayer[i].SetStart(RessourceLoad.GetCurrentMap());
+                    var plop = _listPlayer[i].UseBrain(RessourceLoad.GetCurrentMap()
+                        .GetMapAround(_listPlayer[i].Position.X, _listPlayer[i].Position.Y));
+                    plop.Print();
+                }
             }
         }
+
+        #endregion
+
+        #region Training
 
         public static void Train(int generationNumber, bool replaceWithMutation = true)
         {
@@ -86,13 +119,11 @@ namespace Code_Lyoko
                 Console.WriteLine("\nTraining " + (i + 1) + "/" + generationNumber);
                 for (int k = 0; k < _listPlayer.Count; k++)
                 {
-                    Console.Write("\r\r\r\r\r\r" + (k * 100 / _listPlayer.Count) + '%');
+                    Console.Write("\r\r\r\r\r\r" + k * 100 / _listPlayer.Count + "%    ");
                     _listPlayer[k].ResetScore();
                     RessourceLoad.GoBackFirstMap();
                     for (int j = 0; j < 1000; j++)
-                    {
                         _listPlayer[k].PlayAFrame();
-                    }
 
                     Console.Write("\r\r\r\r\r\rDONE.");
                 }
@@ -107,21 +138,10 @@ namespace Code_Lyoko
             int half = _listPlayer.Count / 2;
             for (int i = 0; i < half; i++)
             {
-                _listPlayer[i].Replace(_listPlayer[i + half], replace_with_mutation); // replace weak
+                _listPlayer[i].Replace(_listPlayer[i + half], replace_with_mutation);
             }
         }
 
-        public static void SaveState(string path)
-        {
-            SaveAndLoad.Save(path, _listPlayer);
-        }
-
-        public static void SaveState()
-        {
-            if (_pathSave is null)
-                throw new Exception("No path Specified when saving !");
-            SaveAndLoad.Save(_pathSave, _listPlayer);
-        }
 
         private static void SimpleSort()
         {
@@ -142,5 +162,7 @@ namespace Code_Lyoko
                 _listPlayer[i] = min;
             }
         }
+
+        #endregion
     }
 }

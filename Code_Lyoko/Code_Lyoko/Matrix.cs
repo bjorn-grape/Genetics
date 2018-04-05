@@ -6,11 +6,17 @@ namespace Code_Lyoko
 {
     public class Matrix
     {
+        #region Attributes
+
         public int Height;
         public int Width;
         public float[,] Tab;
-        public float Bias = 0;
-        private static readonly Random Rdn = new Random(); 
+        public float Bias;
+        private static readonly Random Rdn = new Random();
+
+        #endregion
+
+        #region Constructors
 
         public Matrix(int height, int width, bool init = false)
         {
@@ -23,11 +29,11 @@ namespace Code_Lyoko
                 {
                     for (int j = 0; j < Width; j++)
                     {
-                        Tab[i, j] = (float) (Rdn.Next(100)) / 100;
+                        Tab[i, j] = (float) Rdn.Next(100) / 100;
                     }
                 }
 
-                Bias = ((float) (Rdn.Next(100)) / 200) - 1f;
+                Bias = (float) Rdn.Next(100) / 200 - 1f;
             }
         }
 
@@ -41,6 +47,8 @@ namespace Code_Lyoko
                 Tab[0, j] = tab[j];
             }
         }
+
+        #endregion
 
         public void MakeCopyFrom(Matrix copy)
         {
@@ -86,7 +94,7 @@ namespace Code_Lyoko
                     Tab[i, j] = sigmoid(Tab[i, j]);
                 }
             }
-            
+
             Bias += (float) Rdn.Next(40) / 100 - 0.2f;
             Bias = sigmoid(Bias);
         }
@@ -103,7 +111,6 @@ namespace Code_Lyoko
                     C.Tab[i, j] = a.Tab[i, j] + b.Tab[i, j];
                 }
             }
-
             return C;
         }
 
@@ -130,11 +137,8 @@ namespace Code_Lyoko
                 {
                     float summ = 0;
                     for (int k = 0; k < a.Width; k++)
-                    {
                         summ += a.Tab[i, k] * b.Tab[k, j];
-                    }
 
-                    //C.Tab[i, j] = summ; // this would work for common multiplication
                     C.Tab[i, j] = sigmoid(summ / b.Width + b.Bias); // this is not multiplication
                 }
             }
@@ -146,28 +150,20 @@ namespace Code_Lyoko
         public void Print()
         {
             for (int j = 0; j < Width; j++)
-            {
                 Console.Write("-----");
-            }
 
-            Console.Write('\n');
+            Console.WriteLine();
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
-                {
-                    Console.Write(Tab[i, j]);
-                    Console.Write('|');
-                }
-
-                Console.Write('\n');
+                    Console.Write(Tab[i, j] + '|');
+                Console.WriteLine();
             }
 
             for (int j = 0; j < Width; j++)
-            {
                 Console.Write("-----");
-            }
 
-            Console.Write('\n');
+            Console.WriteLine();
         }
     }
 }
