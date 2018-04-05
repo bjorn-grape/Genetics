@@ -15,25 +15,40 @@ namespace Code_Lyoko
             RessourceLoad.InitMap();
             //RessourceLoad.GenerateMap(3,20,50,60);
             //PlayAsHuman();
-            Train();
+            //TrainFirstTime();
+            //Train();
+            Showbest();
         }
 
+        static void TrainFirstTime()
+        {
+            Factory.SetPathSave("testoftrain2.save");
+            Factory.Init_new();
+            Factory.Train(10, false);
+            Factory.PrintScore();
+            Factory.SaveState();
+            
+        }
+        
         static void Train()
+        {
+            
+            Factory.SetPathLoadAndSave("testoftrain2.save");
+            Factory.InitFromPath();
+            Factory.Train(20);
+            Factory.PrintScore();
+            //Factory.SaveState();
+        }
+
+        static void Showbest()
         {
             Game1 game = new Game1();
             Factory.SetPathLoadAndSave("testoftrain2.save");
-            
-            
-            //Factory.Init_new();
             Factory.InitFromPath();
-            
-            //Factory.Train(2, false);
             Factory.PrintScore();
+            game.SetPlayer(Factory.GetBestPlayer());
             
-            //game.SetPlayer(Factory.GetBestPlayer());
-            //game.Run();
-            
-            Factory.SaveState();
+            game.Run();
         }
 
         static void  PlayAsHuman()

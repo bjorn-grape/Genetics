@@ -85,7 +85,7 @@ namespace Code_Lyoko
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
-        private const int MaxNumberOfFrame = 1000;
+        private const int MaxNumberOfFrame = 2000;
         private int _currentFrame = 0;
         
         protected override void Update(GameTime gameTime)
@@ -95,6 +95,8 @@ namespace Code_Lyoko
             //map
 
             Matrix mat = P1.UseBrain(RessourceLoad.GetCurrentMap().GetMapAround(P1.Position.X, P1.Position.Y));
+            Console.Write("\r\r\r\r\r\r" + P1.GetScore() + "        ");
+            
             //mat.Print();
             
             //P1.ApplyForce(mappy);
@@ -133,8 +135,8 @@ namespace Code_Lyoko
             //Console.Write("\r\r\r\r" +  P1.GetScore());
             //Console.WriteLine(P1.Position);
 
-            Thread.Sleep(30);
-
+            //Thread.Sleep(30);
+            
 
             //end
             _spriteBatch.End();
