@@ -14,8 +14,9 @@ namespace Code_Lyoko
     {
         private static string _mapPath;
         private static string _imgPath;
-        private static List<Map> maps_ = new List<Map>();
-        private static int _currentMap = 0;
+        private static Dictionary<string, Map> maps_ = new Dictionary<string, Map>();
+        private static int _currentMap;
+        private static string _nameMap;
 
         public static void InitMap()
         {
@@ -27,16 +28,22 @@ namespace Code_Lyoko
             foreach (var file in files)
             {
                 Map map = new Map(file);
-                maps_.Add(map);
+                maps_.Add(Path.GetFileNameWithoutExtension(file), map);
                 Console.WriteLine("Loaded map: " + Path.GetFileNameWithoutExtension(file));
             }
+            
+        }
+
+        public static void SetCurrentMap(string name)
+        {
+            _nameMap = name;
         }
 
         public static Map GetCurrentMap()
         {
             if (maps_.Count is 0)
                 throw new Exception("No map Loaded !");
-            return maps_[_currentMap];
+            return maps_[_nameMap];
         }
 
         public static void GoBackFirstMap()
@@ -129,7 +136,8 @@ namespace Code_Lyoko
                 }
 
                 Map map = new Map(tmp, height, length);
-                maps_.Add(map);
+                map.Timeout = Convert.ToInt32(length);
+                maps_.Add("generatedMap_" + Convert.ToString(i), map);
             }
         }
 
@@ -160,7 +168,6 @@ namespace Code_Lyoko
             GiveApperanceFromPath("player/Aelita/Aelita move red.png", 14, 1, 64);
             GiveApperanceFromPath("player/Aelita/Aelita death.png", 16, 2, 64);
             GiveApperanceFromPath("background/tiles.png", 10, 1, 32);
-            //GiveApperanceFromPath("background/tiles large.png", 10, 1, 64);
         }
 
         /// <summary>
@@ -174,14 +181,10 @@ namespace Code_Lyoko
         static void GiveApperanceFromPath(string link, int cols = 16, int rows = 1, int width = 128)
         {
             string path = _basePath + link;
-            //Console.WriteLine(path);
-            //Console.WriteLine("File : " + File.Exists(path));
             if (!File.Exists(path))
                 throw new Exception("Image " + path + "Not found");
-            else
-            {
-                Console.WriteLine("Image " + path + " found");
-            }
+
+            Console.WriteLine("Image " + path + " found");
 
             FileStream fileStream = new FileStream(path, FileMode.Open);
             Texture2D plop = Texture2D.FromStream(_graphics.GraphicsDevice, fileStream);

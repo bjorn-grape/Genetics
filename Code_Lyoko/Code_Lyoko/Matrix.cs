@@ -8,8 +8,8 @@ namespace Code_Lyoko
     {
         #region Attributes
 
-        public int Height;
-        public int Width;
+        private int Height;
+        private int Width;
         public float[,] Tab;
         public float Bias;
         private static readonly Random Rdn = new Random();
@@ -23,18 +23,14 @@ namespace Code_Lyoko
             Height = height;
             Width = width;
             Tab = new float[height, width];
-            if (init)
-            {
-                for (int i = 0; i < Height; i++)
-                {
-                    for (int j = 0; j < Width; j++)
-                    {
-                        Tab[i, j] = (float) Rdn.Next(100) / 100;
-                    }
-                }
+            if (!init) return;
 
-                Bias = (float) Rdn.Next(100) / 200 - 1f;
-            }
+            for (int i = 0; i < Height; i++)
+                for (int j = 0; j < Width; j++)
+                    Tab[i, j] = (float) Rdn.Next(100) / 100;
+
+
+            Bias = (float) Rdn.Next(100) / 200 - 1f;
         }
 
         public Matrix(List<float> tab)
@@ -95,7 +91,7 @@ namespace Code_Lyoko
                 }
             }
 
-            Bias += (float) Rdn.Next(40) / 100 - 0.2f;
+            Bias += (float) Rdn.Next(20) / 100 - 0.1f;
             Bias = sigmoid(Bias);
         }
 
@@ -111,6 +107,7 @@ namespace Code_Lyoko
                     C.Tab[i, j] = a.Tab[i, j] + b.Tab[i, j];
                 }
             }
+
             return C;
         }
 
@@ -156,7 +153,7 @@ namespace Code_Lyoko
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
-                    Console.Write(Tab[i, j] + '|');
+                    Console.Write(Tab[i, j] + "|");
                 Console.WriteLine();
             }
 

@@ -14,6 +14,7 @@ namespace Code_Lyoko
         private static List<Player> _listPlayer;
         private static string _pathLoad;
         private static string _pathSave;
+       
 
         #endregion
 
@@ -28,6 +29,13 @@ namespace Code_Lyoko
         {
             SimpleSort();
             return _listPlayer[_listPlayer.Count - 1];
+        }
+        
+        public static Player GetNthPlayer(int nth)
+        {
+            SimpleSort();
+            Console.WriteLine(_listPlayer[nth].GetScore());
+            return _listPlayer[nth];
         }
 
         #endregion
@@ -112,8 +120,14 @@ namespace Code_Lyoko
 
         #region Training
 
+        public static void TrainWithNew(int generationNumber)
+        {
+            Train(generationNumber,false);
+        }
+        
         public static void Train(int generationNumber, bool replaceWithMutation = true)
         {
+            int FrameNb = RessourceLoad.GetCurrentMap().Timeout;
             for (int i = 0; i < generationNumber; i++)
             {
                 Console.WriteLine("\nTraining " + (i + 1) + "/" + generationNumber);
@@ -122,7 +136,7 @@ namespace Code_Lyoko
                     Console.Write("\r\r\r\r\r\r" + k * 100 / _listPlayer.Count + "%    ");
                     _listPlayer[k].ResetScore();
                     RessourceLoad.GoBackFirstMap();
-                    for (int j = 0; j < 1000; j++)
+                    for (int j = 0; j < FrameNb; j++)
                         _listPlayer[k].PlayAFrame();
 
                     Console.Write("\r\r\r\r\r\rDONE.");

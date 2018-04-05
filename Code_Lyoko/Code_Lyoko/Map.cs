@@ -20,6 +20,7 @@ namespace Code_Lyoko
         public uint Height;
         public uint Width;
         public const uint SizeTile = 32;
+        public int Timeout;
 
         public Map(string path)
         {
@@ -98,13 +99,17 @@ namespace Code_Lyoko
 
         public char[,] ParseFromFile(string path)
         {
+
             IEnumerable<string> lines = File.ReadAllLines(path);
-            Height = (uint) lines.Count();
-            Width = (uint) lines.First().Count();
+            var file = new StreamReader(path);
+            Timeout = Convert.ToInt32(file.ReadLine());
+
+            Height = (uint) lines.Count() - 1;
+            Width = (uint) lines.Last().Count();
 
             char[,] tab = new char[Height, Width];
-            var file = new StreamReader(path);
-
+            
+            
             for (int i = 0; i < Height; i++)
             {
                 string str = file.ReadLine();
@@ -114,7 +119,7 @@ namespace Code_Lyoko
                 {
                     if (str[j] == 'S')
                     {
-                        Console.WriteLine("found S : " + i + "  " + j);
+                        Console.WriteLine("found Start : " + i + "  " + j);
                         PosInit = new Vector2(j, i);
                     }
 
@@ -144,10 +149,10 @@ namespace Code_Lyoko
                         tab.Add(TileTypeForNeural(Tab[tx, ty]));
                     }
 
-                    //Console.Write(tab[tab.Count - 1] + "|");
+                  
                 }
 
-                //Console.Write('\n');
+              
             }
 
             

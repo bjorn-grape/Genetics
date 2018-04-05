@@ -19,7 +19,6 @@ namespace Code_Lyoko
         const int WindowWidth = 1024;
         const int WindowHeight = 512;
         public int WindowCellHeight = 32;
-        public int WindowCellWidth = 32;
         bool FULLSCREEN = false;
 
 
@@ -58,7 +57,7 @@ namespace Code_Lyoko
             }
         }
 
-        private Player P1 = null;
+        private Player P1;
         private bool _manualMode;
 
         public void SetPlayer(Player ply, bool manualMode = false)
@@ -70,11 +69,8 @@ namespace Code_Lyoko
         
         protected override void Initialize()
         {
-            var vecti = RessourceLoad.GetCurrentMap().PosInit;
-
             if (P1 is null)
                 throw new Exception("Missing player in game !");
-            P1.Setposition(vecti.X,vecti.Y);
             RessourceLoad.SetApperance(graphics, ref _appearances_dico);
             base.Initialize();
         }
@@ -85,22 +81,12 @@ namespace Code_Lyoko
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
-        private const int MaxNumberOfFrame = 2000;
-        private int _currentFrame = 0;
+        private int _currentFrame;
         
         protected override void Update(GameTime gameTime)
         {
-            Map mappy = RessourceLoad.GetCurrentMap();
-
-            //map
-
-            Matrix mat = P1.UseBrain(RessourceLoad.GetCurrentMap().GetMapAround(P1.Position.X, P1.Position.Y));
+            
             Console.Write("\r\r\r\r\r\r" + P1.GetScore() + "        ");
-            
-            //mat.Print();
-            
-            //P1.ApplyForce(mappy);
-            //P1.InteractEnv(mappy);
 
             if (_manualMode)
                 P1.ReceiveOrder(Keyboard.GetState().IsKeyDown(Keys.Left), Keyboard.GetState().IsKeyDown(Keys.Right),
@@ -116,8 +102,9 @@ namespace Code_Lyoko
             if (Keyboard.GetState().IsKeyDown(Keys.F))
                 graphics.ToggleFullScreen();
 
+            int FrameNb = RessourceLoad.GetCurrentMap().Timeout;
             _currentFrame++;
-            if(_currentFrame  > MaxNumberOfFrame)
+            if(_currentFrame  > FrameNb)
                 Exit();
             base.Update(gameTime);
         }
@@ -132,10 +119,9 @@ namespace Code_Lyoko
 
             _appearances_dico["Aelita move.png"].DisplayAppearance(_spriteBatch,
                 P1.Position.X * RessourceLoad.GetCurrentMap().Width, P1.Position.Y * WindowCellHeight);
-            //Console.Write("\r\r\r\r" +  P1.GetScore());
-            //Console.WriteLine(P1.Position);
+            
 
-            //Thread.Sleep(30);
+            Thread.Sleep(30);
             
 
             //end

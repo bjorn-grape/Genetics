@@ -272,7 +272,13 @@ namespace Code_Lyoko
 
         private bool IsOnGround(Map map)
         {
-            return map.IsGroundForPlayer(_position.X, _position.Y);
+            bool grd = map.IsGroundForPlayer(_position.X, _position.Y);
+            if (!grd)
+                _speed = 0.05f;
+            else
+                _speed = 0.1f;
+
+            return grd;
         }
 
         #endregion

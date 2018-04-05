@@ -13,18 +13,19 @@ namespace Code_Lyoko
         public static void Main(string[] args)
         {
             RessourceLoad.InitMap();
+            RessourceLoad.SetCurrentMap("long");
             //RessourceLoad.GenerateMap(3,20,50,60);
             //PlayAsHuman();
-            //TrainFirstTime();
-            //Train();
-            Showbest();
+            TrainFirstTime();
+            Train();
+            ShowNth(199);
         }
 
         static void TrainFirstTime()
         {
             Factory.SetPathSave("testoftrain2.save");
             Factory.Init_new();
-            Factory.Train(10, false);
+            Factory.TrainWithNew(10);
             Factory.PrintScore();
             Factory.SaveState();
             
@@ -35,9 +36,9 @@ namespace Code_Lyoko
             
             Factory.SetPathLoadAndSave("testoftrain2.save");
             Factory.InitFromPath();
-            Factory.Train(20);
+            Factory.Train(10);
             Factory.PrintScore();
-            //Factory.SaveState();
+            Factory.SaveState();
         }
 
         static void Showbest()
@@ -45,8 +46,19 @@ namespace Code_Lyoko
             Game1 game = new Game1();
             Factory.SetPathLoadAndSave("testoftrain2.save");
             Factory.InitFromPath();
-            Factory.PrintScore();
+            Factory.PrintScore(true);
             game.SetPlayer(Factory.GetBestPlayer());
+            
+            game.Run();
+        }
+        
+        static void ShowNth(int nth)
+        {
+            Game1 game = new Game1();
+            Factory.SetPathLoadAndSave("testoftrain2.save");
+            Factory.InitFromPath();
+            Factory.PrintScore(true);
+            game.SetPlayer(Factory.GetNthPlayer(nth));
             
             game.Run();
         }
