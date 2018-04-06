@@ -85,13 +85,13 @@ namespace Code_Lyoko
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    float k = (float) Rdn.Next(20) / 100 - 0.1f;
+                    float k = (float) Rdn.Next(10) / 100 - 0.05f;
                     Tab[i, j] += k;
                     Tab[i, j] = sigmoid(Tab[i, j]);
                 }
             }
 
-            Bias += (float) Rdn.Next(20) / 100 - 0.1f;
+            Bias += (float) Rdn.Next(10) / 100 - 0.05f;
             Bias = sigmoid(Bias);
         }
 
