@@ -13,12 +13,12 @@ namespace Code_Lyoko
         public static void Main(string[] args)
         {
             RessourceLoad.InitMap();
-            RessourceLoad.SetCurrentMap("long");
+            RessourceLoad.SetCurrentMap("example");
             //RessourceLoad.GenerateMap(3,20,50,60);
             //PlayAsHuman();
             TrainFirstTime();
-            Train();
-            ShowNth(199);
+            //Train();
+            Showbest();
         }
 
         static void TrainFirstTime()
@@ -35,7 +35,7 @@ namespace Code_Lyoko
         {
             
             Factory.SetPathLoadAndSave("testoftrain2.save");
-            Factory.InitFromPath();
+            Factory.Init();
             Factory.Train(10);
             Factory.PrintScore();
             Factory.SaveState();
@@ -45,7 +45,7 @@ namespace Code_Lyoko
         {
             Game1 game = new Game1();
             Factory.SetPathLoadAndSave("testoftrain2.save");
-            Factory.InitFromPath();
+            Factory.Init();
             Factory.PrintScore(true);
             game.SetPlayer(Factory.GetBestPlayer());
             
@@ -56,7 +56,7 @@ namespace Code_Lyoko
         {
             Game1 game = new Game1();
             Factory.SetPathLoadAndSave("testoftrain2.save");
-            Factory.InitFromPath();
+            Factory.Init();
             Factory.PrintScore(true);
             game.SetPlayer(Factory.GetNthPlayer(nth));
             
@@ -67,6 +67,7 @@ namespace Code_Lyoko
         {
             Game1 game = new Game1();
             Player player = new Player();
+            player.SetStart(RessourceLoad.GetCurrentMap());
             game.SetPlayer(player,true);
             game.Run();
         }

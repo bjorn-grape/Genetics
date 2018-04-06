@@ -175,16 +175,18 @@ namespace Code_Lyoko
         {
             if (map.IsEndMap(Position.X, Position.Y))
             {
-                if (!RessourceLoad.SetNextMap())
-                {
-                    Console.WriteLine("End!");
-                }
+                //RessourceLoad.SetCurrentMap("end");
 
                 _finalScore += _score;
-                Position = RessourceLoad.GetCurrentMap().PosInit;
+                _score = 0;
+                //Position = RessourceLoad.GetCurrentMap().PosInit;
+            }
+            else
+            {
+                _score = Convert.ToInt32(Position.X * 100);
             }
 
-            _score = Convert.ToInt32(Position.X * 100);
+            
         }
 
 

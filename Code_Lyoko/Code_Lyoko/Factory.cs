@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework.Graphics;
 using OpenGL;
@@ -72,6 +74,7 @@ namespace Code_Lyoko
 
         public static void SaveState()
         {
+            
             if (_pathSave is null)
                 throw new Exception("No path Specified when saving !");
             SaveAndLoad.Save(_pathSave, _listPlayer);
@@ -83,6 +86,7 @@ namespace Code_Lyoko
 
         public static void Init_new(int size = 200)
         {
+            
             _listPlayer = new List<Player>();
             for (int i = 0; i < size; i++)
             {
@@ -90,9 +94,14 @@ namespace Code_Lyoko
             }
         }
 
-        public static void InitFromPath()
+        public static void Init()
         {
-            _listPlayer = SaveAndLoad.Load(_pathLoad);
+            if (File.Exists(_pathLoad))
+                _listPlayer = SaveAndLoad.Load(_pathLoad);
+            else
+                Init_new();
+
+
         }
 
         #endregion
@@ -135,6 +144,7 @@ namespace Code_Lyoko
                 {
                     Console.Write("\r\r\r\r\r\r" + k * 100 / _listPlayer.Count + "%    ");
                     _listPlayer[k].ResetScore();
+                    _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
                     RessourceLoad.GoBackFirstMap();
                     for (int j = 0; j < FrameNb; j++)
                         _listPlayer[k].PlayAFrame();
