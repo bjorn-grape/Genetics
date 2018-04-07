@@ -13,20 +13,20 @@ namespace Code_Lyoko
         public static void Main(string[] args)
         {
             RessourceLoad.InitMap();
-            RessourceLoad.SetCurrentMap("long");
+            RessourceLoad.SetCurrentMap("long2");
             //RessourceLoad.GenerateMap(3,20,50,60);
             //PlayAsHuman();
             //TrainFirstTime();
             //Train();
-            //Showbest();
-            ShowNth(199);
+            Showbest();
+            //ShowNth(199);
         }
 
         static void TrainFirstTime()
         {
             Factory.SetPathSave("testoftrain2.save");
             Factory.Init_new();
-            Factory.TrainWithNew(10);
+            Factory.TrainWithNew(1);
             Factory.PrintScore();
             Factory.SaveState();
             
@@ -37,7 +37,7 @@ namespace Code_Lyoko
             
             Factory.SetPathLoadAndSave("testoftrain2.save");
             Factory.Init();
-            Factory.Train(30);
+            Factory.Train(10);
             Factory.PrintScore();
             Factory.SaveState();
         }
