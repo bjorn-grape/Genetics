@@ -41,21 +41,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game1.cs" />
-    <Compile Include="Image.cs" />
-    <Compile Include="Map.cs" />
+    <Compile Include="ACDC\Game1.cs" />
+    <Compile Include="ACDC\Image.cs" />
+    <Compile Include="ACDC\Map.cs" />
+    <Compile Include="ACDC\Player.cs" />
+    <Compile Include="ACDC\RessourceLoad.cs" />
+    <Compile Include="ACDC\SaveAndLoad.cs" />
+    <Compile Include="ACDC\Tile.cs" />
     <Compile Include="Matrix.cs" />
-    <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RessourceLoad.cs" />
-    <Compile Include="SaveAndLoad.cs" />
-    <Compile Include="Tile.cs" />
     <Compile Include="Factory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MonoGame.Framework.dll.config" />
-    <None Include="packages.config" />
+    <None Include="ACDC\MonoGame.Framework.dll.config" />
+    <None Include="ACDC\packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="save\bot.save" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
