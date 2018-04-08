@@ -18,9 +18,10 @@ namespace Code_Lyoko
             RessourceLoad.InitMap();
 
             RessourceLoad.SetCurrentMap("long"); //with this line you can set the current map from folder map
-
+            Factory.SetPathLoadAndSave(PathForTest);
+            Factory.Init();
+            Factory.PrintScore();
             // Feel free to use all the function below in order to train your players
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace Code_Lyoko
         static void TrainWithNew(int n)
         {
             Factory.SetPathSave(PathForTest);
-            Factory.Init_new();
+            Factory.InitNew();
             Factory.TrainWithNew(n);
             Factory.PrintScore();
             Factory.SaveState();

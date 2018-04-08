@@ -46,10 +46,7 @@ namespace Code_Lyoko
             return maps_[_nameMap];
         }
 
-        public static void GoBackFirstMap()
-        {
-            _currentMap = 0;
-        }
+      
 
         public static bool SetNextMap()
         {

@@ -34,7 +34,7 @@ namespace Code_Lyoko
         public static Player GetNthPlayer(int nth)
         {
             SimpleSort();
-            Console.WriteLine(_listPlayer[nth].GetScore());
+            
             return _listPlayer[nth];
         }
 
@@ -59,17 +59,6 @@ namespace Code_Lyoko
             _pathSave = path;
         }
 
-        public static void SetPathLoadAndSave(string path1, string path2)
-        {
-            _pathLoad = path1;
-            _pathSave = path2;
-        }
-
-        public static void SaveState(string path)
-        {
-            SaveAndLoad.Save(path, _listPlayer);
-        }
-
         public static void SaveState()
         {
             
@@ -82,7 +71,7 @@ namespace Code_Lyoko
 
         #region Init
 
-        public static void Init_new(int size = 200)
+        public static void InitNew(int size = 200)
         {
             
             _listPlayer = new List<Player>();
@@ -97,7 +86,7 @@ namespace Code_Lyoko
             if (File.Exists(_pathLoad))
                 _listPlayer = SaveAndLoad.Load(_pathLoad);
             else
-                Init_new();
+                InitNew();
 
 
         }
@@ -109,7 +98,6 @@ namespace Code_Lyoko
         public static void PrintScore(bool extended = false)
         {
             SimpleSort();
-            RessourceLoad.GoBackFirstMap();
             for (int i = 0; i < _listPlayer.Count; i++)
             {
                 Console.WriteLine("Player " + i + " has a score of " + _listPlayer[i].GetScore());
@@ -120,6 +108,16 @@ namespace Code_Lyoko
                         .GetMapAround(_listPlayer[i].Position.X, _listPlayer[i].Position.Y));
                     plop.Print();
                 }
+            }
+        }
+        
+        public static void PrintScore()
+        {
+            SimpleSort();
+            
+            for (int i = 0; i < _listPlayer.Count; i++)
+            {
+                Console.WriteLine("Player " + i + " has a score of " + _listPlayer[i].GetScore());
             }
         }
 
@@ -143,7 +141,6 @@ namespace Code_Lyoko
                     Console.Write("\r\r\r\r\r\r" + k * 100 / _listPlayer.Count + "%    ");
                     _listPlayer[k].ResetScore();
                     _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
-                    RessourceLoad.GoBackFirstMap();
                     for (int j = 0; j < FrameNb; j++)
                         _listPlayer[k].PlayAFrame();
 
