@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Code_Lyoko", "Code_Lyoko\Code_Lyoko.csproj", "{F9747AC3-726A-4229-A56F-42207B311163}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genetics", "Genetics\Genetics.csproj", "{F9747AC3-726A-4229-A56F-42207B311163}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

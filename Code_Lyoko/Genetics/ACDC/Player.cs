@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 
-namespace Code_Lyoko
+namespace Genetics
 {
     public class Player
     {

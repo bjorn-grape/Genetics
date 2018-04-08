@@ -5,7 +5,7 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Code_Lyoko
+namespace Genetics
 {
     /// <summary>
     /// Load all maps from the folder map

@@ -5,7 +5,7 @@ using System.IO;
 
 
 
-namespace Code_Lyoko
+namespace Genetics
 {
     public static class Factory
     {

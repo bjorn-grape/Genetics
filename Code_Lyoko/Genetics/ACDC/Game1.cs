@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 
-namespace Code_Lyoko
+namespace Genetics
 {
     public class Game1 : Game
     {

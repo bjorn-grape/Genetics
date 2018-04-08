@@ -6,7 +6,7 @@ using System.Net.Mime;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 
-namespace Code_Lyoko
+namespace Genetics
 {
     internal class Program
     {
@@ -16,11 +16,9 @@ namespace Code_Lyoko
         public static void Main(string[] args)
         {
             RessourceLoad.InitMap();
-
             RessourceLoad.SetCurrentMap("long"); //with this line you can set the current map from folder map
-            Factory.SetPathLoadAndSave(PathForTest);
-            Factory.Init();
-            Factory.PrintScore();
+            
+            
             // Feel free to use all the function below in order to train your players
         }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Remoting;
 
-namespace Code_Lyoko
+namespace Genetics
 {
     public class Matrix
     {
