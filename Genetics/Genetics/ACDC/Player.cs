@@ -157,9 +157,9 @@ namespace Genetics
                 _brain1.MakeCopyFrom(p1._brain1);
                 _brain2.MakeCopyFrom(p1._brain2);
                 _brain3.MakeCopyFrom(p1._brain3);
-                _brain1.Applymutation();
-                _brain2.Applymutation();
-                _brain3.Applymutation();
+                _brain1.ApplyMutation();
+                _brain2.ApplyMutation();
+                _brain3.ApplyMutation();
             }
         }
 

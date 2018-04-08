@@ -68,7 +68,7 @@ namespace Genetics
 
 
 
-        public void Applymutation()
+        public void ApplyMutation()
         {
             for (int i = 0; i < Height; i++)
             {
@@ -76,12 +76,12 @@ namespace Genetics
                 {
                     float k = (float) Rdn.Next(10) / 100 - 0.05f;
                     Tab[i, j] += k;
-                    Tab[i, j] = sigmoid(Tab[i, j]);
+                    Tab[i, j] = Sigmoid(Tab[i, j]);
                 }
             }
 
             Bias += (float) Rdn.Next(10) / 100 - 0.05f;
-            Bias = sigmoid(Bias);
+            Bias = Sigmoid(Bias);
         }
 
         public static Matrix operator +(Matrix a, Matrix b)
@@ -100,7 +100,7 @@ namespace Genetics
             return C;
         }
 
-        private static float sigmoid(float x)
+        private static float Sigmoid(float x)
         {
             return 1 / (1 + (float) Math.Exp(-x));
         }
@@ -125,7 +125,7 @@ namespace Genetics
                     for (int k = 0; k < a.Width; k++)
                         summ += a.Tab[i, k] * b.Tab[k, j];
 
-                    C.Tab[i, j] = sigmoid(summ / b.Width + b.Bias); // this is not multiplication
+                    C.Tab[i, j] = Sigmoid(summ / b.Width + b.Bias); // this is not multiplication
                 }
             }
 
