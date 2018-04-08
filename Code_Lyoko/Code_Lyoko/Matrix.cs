@@ -66,18 +66,7 @@ namespace Code_Lyoko
             Bias = copy.Bias;
         }
 
-        public void SetFromMatrix(Matrix A)
-        {
-            if (A.Height != Height || A.Width != Width)
-                throw new ArgumentException("Wrong size for Matrix!");
-            for (int i = 0; i < Height; i++)
-            {
-                for (int j = 0; j < Width; j++)
-                {
-                    Tab[i, j] = A.Tab[i, j];
-                }
-            }
-        }
+
 
         public void Applymutation()
         {
