@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Net.Mime;
 using System.Threading;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -66,7 +62,7 @@ namespace Genetics
             _manualMode = manualMode;
         }
 
-        
+
         protected override void Initialize()
         {
             if (P1 is null)
@@ -82,10 +78,9 @@ namespace Genetics
         }
 
         private int _currentFrame;
-        
+
         protected override void Update(GameTime gameTime)
         {
-            
             Console.Write("\r\r\r\r\r\r" + P1.GetScore() + "        ");
 
             if (_manualMode)
@@ -104,7 +99,7 @@ namespace Genetics
 
             int FrameNb = RessourceLoad.GetCurrentMap().Timeout;
             _currentFrame++;
-            if(_currentFrame  > FrameNb)
+            if (_currentFrame > FrameNb)
                 Exit();
             base.Update(gameTime);
         }
@@ -119,11 +114,7 @@ namespace Genetics
 
             _appearances_dico["Aelita move.png"].DisplayAppearance(_spriteBatch,
                 P1.Position.X * RessourceLoad.GetCurrentMap().Width, P1.Position.Y * WindowCellHeight);
-            
-
             Thread.Sleep(30);
-            
-
             //end
             _spriteBatch.End();
             base.Draw(gameTime);

@@ -27,6 +27,7 @@ namespace Genetics
                     sw.WriteLine();
                 }
             }
+
             sw.Flush();
             sw.Close();
         }

@@ -99,7 +99,6 @@ namespace Genetics
 
         public char[,] ParseFromFile(string path)
         {
-
             IEnumerable<string> lines = File.ReadAllLines(path);
             var file = new StreamReader(path);
             Timeout = Convert.ToInt32(file.ReadLine());
@@ -108,8 +107,8 @@ namespace Genetics
             Width = (uint) lines.Last().Count();
 
             char[,] tab = new char[Height, Width];
-            
-            
+
+
             for (int i = 0; i < Height; i++)
             {
                 string str = file.ReadLine();
@@ -148,14 +147,10 @@ namespace Genetics
                     {
                         tab.Add(TileTypeForNeural(Tab[tx, ty]));
                     }
-
-                  
                 }
-
-              
             }
 
-            
+
             return new Matrix(tab);
         }
     }

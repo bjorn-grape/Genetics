@@ -182,8 +182,6 @@ namespace Genetics
             {
                 _score = Convert.ToInt32(Position.X * 100);
             }
-
-            
         }
 
 

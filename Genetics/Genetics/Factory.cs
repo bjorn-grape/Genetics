@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 
 
-
 namespace Genetics
 {
     public static class Factory
@@ -14,7 +13,6 @@ namespace Genetics
         private static List<Player> _listPlayer;
         private static string _pathLoad;
         private static string _pathSave;
-       
 
         #endregion
 
@@ -30,11 +28,11 @@ namespace Genetics
             SimpleSort();
             return _listPlayer[_listPlayer.Count - 1];
         }
-        
+
         public static Player GetNthPlayer(int nth)
         {
             SimpleSort();
-            
+
             return _listPlayer[nth];
         }
 
@@ -61,7 +59,6 @@ namespace Genetics
 
         public static void SaveState()
         {
-            
             if (_pathSave is null)
                 throw new Exception("No path Specified when saving !");
             SaveAndLoad.Save(_pathSave, _listPlayer);
@@ -73,7 +70,6 @@ namespace Genetics
 
         public static void InitNew(int size = 200)
         {
-            
             _listPlayer = new List<Player>();
             for (int i = 0; i < size; i++)
             {
@@ -87,8 +83,6 @@ namespace Genetics
                 _listPlayer = SaveAndLoad.Load(_pathLoad);
             else
                 InitNew();
-
-
         }
 
         #endregion
@@ -110,11 +104,11 @@ namespace Genetics
                 }
             }
         }
-        
+
         public static void PrintScore()
         {
             SimpleSort();
-            
+
             for (int i = 0; i < _listPlayer.Count; i++)
             {
                 Console.WriteLine("Player " + i + " has a score of " + _listPlayer[i].GetScore());
@@ -127,9 +121,9 @@ namespace Genetics
 
         public static void TrainWithNew(int generationNumber)
         {
-            Train(generationNumber,false);
+            Train(generationNumber, false);
         }
-        
+
         public static void Train(int generationNumber, bool replaceWithMutation = true)
         {
             int FrameNb = RessourceLoad.GetCurrentMap().Timeout;

@@ -13,9 +13,7 @@ namespace Genetics
 
         public void Draw(SpriteBatch spritebatch)
         {
-            spritebatch.Draw(Texture,Rect, Color.White);
+            spritebatch.Draw(Texture, Rect, Color.White);
         }
     }
-
-    
 }

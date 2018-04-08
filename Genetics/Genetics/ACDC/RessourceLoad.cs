@@ -31,7 +31,6 @@ namespace Genetics
                 maps_.Add(Path.GetFileNameWithoutExtension(file), map);
                 Console.WriteLine("Loaded map: " + Path.GetFileNameWithoutExtension(file));
             }
-            
         }
 
         public static void SetCurrentMap(string name)
@@ -46,7 +45,6 @@ namespace Genetics
             return maps_[_nameMap];
         }
 
-      
 
         public static bool SetNextMap()
         {

@@ -26,8 +26,8 @@ namespace Genetics
             if (!init) return;
 
             for (int i = 0; i < Height; i++)
-                for (int j = 0; j < Width; j++)
-                    Tab[i, j] = (float) Rdn.Next(100) / 100;
+            for (int j = 0; j < Width; j++)
+                Tab[i, j] = (float) Rdn.Next(100) / 100;
 
 
             Bias = (float) Rdn.Next(100) / 200 - 1f;
@@ -65,7 +65,6 @@ namespace Genetics
 
             Bias = copy.Bias;
         }
-
 
 
         public void ApplyMutation()
