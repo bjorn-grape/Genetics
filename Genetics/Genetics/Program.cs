@@ -18,7 +18,8 @@ namespace Genetics
             RessourceLoad.InitMap();
             RessourceLoad.SetCurrentMap("long"); //with this line you can set the current map from folder map
             
-            
+            TrainWithNew(3);
+            Showbest();
             // Feel free to use all the function below in order to train your players
         }
 
