@@ -18,7 +18,11 @@ namespace Genetics
 
                 foreach (var mat in player.Getbrains())
                 {
-                    sw.WriteLine(mat.Bias);
+                    foreach (var bia in mat.Bias)
+                    {
+                        sw.Write(bia + "|");
+                    }
+                    sw.WriteLine();
                     foreach (var elm in mat.Tab)
                     {
                         sw.Write(elm + "|");
@@ -52,13 +56,18 @@ namespace Genetics
                 List<Matrix> liMat = new List<Matrix>();
                 for (int brainIndex = 0; brainIndex < 3; brainIndex++)
                 {
-                    var bias = Convert.ToSingle(sr.ReadLine());
                     var li = sr.ReadLine()?.Split('|');
                     int index = 0;
                     int dimHeight = listDim[brainIndex * 2];
                     int dimWidth = listDim[brainIndex * 2 + 1];
-
-                    var m1 = new Matrix(dimHeight, dimWidth) {Bias = bias};
+                    var m1 = new Matrix(dimHeight, dimWidth);
+                     
+                    for (int k = 0; k < dimWidth; k++)
+                    {
+                        m1.Bias[k] = Convert.ToSingle(li?[index++]);
+                    }
+                    li = sr.ReadLine()?.Split('|');
+                    index = 0;
                     for (int j = 0; j < dimHeight; j++) // size brain 1
                     {
                         for (int k = 0; k < dimWidth; k++)

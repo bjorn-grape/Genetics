@@ -42,6 +42,8 @@ namespace Genetics
         private Matrix _brain2;
         private Matrix _brain3;
 
+        private Matrix _cache_brain;
+
         #endregion
 
         #region Constructor
@@ -108,7 +110,10 @@ namespace Genetics
 
         public Matrix UseBrain(Matrix mat)
         {
-            return mat * _brain1 * _brain2 * _brain3;
+            //if (_cache_brain == null)
+           //     _cache_brain = _brain1 * _brain2 * _brain3;
+            
+            return mat *_brain1 * _brain2 * _brain3;// _cache_brain;
         }
 
         public void ReceiveOrder(bool left, bool right, bool up, bool reset)
@@ -144,8 +149,8 @@ namespace Genetics
         public void Replace(Player p1, bool replace_with_mutation = true)
         {
             _position = p1._position;
-            _score = 0;
-            _finalScore = 0;
+            _score = p1._score;
+            _finalScore = p1._finalScore;
             if (!replace_with_mutation)
             {
                 _brain1 = new Matrix(49, 16, true);

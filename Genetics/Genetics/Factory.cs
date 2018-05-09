@@ -137,6 +137,7 @@ namespace Genetics
                     _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
                     for (int j = 0; j < FrameNb; j++)
                         _listPlayer[k].PlayAFrame();
+                    _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
 
                     Console.Write("\r\r\r\r\r\rDONE.");
                 }

@@ -17,8 +17,9 @@ namespace Genetics
         {
             RessourceLoad.InitMap();
             RessourceLoad.SetCurrentMap("long"); //with this line you can set the current map from folder map
-
-            TrainWithNew(3);
+            //TrainWithNew(10);
+            //Train(30);
+           
             Showbest();
             // Feel free to use all the function below in order to train your players
         }
@@ -27,15 +28,31 @@ namespace Genetics
         /// This function trains a population of 200 players by using new players at each generation
         /// </summary>
         /// <param name="n">number of generations you want to proceed</param>
-        static void TrainWithNew(int n)
+        static void NewTraining(int n)
         {
             Factory.SetPathSave(PathForTest);
-            Factory.InitNew();
+            Factory.Init();
             Factory.TrainWithNew(n);
             Factory.PrintScore();
             Factory.SaveState();
         }
 
+        
+        
+        /// <summary>
+        /// This function trains a population of 200 players by duplicating and applying modification to the copy of 
+        /// the best players
+        /// </summary>
+        /// <param name="n">number of generations you want to proceed</param>
+        static void TrainWithNew(int n)
+        {
+            Factory.SetPathLoadAndSave(PathForTest);
+            Factory.Init();
+            Factory.TrainWithNew(n);
+            Factory.PrintScore();
+            Factory.SaveState();
+        }
+        
         /// <summary>
         /// This function trains a population of 200 players by duplicating and applying modification to the copy of 
         /// the best players
@@ -58,6 +75,7 @@ namespace Genetics
             Game1 game = new Game1();
             Factory.SetPathLoadAndSave(PathForTest);
             Factory.Init();
+            
             Factory.PrintScore(true);
             game.SetPlayer(Factory.GetBestPlayer());
             game.Run();
@@ -73,6 +91,8 @@ namespace Genetics
             Factory.SetPathLoadAndSave(PathForTest);
             Factory.Init();
             Factory.PrintScore(true);
+            
+            
             game.SetPlayer(Factory.GetNthPlayer(nth));
 
             game.Run();

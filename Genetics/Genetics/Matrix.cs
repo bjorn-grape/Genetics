@@ -11,7 +11,7 @@ namespace Genetics
         private int Height;
         private int Width;
         public float[,] Tab;
-        public float Bias;
+        public float[] Bias;
         private static readonly Random Rdn = new Random();
 
         #endregion
@@ -23,14 +23,16 @@ namespace Genetics
             Height = height;
             Width = width;
             Tab = new float[height, width];
+            Bias = new float[width];
             if (!init) return;
 
             for (int i = 0; i < Height; i++)
             for (int j = 0; j < Width; j++)
                 Tab[i, j] = (float) Rdn.Next(100) / 100;
-
-
-            Bias = (float) Rdn.Next(100) / 200 - 1f;
+            for (int i = 0; i < Width; i++)
+            {
+                Bias[i] = (float) Rdn.Next(100) / 200 - 1f;
+            }
         }
 
         public Matrix(List<float> tab)
@@ -53,8 +55,13 @@ namespace Genetics
                 Height = copy.Height;
                 Width = copy.Width;
                 Tab = new float[Height, Width];
+                Bias = new float[Width];
             }
 
+            for (int j = 0; j < Width; j++)
+            {
+                Bias[j] = copy.Bias[j];
+            }
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
@@ -63,7 +70,7 @@ namespace Genetics
                 }
             }
 
-            Bias = copy.Bias;
+            
         }
 
 
@@ -73,14 +80,15 @@ namespace Genetics
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    float k = (float) Rdn.Next(10) / 100 - 0.05f;
+                    float k = Rdn.Next(10) / 100f - 0.05f;
                     Tab[i, j] += k;
-                    Tab[i, j] = Sigmoid(Tab[i, j]);
                 }
             }
 
-            Bias += (float) Rdn.Next(10) / 100 - 0.05f;
-            Bias = Sigmoid(Bias);
+            for (int j = 0; j < Width; j++)
+            {
+                Bias[j] += Rdn.Next(10) / 100f - 0.05f;
+            }
         }
 
         public static Matrix operator +(Matrix a, Matrix b)
@@ -124,7 +132,7 @@ namespace Genetics
                     for (int k = 0; k < a.Width; k++)
                         summ += a.Tab[i, k] * b.Tab[k, j];
 
-                    C.Tab[i, j] = Sigmoid(summ / b.Width + b.Bias); // this is not multiplication
+                    C.Tab[i, j] = Sigmoid(summ / b.Width + b.Bias[j]); // this is not multiplication
                 }
             }
 
@@ -133,10 +141,19 @@ namespace Genetics
 
 
         public void Print()
-        {
+        { Console.Write("Bias");
             for (int j = 0; j < Width; j++)
                 Console.Write("-----");
 
+            Console.WriteLine();
+            
+            for (int j = 0; j < Width; j++)
+                Console.Write(Bias[j] + "|");
+            Console.WriteLine();
+            Console.Write("Matrix");
+            for (int j = 0; j < Width; j++)
+                Console.Write("-----");
+            
             Console.WriteLine();
             for (int i = 0; i < Height; i++)
             {
