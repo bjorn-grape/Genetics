@@ -19,8 +19,9 @@ namespace Genetics
             RessourceLoad.SetCurrentMap("long"); //with this line you can set the current map from folder map
             //TrainWithNew(10);
             //Train(30);
-           
+
             Showbest();
+            SaveBest();
             // Feel free to use all the function below in order to train your players
         }
 
@@ -37,8 +38,7 @@ namespace Genetics
             Factory.SaveState();
         }
 
-        
-        
+
         /// <summary>
         /// This function trains a population of 200 players by duplicating and applying modification to the copy of 
         /// the best players
@@ -52,7 +52,7 @@ namespace Genetics
             Factory.PrintScore();
             Factory.SaveState();
         }
-        
+
         /// <summary>
         /// This function trains a population of 200 players by duplicating and applying modification to the copy of 
         /// the best players
@@ -75,7 +75,7 @@ namespace Genetics
             Game1 game = new Game1();
             Factory.SetPathLoadAndSave(PathForTest);
             Factory.Init();
-            
+
             Factory.PrintScore(true);
             game.SetPlayer(Factory.GetBestPlayer());
             game.Run();
@@ -91,8 +91,8 @@ namespace Genetics
             Factory.SetPathLoadAndSave(PathForTest);
             Factory.Init();
             Factory.PrintScore(true);
-            
-            
+
+
             game.SetPlayer(Factory.GetNthPlayer(nth));
 
             game.Run();
@@ -119,6 +119,7 @@ namespace Genetics
             Factory.Init();
             var soloList = new List<Player> {Factory.GetBestPlayer()};
             SaveAndLoad.Save(PathBotToSubmit, soloList);
+            Console.WriteLine("Saved Best Player");
         }
     }
 }

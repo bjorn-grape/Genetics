@@ -132,7 +132,7 @@ namespace Genetics
                     for (int k = 0; k < a.Width; k++)
                         summ += a.Tab[i, k] * b.Tab[k, j];
 
-                    C.Tab[i, j] = Sigmoid(summ / b.Width + b.Bias[j]); // this is not multiplication
+                    C.Tab[i, j] = Sigmoid(summ / b.Width + b.Bias[j]); 
                 }
             }
 
@@ -141,15 +141,9 @@ namespace Genetics
 
 
         public void Print()
-        { Console.Write("Bias");
-            for (int j = 0; j < Width; j++)
-                Console.Write("-----");
-
-            Console.WriteLine();
+        { 
             
-            for (int j = 0; j < Width; j++)
-                Console.Write(Bias[j] + "|");
-            Console.WriteLine();
+            
             Console.Write("Matrix");
             for (int j = 0; j < Width; j++)
                 Console.Write("-----");
