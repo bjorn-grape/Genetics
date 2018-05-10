@@ -82,6 +82,11 @@ namespace Genetics
                 {
                     float k = Rdn.Next(10) / 100f - 0.05f;
                     Tab[i, j] += k;
+                    if (Tab[i, j] > 1)
+                        Tab[i, j] = 1f;
+                    
+                    if (Tab[i, j] < 0)
+                        Tab[i, j] = 0f;
                 }
             }
 
@@ -107,7 +112,7 @@ namespace Genetics
             return C;
         }
 
-        private static float Sigmoid(float x)
+        public  static float Sigmoid(float x)
         {
             return 1 / (1 + (float) Math.Exp(-x));
         }

@@ -10,21 +10,18 @@ namespace Genetics
 {
     internal class Program
     {
-        private const string PathForTest = "test.save";
+        private const string PathForTest = "../../Tests/test.save";
         private const string PathBotToSubmit = "../../save/bot.save";
 
         public static void Main(string[] args)
         {
             RessourceLoad.InitMap();
-            RessourceLoad.SetCurrentMap("example2"); //with this line you can set the current map from folder map
-            multiTrain(1);
-            //TrainWithNew(10);
-            //PlayAsHuman();
-            Showbest();
-
-          
-
+            RessourceLoad.SetCurrentMap("example"); //with this line you can set the current map from folder map
+          // multiTrain(5);
             //SaveBest();
+            //FromTerminalMakeTests(args);
+             
+           
             // Feel free to use all the function below in order to train your players
         }
 

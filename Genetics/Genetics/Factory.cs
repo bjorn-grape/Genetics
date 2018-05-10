@@ -62,6 +62,15 @@ namespace Genetics
             _pathSave = path;
         }
 
+        public static String GetPathLoad()
+        {
+            return _pathLoad;
+        }
+        public static String GetPathSave()
+        {
+            return _pathSave;
+        }
+
         public static void SaveState()
         {
             if (_pathSave is null)
@@ -201,7 +210,7 @@ namespace Genetics
         }
 
 
-        private static void SimpleSort()
+        public  static void SimpleSort()
         {
             for (int i = 0; i < _listPlayer.Count; i++)
             {
