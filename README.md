@@ -10,4 +10,4 @@ A pdf tutorial should be linked with the code in order to explain everything to 
 The monogame library is supposed to be crossplatform
 
 If you want to use this code, please mention this Repo.
-All the images, sprites and musics are not from me, links to them should be added soon.
+All the images are not from me, links to them should be added soon.
