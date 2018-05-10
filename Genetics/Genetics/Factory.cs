@@ -23,6 +23,11 @@ namespace Genetics
             return _listPlayer;
         }
 
+        public static void SetListPlayer(List<Player> li)
+        {
+            _listPlayer = li;
+        }
+
         public static Player GetBestPlayer()
         {
             SimpleSort();
@@ -142,6 +147,45 @@ namespace Genetics
                     Console.Write("\r\r\r\r\r\rDONE.");
                 }
 
+                Regenerate(replaceWithMutation);
+            }
+        }
+/// <summary>
+/// Only for testing purpose, won't be implemented by student
+/// </summary>
+        public static void test()
+        {
+            int FrameNb = RessourceLoad.GetCurrentMap().Timeout;
+
+            _listPlayer[0].ResetScore();
+            _listPlayer[0].SetStart(RessourceLoad.GetCurrentMap());
+            for (int j = 0; j < FrameNb; j++)
+                _listPlayer[0].PlayAFrame();
+            _listPlayer[0].SetStart(RessourceLoad.GetCurrentMap());
+            Console.Write(_listPlayer[0].GetScore());
+        }
+        
+        public static void TrainAllMaps(int generationNumber, bool replaceWithMutation = true)
+        {
+            int FrameNb = RessourceLoad.GetCurrentMap().Timeout;
+            for (int i = 0; i < generationNumber; i++)
+            {
+                Console.WriteLine("\nTraining " + (i + 1) + "/" + generationNumber);
+                for (int k = 0; k < _listPlayer.Count; k++)
+                {
+                    var scory = 0;
+                    foreach (var tuple in RessourceLoad.MapGet())
+                    {
+                        RessourceLoad.SetCurrentMap(tuple.Key);
+                        _listPlayer[k].ResetScore();
+                        _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
+                        for (int j = 0; j < FrameNb; j++)
+                            _listPlayer[k].PlayAFrame();
+                        scory += _listPlayer[k].GetScore();
+                    }
+                    _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
+                    _listPlayer[k].SetScore(scory);
+                }
                 Regenerate(replaceWithMutation);
             }
         }

@@ -14,7 +14,7 @@ namespace Genetics
     {
         private static string _mapPath;
         private static string _imgPath;
-        private static Dictionary<string, Map> maps_ = new Dictionary<string, Map>();
+        private static Dictionary<string, Map> _maps = new Dictionary<string, Map>();
         private static int _currentMap;
         private static string _nameMap;
 
@@ -28,8 +28,8 @@ namespace Genetics
             foreach (var file in files)
             {
                 Map map = new Map(file);
-                maps_.Add(Path.GetFileNameWithoutExtension(file), map);
-                Console.WriteLine("Loaded map: " + Path.GetFileNameWithoutExtension(file));
+                _maps.Add(Path.GetFileNameWithoutExtension(file), map);
+                //Console.WriteLine("Loaded map: " + Path.GetFileNameWithoutExtension(file));
             }
         }
 
@@ -40,15 +40,19 @@ namespace Genetics
 
         public static Map GetCurrentMap()
         {
-            if (maps_.Count is 0)
+            if (_maps.Count is 0)
                 throw new Exception("No map Loaded !");
-            return maps_[_nameMap];
+            return _maps[_nameMap];
         }
 
-
+        public static Dictionary<String, Map> MapGet()
+        {
+            return _maps;
+        }
+        
         public static bool SetNextMap()
         {
-            if (_currentMap + 1 >= maps_.Count)
+            if (_currentMap + 1 >= _maps.Count)
                 return false;
             _currentMap++;
             return true;
@@ -132,7 +136,7 @@ namespace Genetics
 
                 Map map = new Map(tmp, height, length);
                 map.Timeout = Convert.ToInt32(length);
-                maps_.Add("generatedMap_" + Convert.ToString(i), map);
+                _maps.Add("generatedMap_" + Convert.ToString(i), map);
             }
         }
 

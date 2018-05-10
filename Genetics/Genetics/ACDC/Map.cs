@@ -118,7 +118,7 @@ namespace Genetics
                 {
                     if (str[j] == 'S')
                     {
-                        Console.WriteLine("found Start : " + i + "  " + j);
+                        //Console.WriteLine("found Start : " + i + "  " + j);
                         PosInit = new Vector2(j, i);
                     }
 

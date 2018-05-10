@@ -16,12 +16,15 @@ namespace Genetics
         public static void Main(string[] args)
         {
             RessourceLoad.InitMap();
-            RessourceLoad.SetCurrentMap("long"); //with this line you can set the current map from folder map
+            RessourceLoad.SetCurrentMap("example2"); //with this line you can set the current map from folder map
+            multiTrain(1);
             //TrainWithNew(10);
-            //Train(30);
-
+            //PlayAsHuman();
             Showbest();
-            SaveBest();
+
+          
+
+            //SaveBest();
             // Feel free to use all the function below in order to train your players
         }
 
@@ -75,8 +78,7 @@ namespace Genetics
             Game1 game = new Game1();
             Factory.SetPathLoadAndSave(PathForTest);
             Factory.Init();
-
-            Factory.PrintScore(true);
+            Factory.GetBestPlayer().SetStart(RessourceLoad.GetCurrentMap());
             game.SetPlayer(Factory.GetBestPlayer());
             game.Run();
         }
@@ -120,6 +122,65 @@ namespace Genetics
             var soloList = new List<Player> {Factory.GetBestPlayer()};
             SaveAndLoad.Save(PathBotToSubmit, soloList);
             Console.WriteLine("Saved Best Player");
+        }
+
+        static void FromTerminalMakeTests(String[] args)
+        {
+
+            bool isValid = args.Length == 1;
+            
+            RessourceLoad.SetCurrentMap("long"); //with this line you can set the current map from folder map
+
+            if (isValid)
+            {
+                try
+                {
+                    if (File.Exists(args[0]))
+                        Factory.SetListPlayer(SaveAndLoad.Load(args[0]));
+                    else
+                        isValid = false;
+                    if (Factory.GetListPlayer().Count != 1)
+                        isValid = false;
+                }
+                catch (Exception e)
+                {
+                    isValid = false;
+                }
+            }
+            
+
+            var sizeMaps = RessourceLoad.MapGet().Count;
+            var incr = 0;
+            Console.WriteLine("{");
+            foreach (var tuple in RessourceLoad.MapGet())
+            {
+                Console.Write("\"" + tuple.Key + "\" : ");
+                if (isValid)
+                {
+                    RessourceLoad.SetCurrentMap(tuple.Key);
+                    Factory.test();
+                }
+                else
+                {
+                    Console.Write("0");
+                }
+
+                if (++incr < sizeMaps)
+                {
+                    Console.WriteLine(",");
+                }
+            }
+            Console.WriteLine("}");
+
+        }
+
+        static void multiTrain(int nb)
+        {
+            Factory.SetPathLoadAndSave(PathForTest);
+            Factory.Init();
+            Factory.TrainAllMaps(nb);
+            Factory.PrintScore();
+            Factory.SaveState();
         }
     }
 }
