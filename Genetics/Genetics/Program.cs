@@ -10,26 +10,26 @@ namespace Genetics
 {
     internal class Program
     {
-        private const string PathForTest = "../../Tests/test.save";
+        private const string PathForTest = "maybebest.save";
         private const string PathBotToSubmit = "../../save/bot.save";
 
         public static void Main(string[] args)
         {
             RessourceLoad.InitMap();
-            RessourceLoad.SetCurrentMap("example"); //with this line you can set the current map from folder map
-          // multiTrain(5);
-            //SaveBest();
-            //FromTerminalMakeTests(args);
+            RessourceLoad.SetCurrentMap("long"); //with this line you can set the current map from folder map
+            
+            FromTerminalMakeTests(args);
              
            
             // Feel free to use all the function below in order to train your players
         }
 
         /// <summary>
-        /// This function trains a population of 200 players by using new players at each generation
+        /// This function create a whole new population
+        /// and trains a population of 200 players by using new players at each generation
         /// </summary>
         /// <param name="n">number of generations you want to proceed</param>
-        static void NewTraining(int n)
+        private static void NewTraining(int n)
         {
             Factory.SetPathSave(PathForTest);
             Factory.Init();
@@ -40,11 +40,10 @@ namespace Genetics
 
 
         /// <summary>
-        /// This function trains a population of 200 players by duplicating and applying modification to the copy of 
-        /// the best players
+        ///  This function trains a population of 200 players by using new players at each generation
         /// </summary>
         /// <param name="n">number of generations you want to proceed</param>
-        static void TrainWithNew(int n)
+        private static void TrainWithNew(int n)
         {
             Factory.SetPathLoadAndSave(PathForTest);
             Factory.Init();
@@ -58,7 +57,7 @@ namespace Genetics
         /// the best players
         /// </summary>
         /// <param name="n">number of generations you want to proceed</param>
-        static void Train(int n)
+        private static void Train(int n)
         {
             Factory.SetPathLoadAndSave(PathForTest);
             Factory.Init();
@@ -70,7 +69,7 @@ namespace Genetics
         /// <summary>
         /// Show the current best player
         /// </summary>
-        static void Showbest()
+        private static void Showbest()
         {
             Game1 game = new Game1();
             Factory.SetPathLoadAndSave(PathForTest);
@@ -84,23 +83,20 @@ namespace Genetics
         /// Show the nth player sorted by score in increasing order
         /// </summary>
         /// <param name="nth">player you want to access to, should be between 0 and 199</param>
-        static void ShowNth(int nth)
+        private static void ShowNth(int nth)
         {
             Game1 game = new Game1();
             Factory.SetPathLoadAndSave(PathForTest);
             Factory.Init();
             Factory.PrintScore(true);
-
-
             game.SetPlayer(Factory.GetNthPlayer(nth));
-
             game.Run();
         }
 
         /// <summary>
         /// This function allows you to try the game
         /// </summary>
-        static void PlayAsHuman()
+        private static void PlayAsHuman()
         {
             Game1 game = new Game1();
             Player player = new Player();
@@ -112,7 +108,7 @@ namespace Genetics
         /// <summary>
         /// save best player in folder save, you will be marked on this, so DON'T forget it!
         /// </summary>
-        static void SaveBest()
+        private static void SaveBest()
         {
             Factory.SetPathLoad(PathForTest);
             Factory.Init();
@@ -121,13 +117,11 @@ namespace Genetics
             Console.WriteLine("Saved Best Player");
         }
 
-        static void FromTerminalMakeTests(String[] args)
+        private static void FromTerminalMakeTests(string[] args)
         {
 
-            bool isValid = args.Length == 1;
-            
+            var isValid = args.Length == 1;
             RessourceLoad.SetCurrentMap("long"); //with this line you can set the current map from folder map
-
             if (isValid)
             {
                 try
@@ -143,9 +137,7 @@ namespace Genetics
                 {
                     isValid = false;
                 }
-            }
-            
-
+            }         
             var sizeMaps = RessourceLoad.MapGet().Count;
             var incr = 0;
             Console.WriteLine("{");
@@ -171,7 +163,7 @@ namespace Genetics
 
         }
 
-        static void multiTrain(int nb)
+        private static void MultiTrain(int nb)
         {
             Factory.SetPathLoadAndSave(PathForTest);
             Factory.Init();

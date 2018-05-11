@@ -9,7 +9,7 @@ namespace Genetics.Tests
     [TestFixture]
     public class TestsMatrix
     {
-        [Test, Timeout(100)]
+        [Test, Timeout(100)] 
         public void TestMatrixConstructor()
         {
             Matrix m = new Matrix(3, 4, true);
