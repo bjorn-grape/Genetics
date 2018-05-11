@@ -20,7 +20,7 @@ namespace Genetics
 
         public static List<Player> GetListPlayer()
         {
-            return _listPlayer;
+            throw new NotImplementedException();
         }
 
         public static void SetListPlayer(List<Player> li)
@@ -30,15 +30,12 @@ namespace Genetics
 
         public static Player GetBestPlayer()
         {
-            SimpleSort();
-            return _listPlayer[_listPlayer.Count - 1];
+            throw new NotImplementedException();
         }
 
         public static Player GetNthPlayer(int nth)
         {
-            SimpleSort();
-
-            return _listPlayer[nth];
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -47,19 +44,18 @@ namespace Genetics
 
         public static void SetPathLoad(string path)
         {
-            _pathLoad = path;
+            throw new NotImplementedException();
         }
-
 
         public static void SetPathSave(string path)
         {
-            _pathSave = path;
+            throw new NotImplementedException();
+
         }
 
         public static void SetPathLoadAndSave(string path)
         {
-            _pathLoad = path;
-            _pathSave = path;
+            throw new NotImplementedException();
         }
 
         public static String GetPathLoad()
@@ -73,9 +69,7 @@ namespace Genetics
 
         public static void SaveState()
         {
-            if (_pathSave is null)
-                throw new Exception("No path Specified when saving !");
-            SaveAndLoad.Save(_pathSave, _listPlayer);
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -84,49 +78,21 @@ namespace Genetics
 
         public static void InitNew(int size = 200)
         {
-            _listPlayer = new List<Player>();
-            for (int i = 0; i < size; i++)
-            {
-                _listPlayer.Add(new Player());
-            }
+            throw new NotImplementedException();
         }
 
         public static void Init()
         {
-            if (File.Exists(_pathLoad))
-                _listPlayer = SaveAndLoad.Load(_pathLoad);
-            else
-                InitNew();
+            throw new NotImplementedException();
         }
 
         #endregion
 
         #region Display
 
-        public static void PrintScore(bool extended = false)
-        {
-            SimpleSort();
-            for (int i = 0; i < _listPlayer.Count; i++)
-            {
-                Console.WriteLine("Player " + i + " has a score of " + _listPlayer[i].GetScore());
-                if (extended)
-                {
-                    _listPlayer[i].SetStart(RessourceLoad.GetCurrentMap());
-                    var plop = _listPlayer[i].UseBrain(RessourceLoad.GetCurrentMap()
-                        .GetMapAround(_listPlayer[i].Position.X, _listPlayer[i].Position.Y));
-                    plop.Print();
-                }
-            }
-        }
-
         public static void PrintScore()
         {
-            SimpleSort();
-
-            for (int i = 0; i < _listPlayer.Count; i++)
-            {
-                Console.WriteLine("Player " + i + " has a score of " + _listPlayer[i].GetScore());
-            }
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -140,94 +106,18 @@ namespace Genetics
 
         public static void Train(int generationNumber, bool replaceWithMutation = true)
         {
-            int FrameNb = RessourceLoad.GetCurrentMap().Timeout;
-            for (int i = 0; i < generationNumber; i++)
-            {
-                Console.WriteLine("\nTraining " + (i + 1) + "/" + generationNumber);
-                for (int k = 0; k < _listPlayer.Count; k++)
-                {
-                    Console.Write("\r\r\r\r\r\r" + k * 100 / _listPlayer.Count + "%    ");
-                    _listPlayer[k].ResetScore();
-                    _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
-                    for (int j = 0; j < FrameNb; j++)
-                        _listPlayer[k].PlayAFrame();
-                    _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
-
-                    Console.Write("\r\r\r\r\r\rDONE.");
-                }
-
-                Regenerate(replaceWithMutation);
-            }
-        }
-/// <summary>
-/// Only for testing purpose, won't be implemented by student
-/// </summary>
-        public static void test()
-        {
-            int FrameNb = RessourceLoad.GetCurrentMap().Timeout;
-
-            _listPlayer[0].ResetScore();
-            _listPlayer[0].SetStart(RessourceLoad.GetCurrentMap());
-            for (int j = 0; j < FrameNb; j++)
-                _listPlayer[0].PlayAFrame();
-            _listPlayer[0].SetStart(RessourceLoad.GetCurrentMap());
-            Console.Write(_listPlayer[0].GetScore());
-        }
-        
-        public static void TrainAllMaps(int generationNumber, bool replaceWithMutation = true)
-        {
-            int FrameNb = RessourceLoad.GetCurrentMap().Timeout;
-            for (int i = 0; i < generationNumber; i++)
-            {
-                Console.WriteLine("\nTraining " + (i + 1) + "/" + generationNumber);
-                for (int k = 0; k < _listPlayer.Count; k++)
-                {
-                    var scory = 0;
-                    foreach (var tuple in RessourceLoad.MapGet())
-                    {
-                        RessourceLoad.SetCurrentMap(tuple.Key);
-                        _listPlayer[k].ResetScore();
-                        _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
-                        for (int j = 0; j < FrameNb; j++)
-                            _listPlayer[k].PlayAFrame();
-                        scory += _listPlayer[k].GetScore();
-                    }
-                    _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
-                    _listPlayer[k].SetScore(scory);
-                }
-                Regenerate(replaceWithMutation);
-            }
+            throw new NotImplementedException();
         }
 
         private static void Regenerate(bool replace_with_mutation = true)
         {
-            SimpleSort();
-            int half = _listPlayer.Count / 2;
-            for (int i = 0; i < half; i++)
-            {
-                _listPlayer[i].Replace(_listPlayer[i + half], replace_with_mutation);
-            }
+            throw new NotImplementedException();
         }
 
 
         public  static void SimpleSort()
         {
-            for (int i = 0; i < _listPlayer.Count; i++)
-            {
-                Player min = _listPlayer[i];
-                int minIndex = i;
-                for (int j = i; j < _listPlayer.Count; j++)
-                {
-                    if (_listPlayer[j] < min)
-                    {
-                        min = _listPlayer[j];
-                        minIndex = j;
-                    }
-                }
-
-                _listPlayer[minIndex] = _listPlayer[i];
-                _listPlayer[i] = min;
-            }
+            throw new NotImplementedException();
         }
 
         #endregion
