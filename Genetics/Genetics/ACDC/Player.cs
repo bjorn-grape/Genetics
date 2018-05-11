@@ -9,6 +9,15 @@ namespace Genetics
     {
         #region Attributes
 
+        public enum Direction
+        {
+            left,
+            right,
+            none
+        }
+
+        public Direction lastDir = Direction.none;
+        
         public Vector2 Position
         {
             get => _position;
@@ -48,12 +57,16 @@ namespace Genetics
 
         #region Constructor
 
-        public Player(float life = 100)
+        public Player(bool init = true)
         {
             _position = new Vector2(0);
-            _brain1 = new Matrix(49, 16, true);
-            _brain2 = new Matrix(16, 16, true);
-            _brain3 = new Matrix(16, 4, true);
+            if (init)
+            {
+                _brain1 = new Matrix(49, 16, true);
+                _brain2 = new Matrix(16, 16, true);
+                _brain3 = new Matrix(16, 4, true);
+            }
+            
         }
 
         public Player(List<Matrix> listMatrix)
@@ -110,10 +123,7 @@ namespace Genetics
 
         public Matrix UseBrain(Matrix mat)
         {
-            //if (_cache_brain == null)
-           //     _cache_brain = _brain1 * _brain2 * _brain3;
-            
-            return mat *_brain1 * _brain2 * _brain3;// _cache_brain;
+            return mat *_brain1 * _brain2 * _brain3;
         }
 
         public void ReceiveOrder(bool left, bool right, bool up, bool reset)
@@ -121,12 +131,23 @@ namespace Genetics
             Map mappy = RessourceLoad.GetCurrentMap();
             ApplyForce(mappy);
             InteractEnv(mappy);
-
+            lastDir = Direction.none;
             if (right)
+            {
                 Move(1, 0, mappy);
-            if (left)
-                Move(-1, 0, mappy);
+                lastDir = Direction.right;
+            }
 
+
+            if (left)
+            {
+                Move(-1, 0, mappy);
+                lastDir = Direction.left;
+            }
+
+            if (left && right)
+                lastDir = Direction.none;
+                
             if (reset)
                 SetStart(mappy);
 

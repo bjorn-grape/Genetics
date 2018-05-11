@@ -112,7 +112,21 @@ namespace Genetics
             // init
             _appearances_dico["tiles.png"].DisplayMap(_spriteBatch, RessourceLoad.GetCurrentMap(), P1.Position);
 
-            _appearances_dico["Aelita move.png"].DisplayAppearance(_spriteBatch,
+            String spriteToLoad = "";
+            switch (P1.lastDir)
+            {
+                    case Player.Direction.left :
+                        spriteToLoad = "Aelita move left.png";
+                        break;
+                    case Player.Direction.right:
+                        spriteToLoad = "Aelita move right.png";
+                        break;
+                    case Player.Direction.none:
+                        spriteToLoad = "Aelita idle.png";
+                        break;
+            }
+            
+            _appearances_dico[spriteToLoad].DisplayAppearance(_spriteBatch,
                 P1.Position.X * RessourceLoad.GetCurrentMap().Width, P1.Position.Y * WindowCellHeight);
             Thread.Sleep(30);
             //end
