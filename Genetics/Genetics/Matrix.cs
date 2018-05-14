@@ -80,7 +80,7 @@ namespace Genetics
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    float k = Rdn.Next(10) / 100f - 0.05f;
+                    float k = Rdn.Next(20) / 100f - 0.1f;
                     Tab[i, j] += k;
                     if (Tab[i, j] > 1)
                         Tab[i, j] = 1f;

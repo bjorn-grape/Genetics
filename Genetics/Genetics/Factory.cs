@@ -162,7 +162,7 @@ namespace Genetics
 /// <summary>
 /// Only for testing purpose, won't be implemented by student
 /// </summary>
-        public static void test()
+        public static int test()
         {
             int FrameNb = RessourceLoad.GetCurrentMap().Timeout;
 
@@ -171,7 +171,7 @@ namespace Genetics
             for (int j = 0; j < FrameNb; j++)
                 _listPlayer[0].PlayAFrame();
             _listPlayer[0].SetStart(RessourceLoad.GetCurrentMap());
-            Console.Write(_listPlayer[0].GetScore());
+            return _listPlayer[0].GetScore();
         }
         
         public static void TrainAllMaps(int generationNumber, bool replaceWithMutation = true)

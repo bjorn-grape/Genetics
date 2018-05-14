@@ -17,10 +17,11 @@ namespace Genetics
         {
             RessourceLoad.InitMap();
             RessourceLoad.SetCurrentMap("long"); //with this line you can set the current map from folder map
+            //NewTraining(5);
+            Train(1);
             
-            FromTerminalMakeTests(args);
-             
-           
+            //FromTerminalMakeTests(args);             
+
             // Feel free to use all the function below in order to train your players
         }
 
@@ -137,30 +138,21 @@ namespace Genetics
                 {
                     isValid = false;
                 }
-            }         
-            var sizeMaps = RessourceLoad.MapGet().Count;
-            var incr = 0;
-            Console.WriteLine("{");
+            }
+
+            if (!isValid)
+            {
+                Console.WriteLine("0");
+                return;
+            }
+
+            int sum = 0;
             foreach (var tuple in RessourceLoad.MapGet())
             {
-                Console.Write("\"" + tuple.Key + "\" : ");
-                if (isValid)
-                {
                     RessourceLoad.SetCurrentMap(tuple.Key);
-                    Factory.test();
-                }
-                else
-                {
-                    Console.Write("0");
-                }
-
-                if (++incr < sizeMaps)
-                {
-                    Console.WriteLine(",");
-                }
+                    sum += Factory.test();
             }
-            Console.WriteLine("}");
-
+            Console.WriteLine(sum);
         }
 
         private static void MultiTrain(int nb)
