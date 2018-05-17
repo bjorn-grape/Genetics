@@ -9,26 +9,33 @@ namespace Genetics
         public static void Save(string path, List<Player> listPlayer)
         {
             StreamWriter sw = new StreamWriter(path);
-            sw.WriteLine(listPlayer.Count.ToString());
+            sw.Write(listPlayer.Count.ToString());
+            sw.Write('\n');
 
             foreach (var player in listPlayer)
             {
-                sw.WriteLine(player.GetScore());
+                sw.Write(player.GetScore());
+                sw.Write('\n');
 
 
                 foreach (var mat in player.Getbrains())
                 {
                     foreach (var bia in mat.Bias)
                     {
-                        sw.Write(bia + "|");
+                        string tosave = bia.ToString()/*.Replace(',', '.')*/;
+                        sw.Write(tosave + "|");
                     }
-                    sw.WriteLine();
+                    
+                    sw.Write('\n');
                     foreach (var elm in mat.Tab)
                     {
-                        sw.Write(elm + "|");
+                        string tosave = elm.ToString()/*.Replace(',', '.')*/;
+
+                        sw.Write(tosave + "|");
                     }
 
-                    sw.WriteLine();
+                    
+                    sw.Write('\n');
                 }
             }
 
@@ -64,7 +71,7 @@ namespace Genetics
                      
                     for (int k = 0; k < dimWidth; k++)
                     {
-                        m1.Bias[k] = Convert.ToSingle(li?[index++]);
+                        m1.Bias[k] = Convert.ToSingle(li[index++]/*.Replace('.', ',')*/);
                     }
                     li = sr.ReadLine()?.Split('|');
                     index = 0;
@@ -72,7 +79,7 @@ namespace Genetics
                     {
                         for (int k = 0; k < dimWidth; k++)
                         {
-                            m1.Tab[j, k] = Convert.ToSingle(li?[index++]);
+                            m1.Tab[j, k] = Convert.ToSingle(li[index++]/*.Replace('.', ',')*/);
                         }
                     }
 

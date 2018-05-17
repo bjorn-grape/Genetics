@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Mime;
 using System.Reflection;
@@ -16,10 +17,20 @@ namespace Genetics
         public static void Main(string[] args)
         {
             RessourceLoad.InitMap();
-            RessourceLoad.SetCurrentMap("long"); //with this line you can set the current map from folder map
-            //NewTraining(5);
-            Train(1);
-            
+            RessourceLoad.SetCurrentMap("example"); //with this line you can set the current map from folder map
+            //  NewTraining(1);
+            //TrainWithNew(5);
+            var s1 = Stopwatch.StartNew();
+            Train(5);
+            s1.Stop();
+            var s2 = Stopwatch.StartNew();
+            TrainMt(5);
+            s2.Stop();
+            Console.WriteLine("Basic algo : " + s1.Elapsed);
+            Console.WriteLine("Multithread algo : " + s2.Elapsed);
+
+            //Train(1);
+          //  Showbest();
             //FromTerminalMakeTests(args);             
 
             // Feel free to use all the function below in order to train your players
@@ -63,6 +74,15 @@ namespace Genetics
             Factory.SetPathLoadAndSave(PathForTest);
             Factory.Init();
             Factory.Train(n);
+            Factory.PrintScore();
+            Factory.SaveState();
+        }
+
+        private static void TrainMt(int n)
+        {
+            Factory.SetPathLoadAndSave(PathForTest);
+            Factory.Init();
+            Factory.TrainMt(n);
             Factory.PrintScore();
             Factory.SaveState();
         }
@@ -120,7 +140,6 @@ namespace Genetics
 
         private static void FromTerminalMakeTests(string[] args)
         {
-
             var isValid = args.Length == 1;
             RessourceLoad.SetCurrentMap("long"); //with this line you can set the current map from folder map
             if (isValid)
@@ -149,9 +168,10 @@ namespace Genetics
             int sum = 0;
             foreach (var tuple in RessourceLoad.MapGet())
             {
-                    RessourceLoad.SetCurrentMap(tuple.Key);
-                    sum += Factory.test();
+                RessourceLoad.SetCurrentMap(tuple.Key);
+                sum += Factory.test();
             }
+
             Console.WriteLine(sum);
         }
 

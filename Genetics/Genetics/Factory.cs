@@ -2,6 +2,8 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 
 namespace Genetics
@@ -143,22 +145,53 @@ namespace Genetics
             int FrameNb = RessourceLoad.GetCurrentMap().Timeout;
             for (int i = 0; i < generationNumber; i++)
             {
-                Console.WriteLine("\nTraining " + (i + 1) + "/" + generationNumber);
+               // Console.WriteLine("\nTraining " + (i + 1) + "/" + generationNumber);
                 for (int k = 0; k < _listPlayer.Count; k++)
                 {
-                    Console.Write("\r\r\r\r\r\r" + k * 100 / _listPlayer.Count + "%    ");
+                   // Console.Write("\r\r\r\r\r\r" + k * 100 / _listPlayer.Count + "%    ");
                     _listPlayer[k].ResetScore();
                     _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
                     for (int j = 0; j < FrameNb; j++)
                         _listPlayer[k].PlayAFrame();
                     _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
 
-                    Console.Write("\r\r\r\r\r\rDONE.");
+                 //   Console.Write("\r\r\r\r\r\rDONE.");
                 }
 
                 Regenerate(replaceWithMutation);
             }
         }
+        
+        public static void TrainMt(int generationNumber, bool replaceWithMutation = true)
+        {
+            int frameNb = RessourceLoad.GetCurrentMap().Timeout;
+            for (int i = 0; i < generationNumber; i++)
+            {
+               // Console.WriteLine("\nTraining " + (i + 1) + "/" + generationNumber);
+                var tl = new List<Task>();
+                foreach (var ply in _listPlayer)
+                {
+                    Task task = Task.Run(() => { DispathMt(ply,frameNb);});
+                   tl.Add(task);
+                }
+
+                foreach (var task in tl)
+                {
+                    task.Wait();
+                }
+                Regenerate(replaceWithMutation);
+            }
+        }
+        
+        public static void DispathMt(Player p, int frame)
+        {
+            p.ResetScore();
+            p.SetStart(RessourceLoad.GetCurrentMap());
+            for (int j = 0; j < frame; j++)
+                p.PlayAFrame();
+            p.SetStart(RessourceLoad.GetCurrentMap());
+        }
+        
 /// <summary>
 /// Only for testing purpose, won't be implemented by student
 /// </summary>
