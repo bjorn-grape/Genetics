@@ -3,36 +3,24 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Configuration;
 using System.Net.Mime;
 using System.Reflection;
 using Microsoft.Xna.Framework;
+using NUnit.Framework;
 
 namespace Genetics
 {
     internal class Program
     {
-        private const string PathForTest = "maybebest.save";
+        private const string PathForTest = "fullnew.save";
         private const string PathBotToSubmit = "../../save/bot.save";
 
         public static void Main(string[] args)
         {
             RessourceLoad.InitMap();
-            RessourceLoad.SetCurrentMap("example"); //with this line you can set the current map from folder map
-            //  NewTraining(1);
-            //TrainWithNew(5);
-            var s1 = Stopwatch.StartNew();
-            Train(5);
-            s1.Stop();
-            var s2 = Stopwatch.StartNew();
-            TrainMt(5);
-            s2.Stop();
-            Console.WriteLine("Basic algo : " + s1.Elapsed);
-            Console.WriteLine("Multithread algo : " + s2.Elapsed);
 
-            //Train(1);
-          //  Showbest();
-            //FromTerminalMakeTests(args);             
-
+            Console.WriteLine(TestScore());
             // Feel free to use all the function below in order to train your players
         }
 
@@ -77,7 +65,7 @@ namespace Genetics
             Factory.PrintScore();
             Factory.SaveState();
         }
-
+/*
         private static void TrainMt(int n)
         {
             Factory.SetPathLoadAndSave(PathForTest);
@@ -86,6 +74,15 @@ namespace Genetics
             Factory.PrintScore();
             Factory.SaveState();
         }
+
+        private static void NewTrainMt(int n)
+        {
+            Factory.SetPathLoadAndSave(PathForTest);
+            Factory.Init();
+            Factory.TrainMt(n, false);
+            Factory.PrintScore();
+            Factory.SaveState();
+        }*/
 
         /// <summary>
         /// Show the current best player
@@ -138,50 +135,46 @@ namespace Genetics
             Console.WriteLine("Saved Best Player");
         }
 
-        private static void FromTerminalMakeTests(string[] args)
+        // Students will not use that 
+
+        /*
+
+        private static void MultiTrain(int nb, bool mutations)
         {
-            var isValid = args.Length == 1;
-            RessourceLoad.SetCurrentMap("long"); //with this line you can set the current map from folder map
-            if (isValid)
-            {
-                try
-                {
-                    if (File.Exists(args[0]))
-                        Factory.SetListPlayer(SaveAndLoad.Load(args[0]));
-                    else
-                        isValid = false;
-                    if (Factory.GetListPlayer().Count != 1)
-                        isValid = false;
-                }
-                catch (Exception e)
-                {
-                    isValid = false;
-                }
-            }
-
-            if (!isValid)
-            {
-                Console.WriteLine("0");
-                return;
-            }
-
+            Factory.SetPathLoadAndSave(PathForTest);
+            Factory.Init();
+            Factory.TrainAllMaps(nb, mutations);
+            Factory.PrintScore();
+            Factory.SaveState();
+        }
+        */
+        
+        public static float TestScore()
+        {
+    
+            Assert.AreEqual(true,File.Exists(PathBotToSubmit));
+          
+            Factory.SetListPlayer(SaveAndLoad.Load(PathBotToSubmit));
+            var ply = Factory.GetBestPlayer();
             int sum = 0;
             foreach (var tuple in RessourceLoad.MapGet())
             {
                 RessourceLoad.SetCurrentMap(tuple.Key);
-                sum += Factory.test();
+                int FrameNb = RessourceLoad.GetCurrentMap().Timeout;
+                ply.ResetScore();
+                ply.SetStart(RessourceLoad.GetCurrentMap());
+                for (int j = 0; j < FrameNb; j++)
+                    ply.PlayAFrame();
+                sum += ply.GetScore();
+               
+                ply.SetStart(RessourceLoad.GetCurrentMap()); 
             }
-
-            Console.WriteLine(sum);
-        }
-
-        private static void MultiTrain(int nb)
-        {
-            Factory.SetPathLoadAndSave(PathForTest);
-            Factory.Init();
-            Factory.TrainAllMaps(nb);
-            Factory.PrintScore();
-            Factory.SaveState();
+            float result = (float)sum / 45000;
+            if (result < 0)
+                result = 0;
+            else if (result > 1)
+                result = 1;
+            return result;
         }
     }
 }

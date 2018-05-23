@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Threading;
 using NUnit.Framework;
 
 namespace Genetics.Tests
 {
+   
+
     [TestFixture]
     public class TestsMatrix
     {
-        [Test, Timeout(100)] 
+        [Test, Timeout(100)]
         public void TestMatrixConstructor()
         {
             Matrix m = new Matrix(3, 4, true);
@@ -139,6 +142,7 @@ namespace Genetics.Tests
             var oldList = Factory.GetListPlayer();
             Factory.SetListPlayer(list);
             Factory.SimpleSort();
+            list = Factory.GetListPlayer();
             for (int i = 0; i < 9; i++)
             {
                 Assert.LessOrEqual(list[i].GetScore(), list[i + 1].GetScore());

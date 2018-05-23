@@ -68,6 +68,7 @@ namespace Genetics
         {
             return _pathLoad;
         }
+
         public static String GetPathSave()
         {
             return _pathSave;
@@ -145,44 +146,45 @@ namespace Genetics
             int FrameNb = RessourceLoad.GetCurrentMap().Timeout;
             for (int i = 0; i < generationNumber; i++)
             {
-               // Console.WriteLine("\nTraining " + (i + 1) + "/" + generationNumber);
+                // Console.WriteLine("\nTraining " + (i + 1) + "/" + generationNumber);
                 for (int k = 0; k < _listPlayer.Count; k++)
                 {
-                   // Console.Write("\r\r\r\r\r\r" + k * 100 / _listPlayer.Count + "%    ");
+                    // Console.Write("\r\r\r\r\r\r" + k * 100 / _listPlayer.Count + "%    ");
                     _listPlayer[k].ResetScore();
                     _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
                     for (int j = 0; j < FrameNb; j++)
                         _listPlayer[k].PlayAFrame();
                     _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
 
-                 //   Console.Write("\r\r\r\r\r\rDONE.");
+                    //   Console.Write("\r\r\r\r\r\rDONE.");
                 }
 
                 Regenerate(replaceWithMutation);
             }
         }
-        
+/*
         public static void TrainMt(int generationNumber, bool replaceWithMutation = true)
         {
             int frameNb = RessourceLoad.GetCurrentMap().Timeout;
             for (int i = 0; i < generationNumber; i++)
             {
-               // Console.WriteLine("\nTraining " + (i + 1) + "/" + generationNumber);
+                // Console.WriteLine("\nTraining " + (i + 1) + "/" + generationNumber);
                 var tl = new List<Task>();
                 foreach (var ply in _listPlayer)
                 {
-                    Task task = Task.Run(() => { DispathMt(ply,frameNb);});
-                   tl.Add(task);
+                    Task task = Task.Run(() => { DispathMt(ply, frameNb); });
+                    tl.Add(task);
                 }
 
                 foreach (var task in tl)
                 {
                     task.Wait();
                 }
+
                 Regenerate(replaceWithMutation);
             }
         }
-        
+
         public static void DispathMt(Player p, int frame)
         {
             p.ResetScore();
@@ -191,47 +193,50 @@ namespace Genetics
                 p.PlayAFrame();
             p.SetStart(RessourceLoad.GetCurrentMap());
         }
-        
-/// <summary>
-/// Only for testing purpose, won't be implemented by student
-/// </summary>
-        public static int test()
-        {
-            int FrameNb = RessourceLoad.GetCurrentMap().Timeout;
 
-            _listPlayer[0].ResetScore();
-            _listPlayer[0].SetStart(RessourceLoad.GetCurrentMap());
-            for (int j = 0; j < FrameNb; j++)
-                _listPlayer[0].PlayAFrame();
-            _listPlayer[0].SetStart(RessourceLoad.GetCurrentMap());
-            return _listPlayer[0].GetScore();
-        }
         
+
         public static void TrainAllMaps(int generationNumber, bool replaceWithMutation = true)
         {
-            int FrameNb = RessourceLoad.GetCurrentMap().Timeout;
             for (int i = 0; i < generationNumber; i++)
             {
                 Console.WriteLine("\nTraining " + (i + 1) + "/" + generationNumber);
-                for (int k = 0; k < _listPlayer.Count; k++)
+                foreach (var tuple in RessourceLoad.MapGet())
                 {
-                    var scory = 0;
-                    foreach (var tuple in RessourceLoad.MapGet())
+
+                    RessourceLoad.SetCurrentMap(tuple.Key);
+                    int FrameNb = RessourceLoad.GetCurrentMap().Timeout;
+
+                    float[] listScore = new float[_listPlayer.Count];
+                    var tl = new List<Task>();
+                    for (int k = 0; k < _listPlayer.Count; k++)
                     {
-                        RessourceLoad.SetCurrentMap(tuple.Key);
-                        _listPlayer[k].ResetScore();
-                        _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
-                        for (int j = 0; j < FrameNb; j++)
-                            _listPlayer[k].PlayAFrame();
-                        scory += _listPlayer[k].GetScore();
+                        Player ply = _listPlayer[k];
+                        int index = k;
+                        Task task = Task.Run(() => { DispathMtAllMaps(ply, FrameNb,index,ref listScore); });
+                        tl.Add(task);
                     }
-                    _listPlayer[k].SetStart(RessourceLoad.GetCurrentMap());
-                    _listPlayer[k].SetScore(scory);
+                    
+                    foreach (var task in tl)
+                    {
+                        task.Wait();
+                    }
+
+                    Regenerate(replaceWithMutation);
                 }
-                Regenerate(replaceWithMutation);
             }
         }
 
+        public static void DispathMtAllMaps(Player p, int frame, int index, ref float[] listi)
+        {
+            p.ResetScore();
+            p.SetStart(RessourceLoad.GetCurrentMap());
+            for (int j = 0; j < frame; j++)
+                p.PlayAFrame();
+            p.SetStart(RessourceLoad.GetCurrentMap());
+            listi[index] += p.GetScore();
+        }*/
+        
         private static void Regenerate(bool replace_with_mutation = true)
         {
             SimpleSort();
@@ -243,7 +248,7 @@ namespace Genetics
         }
 
 
-        public  static void SimpleSort()
+        public static void SimpleSort()
         {
             for (int i = 0; i < _listPlayer.Count; i++)
             {
