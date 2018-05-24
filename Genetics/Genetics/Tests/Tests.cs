@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -7,13 +8,11 @@ using NUnit.Framework;
 
 namespace Genetics.Tests
 {
-   
-
     [TestFixture]
-    public class TestsMatrix
+    public class Part1Matrix
     {
         [Test, Timeout(100)]
-        public void TestMatrixConstructor()
+        public void T0MatrixConstructor()
         {
             Matrix m = new Matrix(3, 4, true);
             var sum = 0f;
@@ -38,7 +37,7 @@ namespace Genetics.Tests
         }
 
         [Test, Timeout(100)]
-        public void TestMatrixCopy()
+        public void T1MatrixCopy()
         {
             Matrix m = new Matrix(2, 5, true);
 
@@ -61,7 +60,7 @@ namespace Genetics.Tests
 
 
         [Test, Timeout(100)]
-        public void TestMutation()
+        public void T2Mutation()
         {
             Matrix m = new Matrix(10, 10, true);
             m.ApplyMutation();
@@ -73,30 +72,24 @@ namespace Genetics.Tests
         }
 
         [Test, Timeout(100)]
-        public void TestSigmoid()
+        public void T3Sigmoid()
         {
-            Assert.GreaterOrEqual(Matrix.Sigmoid(100), 0.999f);
-            Assert.LessOrEqual(1f, Matrix.Sigmoid(100));
+            Assert.AreEqual(Matrix.Sigmoid(100), 1f, 0.0001f);
 
-            Assert.GreaterOrEqual(Matrix.Sigmoid(-100), 0f);
-            Assert.LessOrEqual(Matrix.Sigmoid(-100), 0.0001f);
+            Assert.AreEqual(Matrix.Sigmoid(-100), 0f, 0.0001f);
 
-            Assert.GreaterOrEqual(Matrix.Sigmoid(0.5f), 0.622459340f);
-            Assert.LessOrEqual(Matrix.Sigmoid(0.5f), 0.622459360f);
+            Assert.AreEqual(Matrix.Sigmoid(0.5f), 0.622459350f, 0.00000001);
 
-            Assert.GreaterOrEqual(Matrix.Sigmoid(0.7f), 0.668187790f);
-            Assert.LessOrEqual(Matrix.Sigmoid(0.7f), 0.668187810f);
+            Assert.AreEqual(Matrix.Sigmoid(0.7f), 0.668187800f, 0.00000001);
 
-            Assert.GreaterOrEqual(Matrix.Sigmoid(0.3f), 0.5744424);
-            Assert.LessOrEqual(Matrix.Sigmoid(0.3f), 0.5744426);
+            Assert.AreEqual(Matrix.Sigmoid(0.3f), 0.5744425, 0.0000001);
 
-            Assert.GreaterOrEqual(Matrix.Sigmoid(0f), 0.4999);
-            Assert.LessOrEqual(Matrix.Sigmoid(0f), 0.50001);
+            Assert.AreEqual(Matrix.Sigmoid(0f), 0.5f, 0.00001);
         }
 
 
         [Test, Timeout(100)]
-        public void TestMatrixAddition([Range(-97, 17, 4)] int n)
+        public void T4MatrixAddition([Range(-97, 17, 4)] int n)
         {
             var m = new Matrix(5, 5);
             var m2 = new Matrix(5, 5);
@@ -123,13 +116,61 @@ namespace Genetics.Tests
                 }
             }
         }
+
+        public static Matrix PropagateRef(Matrix a, Matrix b)
+        {
+            Matrix C = new Matrix(a.Tab.GetLength(0), b.Tab.GetLength(1));
+            for (int i = 0; i < a.Tab.GetLength(0); i++)
+            {
+                for (int j = 0; j < b.Tab.GetLength(1); j++)
+                {
+                    float summ = 0;
+                    for (int k = 0; k < a.Tab.GetLength(1); k++)
+                        summ += a.Tab[i, k] * b.Tab[k, j];
+
+                    C.Tab[i, j] = Matrix.Sigmoid(summ / b.Tab.GetLength(1) + b.Bias[j]);
+                }
+            }
+
+            return C;
+        }
+
+        [Test, Timeout(100)]
+        public void T5MatrixMult([Range(-97, 17, 4)] int n)
+        {
+            var m = new Matrix(5, 5);
+            var m2 = new Matrix(5, 5);
+
+            var a = n;
+            var b = n - 12;
+            var c = n - 6;
+            var d = n + 8;
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    m.Tab[i, j] = i * a + j * b;
+                    m2.Tab[i, j] = i * c + j * d;
+                }
+            }
+
+            var reference = PropagateRef(m, m2);
+            var result = m * m2;
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    Assert.AreEqual(result.Tab[i, j], reference.Tab[i, j]);
+                }
+            }
+        }
     }
 
     [TestFixture]
-    public class TestsFactory
+    public class Part2Factory
     {
         [Test, Timeout(100)]
-        public void TestSort()
+        public void T0Sort()
         {
             var list = new List<Player>();
             for (int i = 0; i < 10; i++)
@@ -152,7 +193,7 @@ namespace Genetics.Tests
         }
 
         [Test, Timeout(100)]
-        public void TestGettersList()
+        public void T1GetListPlayer()
         {
             var li = new List<Player>();
             Factory.SetListPlayer(li);
@@ -160,7 +201,7 @@ namespace Genetics.Tests
         }
 
         [Test, Timeout(100)]
-        public void TestGettersPlayerBest()
+        public void T2GetPlayerBest()
         {
             var li = new List<Player>();
             for (int i = 0; i < 10; i++)
@@ -183,8 +224,43 @@ namespace Genetics.Tests
             Assert.AreEqual(Factory.GetBestPlayer().GetScore(), max);
         }
 
+        private static Random rng = new Random();
+
+        public static void Shuffle<T>(IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
+
         [Test, Timeout(100)]
-        public void TestSetters()
+        public void T3GetNthPlayer()
+        {
+            var liply = new List<Player>();
+            for (int i = 0; i < 20; i++)
+            {
+                var nn = new Player();
+                nn.SetScore(100 * i);
+                liply.Add(nn);
+            }
+
+            Shuffle(liply);
+
+            Factory.SetListPlayer(liply);
+            for (int i = 0; i < 20; i++)
+            {
+                Assert.AreEqual(i * 100, Factory.GetNthPlayer(i).GetScore());
+            }
+        }
+
+        [Test, Timeout(100)]
+        public void T4SetPathLoad()
         {
             Factory.SetPathLoad("test");
             Assert.AreEqual(Factory.GetPathLoad(), "test");
@@ -196,7 +272,7 @@ namespace Genetics.Tests
         }
 
         [Test, Timeout(100)]
-        public void TestSaveAndLoad()
+        public void T5SaveAndLoad()
         {
             var pathload = AppDomain.CurrentDomain.BaseDirectory + "../../Tests/test.save";
             Factory.SetPathLoadAndSave(pathload);
@@ -209,21 +285,25 @@ namespace Genetics.Tests
         }
 
         [Test, Timeout(100)]
-        public void TestInit()
+        public void T6InitNew()
         {
             Factory.InitNew(49);
             Assert.AreEqual(49, Factory.GetListPlayer().Count);
 
             Factory.InitNew(27);
             Assert.AreEqual(27, Factory.GetListPlayer().Count);
+        }
 
+        [Test, Timeout(100)]
+        public void T7Init()
+        {
             Factory.SetPathLoad("nothing to see here");
             Factory.Init();
             Assert.AreEqual(200, Factory.GetListPlayer().Count);
         }
 
         [Test, Timeout(100)]
-        public void TestPrint()
+        public void T8Print()
         {
             var pathload = AppDomain.CurrentDomain.BaseDirectory + "../../Tests/test.save";
             Factory.SetPathLoadAndSave(pathload);
@@ -248,6 +328,56 @@ namespace Genetics.Tests
             }
 
             Assert.AreEqual(reference, student);
+        }
+
+        [Test, Timeout(3000)]
+        public void T9Train()
+        {
+            RessourceLoad.GenerateMap(3, 10, 30, 10);
+            RessourceLoad.SetCurrentMap("generatedMap_1");
+            Factory.InitNew(40);
+            var old = Factory.GetListPlayer();
+            var oldlist = new List<Player>();
+            foreach (var elm in old)
+            {
+                oldlist.Add(elm);
+            }
+
+            Factory.Train(1,false);
+            int counter = 0;
+            old = Factory.GetListPlayer();
+            for (int i = 0; i < 40; i++)
+            {
+                    if (old[i].Getbrains()[0].Tab[3,3] == oldlist[i].Getbrains()[0].Tab[3,3])
+                        counter++;
+            }
+
+            Assert.AreNotEqual(40, counter);
+        }
+
+        [Test, Timeout(3000)]
+        public void T9XRegenerate() // For alphabetical reasons
+        {
+            
+            RessourceLoad.SetCurrentMap("generatedMap_1");
+            Factory.InitNew(40);
+            var old = Factory.GetListPlayer();
+            var oldlist = new List<Player>();
+            foreach (var elm in old)
+            {
+                oldlist.Add(elm);
+            }
+
+            Factory.Train(1,false);
+            int counter = 0;
+            old = Factory.GetListPlayer();
+            for (int i = 0; i < 40; i++)
+            {
+                if (old[i].Getbrains()[0].Tab[3,3] == oldlist[i].Getbrains()[0].Tab[3,3])
+                    counter++;
+            }
+
+            Assert.AreNotEqual(40, counter);
         }
     }
 }

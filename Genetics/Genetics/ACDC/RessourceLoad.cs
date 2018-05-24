@@ -49,7 +49,7 @@ namespace Genetics
         {
             return _maps;
         }
-        
+
         public static bool SetNextMap()
         {
             if (_currentMap + 1 >= _maps.Count)
@@ -123,6 +123,7 @@ namespace Genetics
                     tmp[j, length - 1] = 'W';
                 }
 
+/*
                 Console.WriteLine("Added map " + (i + 1) + "/" + nb);
                 for (int j = 0; j < height; j++)
                 {
@@ -134,8 +135,10 @@ namespace Genetics
                     Console.Write('\n');
                 }
 
+  */
                 Map map = new Map(tmp, height, length);
                 map.Timeout = Convert.ToInt32(length);
+
                 _maps.Add("generatedMap_" + Convert.ToString(i), map);
             }
         }
